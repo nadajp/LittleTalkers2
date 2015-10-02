@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_share"
+        android:icon="@drawable/ic_menu_share"
+        android:orderInCategory="0"
+        android:showAsAction="always"
+        android:title="@string/share"
+        android:visible="false"/>
+    
+    <item
+        android:id="@+id/action_dictionary"
+        android:icon="@drawable/ic_dictionary"
+        android:orderInCategory="10"
+        android:showAsAction="always"
+        android:title="@string/show_dictionary"/>
+
+</menu>

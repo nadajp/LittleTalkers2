@@ -1,0 +1,32 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<!-- 
+    <item
+        android:id="@+id/menu_main_spinner"
+        android:actionViewClass="android.widget.Spinner"
+        android:showAsAction="always"
+        android:title="@string/select_kid"/>-->
+
+    <item
+        android:id="@+id/action_profile"
+        android:orderInCategory="1"
+        android:actionViewClass="android.widget.ImageView"
+        android:showAsAction="always"
+        android:title="@string/profile"/>  
+
+    <item
+        android:id="@+id/action_manage_kids"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/title_activity_manage_kids"/>
+    <item
+        android:id="@+id/action_export"
+        android:orderInCategory="200"
+        android:showAsAction="never"
+        android:title="@string/export_data"/>
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="500"
+        android:showAsAction="never"
+        android:title="@string/settings"/>
+    
+</menu>

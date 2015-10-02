@@ -1,0 +1,28 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        applicationId "com.nadajp.littletalkers"
+        minSdkVersion 14
+        targetSdkVersion 21
+
+        testApplicationId "com.nadajp.littletalkers.test"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt', 'proguard-google-api-client.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.android.support:support-v13:21.0.+'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}

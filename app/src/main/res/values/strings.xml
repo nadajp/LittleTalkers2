@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Little Talkers</string>
+    <string name="settings">Settings</string>
+    <string name="profile">Profile</string>
+
+    <!-- Main -->
+    <string name="welcome">Welcome to Little Talkers!</string>
+    <string name="intro_message">To begin, please enter a Little Talker by clicking on any image.</string>
+
+    <!-- Titles -->
+    <string name="title_word_detail">Word Detail</string>
+    <string name="title_activity_add_kid">Add a Little Talker</string>
+    <string name="title_activity_dictionary">Dictionary</string>
+    <string name="title_activity_manage_kids">Manage Little Talkers</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_data_export">Data Export</string>
+
+    <!-- AddWord -->
+    <string name="title_activity_add_word">AddWordActivity</string>
+    <string name="title_activity_add_word_fragment">AddWordFragment</string>
+    <string name="show_dictionary">Show Dictionary</string>
+    <string name="said_something">said something</string>
+    <string name="enter_word">New word or phrase...</string>
+    <string name="where">Where?</string>
+    <string name="when">When?</string>
+    <string name="translation">Translation?</string>
+    <string name="to_whom">To Whom?</string>
+    <string name="language">Language?</string>
+    <string name="optional">(optional)</string>
+    <string name="notes">Notes</string>
+    <string name="save">Save</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="mediarecorder_error_msg">Unknown error with audio recorder</string>
+    <string name="max_duration">Maximum audio duration has been reached.</string>
+    <string name="max_size">Maximum audio file size has been reached.</string>
+    <string name="play_audio">Play Audio</string>
+    <string name="delete_audio">Delete Audio</string>
+    <string name="replace_audio">Replace Audio</string>
+    <string name="start_recording">Start Recording</string>
+    <string name="delete">Delete</string>
+    <string name="delete_audio_dialog">Delete Audio Recording?</string>
+    <string name="replace_audio_dialog">Replace Current Audio Recording With New One?</string>
+    <string name="word_required_error">Word is Required.</string>
+    <string name="word_already_exists_error">This exact phrase already exists for this Little Talker.</string>
+    <string name="word_saved">Word Saved.</string>
+    <string name="word_updated">Word Updated.</string>
+    <string name="cancel">Cancel</string>
+    <string name="said">said</string>
+    <string name="stop_recording">Tap the screen to stop recording</string>
+    <string name="more">More</string>
+    <string name="less">Less</string>
+    <string name="no_mic_available">This feature is not available on your device.</string>
+
+    <!-- AddKid -->
+    <string name="profile_picture">Profile Picture</string>
+    <string name="name">Name</string>
+    <string name="birthdate">Birth Date</string>
+    <string name="required">(required)</string>
+    <string name="default_location">Default Location</string>
+    <string name="default_language">Default language:</string>
+    <string name="name_required_error">Name is Required.</string>
+    <string name="birthdate_required_error">Birth Date is Required.</string>
+    <string name="kid_already_exists_error">This Little Talker already exists. Please choose a different name.</string>
+    <string name="kid_saved">has been added.</string>
+    <string name="kid_updated">has been updated.</string>
+    <string name="add_kid">Add a Little Talker.</string>
+    <string name="select_kid">Select a Little Talker.</string>
+    <string name="add_word">Add a New Word or Phrase.</string>
+    <string name="no_kids">There are no Little Talkers to display. Click on the button above to add a Little Talker.</string>
+    <string name="all_languages">All Languages</string>
+    <string name="edit_little_talker">Edit Little Talker</string>
+    <string name="date_of_birth">Date of Birth: </string>
+    <string name="number_of_phrases">Number of Words/Phrases: </string>
+    <string name="number_of_qas">Number of QAs: </string>
+    <string name="share">Share</string>
+    <string name="word_history">Word history:</string>
+
+    <!-- dictionary -->
+    <string name="no_words">There are no words or phrases to display.</string>
+    <string name="word_or_phrase">WORD/PHRASE</string>
+    <string name="date">DATE</string>
+    <string name="audio">AUDIO</string>
+    <string name="delete_words_dialog">Are you sure you want to delete all selected phrases from this dictionary?</string>
+    <string name="button_add_new_word">Add New Word or Phrase</string>
+    <string name="sort">Sort</string>
+    <string name="sort_alphabetically">Sort Alphabetically</string>
+    <string name="sort_by_date">Sort by Date</string>
+    <string name="language_filter">Language Filter</string>
+
+    <!-- profile -->
+    <string name="words_and_phrases">Words/Phrases</string>
+    <string name="questions_and_answers">Q and As</string>
+    <string name="edit_profile">Edit Profile</string>
+
+    <!-- Manage LittleTalkers -->
+    <string name="delete_kids_dialog">Are you sure you want to delete all selected Little Talkers and their word dictionaries?</string>
+    <string name="little_talkers_selected"> Little Talkers Selected</string>
+
+    <!-- data export -->
+    <string name="export_data">Export Data</string>
+    <string name="export_info">Data will be exported to a CSV (comma separated values) file for viewing in your favourite spreadsheet program. Fields will be separated by semicolons.</string>
+
+    <!-- data export -->
+    <string name="action_export">Export Data</string>
+    <string name="choose_data">Choose data to export:</string>
+    <string name="choose_export_format">Choose export format:</string>
+    <string name="export_csv">Export to CSV</string>
+    <string name="please_select_kids_to_export">Please select Little Talkers that you wish you export.</string>
+
+    <!-- q & a -->
+    <string name="show_q_and_a">Show All Q and A</string>
+    <string name="question">Question</string>
+    <string name="answer">Answer</string>
+    <string name="asked_question">asked a question</string>
+    <string name="answered_question">answered a question</string>
+    <string name="asked">asked</string>
+    <string name="answered">answered</string>
+    <string name="question_required_error">Question is required</string>
+    <string name="answer_required_error">Please enter Answer or uncheck "Little Talker Answered"</string>
+    <string name="QA_already_exists_error">This Question and Answer already exists for this Little Talker</string>
+    <string name="question_saved">Question Saved.</string>
+    <string name="question_updated">Question Updated.</string>
+    <string name="q">Q: </string>
+    <string name="a">A: </string>
+    <string name="questionMark">\?</string>
+    <string name="no_qa">There are no questions and answers to display.</string>
+    <string name="add_new_qa">Add New Q and A</string>
+    <string name="q_and_a">Q and A</string>
+    <string name="number_of_questions">Number of Questions/Answers: </string>
+    <string name="check_instructions1">Check the box if</string>
+    <string name="check_instructions2"> said it.</string>
+    <string name="more_info">Click for more information</string>
+    <string name="ok">OK</string>
+    <string name="qa_info">Check the box next to a statement that came from your Little Talker. Check both if the Little Talker asked and answered the question.</string>
+    <string name="qa_info_title">Question and Answer Help</string>
+    <string name="toast_no_google_account_selected">No Google Account Selected</string>
+    <string name="toast_exception_checking_authorization">Exception checking authorization</string>
+    <string name="toast_no_google_accounts_registered">No Google Accounts Registered</string>
+    <string name="toast_only_one_google_account_registered">Your only registered Google account was selected</string>
+    <string name="app_language">English</string>
+    <!-- arrays -->
+    <string-array name="choose_profile_pic_array">
+        <item>Take photo</item>
+        <item>Choose photo from Gallery</item>
+    </string-array>
+    <string-array name="array_languages">
+        <item>Arabic</item>
+        <item>Bulgarian</item>
+        <item>Catalan</item>
+        <item>Chinese</item>
+        <item>Croatian</item>
+        <item>Czech</item>
+        <item>Danish</item>
+        <item>Dutch</item>
+        <item>English</item>
+        <item>Finnish</item>
+        <item>French</item>
+        <item>German</item>
+        <item>Greek</item>
+        <item>Hebrew</item>
+        <item>Hindi</item>
+        <item>Hungarian</item>
+        <item>Indonesian</item>
+        <item>Italian</item>
+        <item>Japanese</item>
+        <item>Korean</item>
+        <item>Lithuanian</item>
+        <item>Latvian</item>
+        <item>Norwegian</item>
+        <item>Polish</item>
+        <item>Portugese</item>
+        <item>Romanian</item>
+        <item>Russian</item>
+        <item>Slovak</item>
+        <item>Slovenian</item>
+        <item>Serbian</item>
+        <item>Spanish</item>
+        <item>Swedish</item>
+        <item>Thai</item>
+        <item>Tagalog</item>
+        <item>Turkish</item>
+        <item>Ukranian</item>
+        <item>Vietnamese</item>
+        <item>None</item>
+    </string-array>
+
+    <string name="title_item_list">Items</string>
+    <string name="title_item_detail">Item Detail</string>
+    <string name="title_activity_kid_profile">View Profile</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_audio_record">AudioRecordActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="upgrade">Upgrade</string>
+    <string name="log_in">Log In</string>
+    <string name="logged_in">logged_in</string>
+    <string name="sync_title">Tap below to start sync.</string>
+    <string name="sync_now">Sync Now</string>
+    <string name="syncing">Syncing...</string>
+    <string name="sync_complete">Sync is Complete</string>
+    <string name="account">account</string>
+    <string name="title_activity_upgrade">Upgrade Little Talkers!</string>
+    <string name="upgrade_info1">Upgrade Little Talkers to:</string>
+    <string name="upgrade_info2">- Synchronize your data between devices</string>
+    <string name="upgrade_info3">- Securely access data through the Little Talkers website</string>
+    <string name="upgrade_info4">- Share your data with family and friends.</string>
+    <string name="title_activity_sync_now">Sync to Cloud</string>
+
+</resources>

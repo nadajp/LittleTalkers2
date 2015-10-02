@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.nadajp.littletalkers.LoginActivity$PlaceholderFragment" >
+
+    <TextView
+        android:id="@+id/textUpgrade1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="@string/upgrade_info1"
+        android:textSize="20sp" 
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:id="@+id/textUpgrade2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textUpgrade1"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="@string/upgrade_info2"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textUpgrade3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textUpgrade2"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="@string/upgrade_info3"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textUpgrade4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textUpgrade3"
+        android:padding="@dimen/activity_vertical_margin"
+        android:text="@string/upgrade_info4"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/button_upgrade"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textUpgrade4"
+        android:layout_marginTop="20dp"
+        android:text="@string/upgrade" />
+
+</RelativeLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Colors used for backgrounds, buttons, etc -->
+    <color name="blue">#5eb5d9</color>
+    <color name="green">#bbd95e</color>
+    <color name="red">#da645f</color>
+    <color name="orange">#fba746</color>
+
+    <!-- Colors used for texts mostly -->
+    <color name="dark_blue">#3aa3cf</color>
+    <color name="dark_green">#a9c356</color>
+
+    <!-- Main background color -->
+    <color name="background_gray">#e8e8e8</color>
+
+    <!-- "More fields" button"s background -->
+    <color name="lighter_gray">#f6f6f6</color>
+
+    <!-- Light and thin text color -->
+    <color name="dark_gray">#676767</color>
+    <color name="gray">#858585</color>
+
+    <!-- Hint text color -->
+    <color name="hint_gray">#cccccc</color>
+
+    <!-- Light gray background color -->
+    <color name="lightest_gray">#f6f3f3</color>
+
+    <!-- Bold and regular text color -->
+    <color name="darker_gray">#555555</color>
+
+    <!-- Colors used to create white card background -->
+    <color name="white">#ffffff</color>
+    <color name="transparent_black">#16000000</color>
+
+    <!-- Other -->
+    <color name="black">#000000</color>
+
+</resources>
