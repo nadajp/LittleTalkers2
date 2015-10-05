@@ -3,12 +3,10 @@ package com.nadajp.littletalkers;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
-import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
@@ -32,8 +30,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        Kid kid = getKidDefaults();
-        mSectionsPagerAdapter = new ItemDetailPagerAdapter(getFragmentManager(), this, kid);
+        mSectionsPagerAdapter = new ItemDetailPagerAdapter(getFragmentManager(), this, super.getKidDefaults());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -108,32 +105,6 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
                                 FragmentTransaction fragmentTransaction) {
     }
 
-    private Kid getKidDefaults() {
-        Kid kid = null;
-        String[] projection = new String[]{DbContract.Kids.COLUMN_NAME_NAME,
-                DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE,
-                DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION};
-
-        Cursor cursor = getContentResolver().query(
-                DbContract.Kids.buildKidsUri(mCurrentKidId),
-                projection,
-                null,
-                null,
-                null);
-
-        if (cursor.moveToNext()) {
-            String kidName = cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME));
-            //Log.i(DEBUG_TAG, mKidName);
-            String language = cursor.getString(cursor
-                    .getColumnIndex(DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE));
-            String location = cursor.getString(cursor
-                    .getColumnIndex(DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION));
-
-            kid = new Kid(mCurrentKidId, kidName, location, language);
-        }
-        return kid;
-    }
-
     protected void setCurrentKidData(Kid kid) {
         // update all tabs, even those that are not currently visible
         for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++) {
@@ -166,5 +137,4 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
             finish();
         }
     }
-
 }

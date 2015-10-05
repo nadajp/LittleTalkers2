@@ -85,6 +85,7 @@ public abstract class ItemDetailFragment extends Fragment implements
     // to be set by derived classes
     int mFragmentLayout; // res id of the layout for this fragment
     int mEditPhraseResId; // res id of the edittext containing main item (word,
+
     DatePickerDialog.OnDateSetListener d = new DatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
@@ -126,8 +127,6 @@ public abstract class ItemDetailFragment extends Fragment implements
         return fragment;
     }
 
-    public abstract void setShareData(String data);
-
     public abstract long savePhrase(boolean automatic);
 
     public abstract void clearExtraViews();
@@ -138,6 +137,8 @@ public abstract class ItemDetailFragment extends Fragment implements
 
     public abstract void saveToPrefs();
 
+    public abstract void updateExtraKidDetails();
+
     public abstract void startAudioRecording(boolean secondRecording);
 
     protected View inflateFragment(int resId, LayoutInflater inflater, ViewGroup container,
@@ -145,12 +146,6 @@ public abstract class ItemDetailFragment extends Fragment implements
         View v = inflater.inflate(resId, container, false);
         RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.detail_layout);
 
-        // get Kid name and default values to fill in
-        Kid kid = this.getArguments().getParcelable("Kid");
-        mCurrentKidId = kid.getId();
-        mLocation = kid.getLocation();
-        mLanguage = kid.getLanguage();
-        mKidName = kid.getName();
         /*
          *  Inflate shared layouts here
          */
@@ -161,7 +156,6 @@ public abstract class ItemDetailFragment extends Fragment implements
                 getActivity(), R.array.array_languages, R.layout.lt_spinner_item);
         mLanguageAdapter.setDropDownViewResource(R.layout.lt_spinner_dropdown_item);
         mLangSpinner.setAdapter(mLanguageAdapter);
-        mLangSpinner.setSelection(mLanguageAdapter.getPosition(mLanguage));
 
         mAnimation.setDuration(500); // duration - half a second
         // animation rate
@@ -185,9 +179,7 @@ public abstract class ItemDetailFragment extends Fragment implements
         mDelete = (Button) layout.findViewById(R.id.button_delete);
         mEditMore = (EditText) layout.findViewById(R.id.edit_more);
         mEditLess = (EditText) layout.findViewById(R.id.edit_less);
-
-        mEditLocation.setText(mLocation);
-        //updateExtraKidDetails();
+        mDate = Calendar.getInstance();
 
         mEditDate.setOnClickListener(this);
         mImgMic.setOnClickListener(this);
@@ -197,6 +189,30 @@ public abstract class ItemDetailFragment extends Fragment implements
         mEditMore.setOnClickListener(this);
         mEditLess.setOnClickListener(this);
 
+        // if audio has already been recorded, show play/delete buttons
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getBoolean(Prefs.AUDIO_RECORDED)) {
+                mRecordingLayout.setVisibility(View.VISIBLE);
+                mAudioRecorded = true;
+                mCurrentAudioFile = savedInstanceState.getString(Prefs.AUDIO_FILE);
+                TextView audioFile = (TextView) v.findViewById(R.id.text_recording);
+                audioFile.setText(mCurrentAudioFile);
+            }
+
+            if (savedInstanceState.getBoolean(Prefs.SHOWING_MORE_FIELDS)) {
+                showMoreFields(v, true);
+            }
+            mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
+        } else {
+            Bundle args = getArguments();
+            mItemId = getArguments().getLong(ITEM_ID);
+            Log.i(DEBUG_TAG, "item ID = " + mItemId);
+        }
+
+        if (mItemId > 0) {
+            mKidName = getArguments().getString(Prefs.KID_NAME);
+            Log.i(DEBUG_TAG, "Kid name received in ItemDetailFragment: " + mKidName);
+        }
         // the following listener is added in order to clear the error message
         // once the user starts typing
         mEditPhrase.addTextChangedListener(new TextWatcher() {
@@ -217,48 +233,38 @@ public abstract class ItemDetailFragment extends Fragment implements
         });
 
         // set current date in the date field
-        mDate = Calendar.getInstance();
         updateDate();
 
         // set directory for storing audio files
         String subdirectory = getString(R.string.app_name);
         mDirectory = Utils.getPublicDirectory(subdirectory, getActivity());
 
-        // if audio has already been recorded, show play/delete buttons
-        if (savedInstanceState != null) {
-            if (savedInstanceState.getBoolean(Prefs.AUDIO_RECORDED)) {
-                mRecordingLayout.setVisibility(View.VISIBLE);
-                mAudioRecorded = true;
-                mCurrentAudioFile = savedInstanceState.getString(Prefs.AUDIO_FILE);
-                TextView audioFile = (TextView) v.findViewById(R.id.text_recording);
-                audioFile.setText(mCurrentAudioFile);
-            }
+        setHasOptionsMenu(true);
+        return v;
+    }
 
-            if (savedInstanceState.getBoolean(Prefs.SHOWING_MORE_FIELDS)) {
-                showMoreFields(v, true);
-            }
-
-            mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
-        } else {
-            mItemId = getActivity().getIntent().getLongExtra(ITEM_ID, 0);
-            //Log.i(DEBUG_TAG, "item ID = " + mItemId);
-        }
-
-        // If editing/viewing an existing item
-        if (mItemId > 0) {
+    protected void insertData(View v){
+        if (mItemId > 0) {  // viewing existing item,
+            // insert all item data
             updateItem(v);
             setAudio(v);
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-        } else {
+        }
+        else {  // adding new item
+            // get Kid name and defaults to display
+            Kid kid = this.getArguments().getParcelable("Kid");
+            mCurrentKidId = kid.getId();
+            mLocation = kid.getLocation();
+            mLanguage = kid.getLanguage();
+            mKidName = kid.getName();
+            updateExtraKidDetails();
+            mEditLocation.setText(mLocation);
+            mLangSpinner.setSelection(mLanguageAdapter.getPosition(mLanguage));
             if (mAudioRecorded) {
                 mTempFile = new File(mDirectory, mTempFileStem + ".3gp");
                 mTempFile2 = new File(mDirectory, mTempFileStem + "2.3gp");
             }
-            // insert defaults
         }
-
-        setHasOptionsMenu(true);
-        return v;
     }
 
     @Override
@@ -266,7 +272,6 @@ public abstract class ItemDetailFragment extends Fragment implements
         super.onActivityCreated(savedInstanceState);
 
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -440,21 +445,26 @@ public abstract class ItemDetailFragment extends Fragment implements
 
         // if a phrase has already been entered, save under real filename
         if (!(mEditPhrase.getText().toString().isEmpty())) {
-            if (mOutFile != null || mTempFile2 != null) // if editing, pop up dialog
+            if (mOutFile != null || mTempFile2 != null) // if audio already exists, pop up dialog
             {
-                ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(
-                        true);
+                ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment();
+                Bundle args = new Bundle();
+                args.putBoolean("phrase_entered", true);
+                dlg.setArguments(args);
                 dlg.setTargetFragment(this, REPLACE_AUDIO_DIALOG_ID);
                 dlg.show(getFragmentManager(),
                         ReplaceAudioDialogFragment.class.toString());
-            } else {
+            } else { // otherwise, just save audio
                 saveItem(false);
             }
             return;
         }
         // otherwise, it has been saved in temp file, do not save item yet
         if (mAudioRecorded) {
-            ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment(false);
+            ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment();
+            Bundle args = new Bundle();
+            args.putBoolean("phrase_entered", false);
+            dlg.setArguments(args);
             dlg.setTargetFragment(this, REPLACE_AUDIO_DIALOG_ID);
             dlg.show(getFragmentManager(),
                     ReplaceAudioDialogFragment.class.toString());
@@ -506,7 +516,6 @@ public abstract class ItemDetailFragment extends Fragment implements
         if (mTempFile != null && mTempFile.exists()) {
             mTempFile.delete();
             mTempFile = null;
-
         }
         mRecordingLayout.setVisibility(View.GONE);
     }
@@ -816,16 +825,13 @@ public abstract class ItemDetailFragment extends Fragment implements
         private boolean mPhraseEntered; // has the phrase already been entered for
         // this audio?
 
-        public ReplaceAudioDialogFragment(boolean phrase_entered) {
-            mPhraseEntered = phrase_entered;
-        }
-
         public ReplaceAudioDialogFragment() {
             super();
         }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
+            mPhraseEntered = getArguments().getBoolean("phrase_entered");
             if (savedInstanceState != null) {
                 mPhraseEntered = savedInstanceState
                         .getBoolean(Prefs.PHRASE_ENTERED);

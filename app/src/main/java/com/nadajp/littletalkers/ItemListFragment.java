@@ -22,6 +22,7 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
 import com.nadajp.littletalkers.database.DbContract;
+import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public abstract class ItemListFragment extends ListFragment
@@ -32,6 +33,7 @@ public abstract class ItemListFragment extends ListFragment
     private static final String DEBUG_TAG = "ItemListFragment";
     private static int mNumSelected = 0; // number of selected list items
     public int mCurrentKidId; // database id of current kid
+    public String mKidName;
     public String mSortColumn; // column to sort list by
     public String mLanguage; // current language
     // when list is empty
@@ -49,6 +51,8 @@ public abstract class ItemListFragment extends ListFragment
     int mSortColumnId; // id of the column by which to sort, as defined in Prefs
     String mPhraseColumnName; // name of the main phrase column (i.e. word,
     // question)
+
+    public abstract void reloadData();
 
     public static ItemListFragment newInstance(int sectionNumber) {
         ItemListFragment fragment;
@@ -73,6 +77,7 @@ public abstract class ItemListFragment extends ListFragment
 
         // get current kid id
         mCurrentKidId = getArguments().getInt(Prefs.CURRENT_KID_ID);
+        mKidName = getArguments().getString(Prefs.KID_NAME);
         mLanguage = getString(R.string.all_languages);
         // Now do the sorting by column
         mSortColumnId = Prefs.getSortColumnId(getActivity());
@@ -140,7 +145,6 @@ public abstract class ItemListFragment extends ListFragment
             @Override
             public void onDestroyActionMode(ActionMode mode) {
                 mNumSelected = 0;
-
                 // Here you can make any necessary updates to the activity when
                 // the CAB is removed. By default, selected items are
                 // deselected/unchecked.
@@ -168,6 +172,7 @@ public abstract class ItemListFragment extends ListFragment
         // show word detail view
         Intent intent = new Intent(getActivity(), ViewItemActivity.class);
         intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
+        intent.putExtra(Prefs.KID_NAME, mKidName);
         intent.putExtra(ItemDetailFragment.ITEM_ID, id);
         int type = Prefs.getType(getActivity(), Prefs.TYPE_WORD);
         intent.putExtra(Prefs.TYPE, type);
@@ -176,34 +181,21 @@ public abstract class ItemListFragment extends ListFragment
 
     public void changeLanguage(String language) {
         mLanguage = language;
-        //Cursor newValues = getFromDatabase();
-        //Log.i(DEBUG_TAG, "Items: " + newValues.getCount());
-        //mscAdapter.swapCursor(newValues);
-        //mscAdapter.notifyDataSetChanged();
     }
 
-    public void updateData(int kidId) {
-        mCurrentKidId = kidId;
+    public void updateData(Kid kid) {
+        mCurrentKidId = kid.getId();
+        mKidName = kid.getName();
     }
 
-    public void sortByPhrase() {
-        mSortColumnId = Prefs.SORT_COLUMN_PHRASE;
-        mSortColumn = mPhraseColumnName;
-        sortList();
-    }
+    public void sort(int sortColumnId){
+        if (sortColumnId == mSortColumnId) {
+            mbSortAscending = !mbSortAscending;
+        }
+        mSortColumnId = sortColumnId;
 
-    public void sortByDate() {
-        mSortColumnId = Prefs.SORT_COLUMN_DATE;
-        mSortColumn = DbContract.Words.COLUMN_NAME_DATE;
-        sortList();
-    }
-
-    private void sortList() {
-        mbSortAscending = !mbSortAscending;
-        //Cursor newValues = getFromDatabase();
-        //mscAdapter.swapCursor(newValues);
-        //mscAdapter.setViewBinder(mViewBinder);
-        //mscAdapter.notifyDataSetChanged()
+        reloadData();
+        Prefs.saveIsAscending(this.getActivity(), mbSortAscending);
     }
 
     @Override

@@ -16,6 +16,8 @@ import com.nadajp.littletalkers.database.DbContract.Words;
 
 public class LTContentProvider extends ContentProvider
 {
+    private static final String DEBUG_TAG = "LTContentProvider";
+
     // The URI Matcher used by this content provider.
     private static final UriMatcher sUriMatcher = buildUriMatcher();
    /*
@@ -92,10 +94,10 @@ public class LTContentProvider extends ContentProvider
        matcher.addURI(CONTENT_AUTHORITY, Kids.TABLE_NAME, KIDS);
        matcher.addURI(CONTENT_AUTHORITY, Kids.TABLE_NAME + "/#", KID_ID);
        matcher.addURI(CONTENT_AUTHORITY, Words.TABLE_NAME, WORDS);
-       matcher.addURI(CONTENT_AUTHORITY, Words.TABLE_NAME + "/*", WORDS_WITH_LANGUAGE);
+       matcher.addURI(CONTENT_AUTHORITY, Words.TABLE_NAME + "LANGUAGE/*", WORDS_WITH_LANGUAGE);
        matcher.addURI(CONTENT_AUTHORITY, Words.TABLE_NAME + "/#", WORD_ID);
        matcher.addURI(CONTENT_AUTHORITY, Questions.TABLE_NAME, QUESTIONS);
-       matcher.addURI(CONTENT_AUTHORITY, Questions.TABLE_NAME + "/*", QUESTIONS_WITH_LANGUAGE);
+       matcher.addURI(CONTENT_AUTHORITY, Questions.TABLE_NAME + "LANGUAGE/*", QUESTIONS_WITH_LANGUAGE);
        matcher.addURI(CONTENT_AUTHORITY, Questions.TABLE_NAME + "/#", QUESTION_ID);
 
        return matcher;
@@ -156,13 +158,13 @@ public class LTContentProvider extends ContentProvider
          throw new IllegalArgumentException("Unknown URI: " + uri);
       }
 
-      Cursor cursor = queryBuilder.query(mDbHelper.getReadableDatabase(),
-              projection,
-              selection,
-              selectionArgs,
-              null,          // group by
-              null,          // having
-              sortOrder);
+       Cursor cursor = queryBuilder.query(mDbHelper.getReadableDatabase(),
+            projection,
+            selection,
+            selectionArgs,
+            null,          // group by
+            null,          // having
+            sortOrder);
       // make sure that potential listeners are getting notified
       cursor.setNotificationUri(getContext().getContentResolver(), uri);
 

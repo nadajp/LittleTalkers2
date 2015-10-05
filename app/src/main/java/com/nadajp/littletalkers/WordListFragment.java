@@ -12,14 +12,11 @@ import android.view.ViewGroup;
 import android.widget.SimpleCursorAdapter;
 
 import com.nadajp.littletalkers.database.DbContract.Words;
+import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public class WordListFragment extends ItemListFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    // These are tied to the COLUMNS
-    static final int COL_ID = 0;
-    static final int COL_WORD = 1;
-    static final int COL_DATE = 2;
-    static final int COL_AUDIO = 3;
+
     private static final String DEBUG_TAG = "WordListFragment";
     private static final int WORDS_LOADER = 100;
     private static final String[] DICTIONARY_COLUMNS = {Words.COLUMN_NAME_WORD,
@@ -39,9 +36,8 @@ public class WordListFragment extends ItemListFragment implements LoaderManager.
 
         mViewBinder = new ListRowViewBinder(mPlayer);
 
-        if (Prefs.getSortColumnId(getActivity()) == Prefs.SORT_COLUMN_PHRASE) {
-            mSortColumn = Words.COLUMN_NAME_WORD;
-        } else mSortColumn = Words.COLUMN_NAME_DATE;
+        mSortColumnId = Prefs.getSortColumnId(getActivity());
+        mSortColumn = mSortColumnId == Prefs.SORT_COLUMN_DATE ? Words.COLUMN_NAME_DATE : mPhraseColumnName;
 
         String[] adapterCols = new String[]{Words.COLUMN_NAME_WORD,
                 Words.COLUMN_NAME_DATE,
@@ -66,8 +62,10 @@ public class WordListFragment extends ItemListFragment implements LoaderManager.
     }
 
     @Override
-    public void updateData(int newKidId) {
-        super.updateData(newKidId);
+    public void updateData(Kid kid) {
+        super.updateData(kid);
+        // Loader is restarted with new mCurrentKidId and
+        // the list is automatically refreshed when it completes
         getLoaderManager().restartLoader(WORDS_LOADER, null, this);
     }
 
@@ -77,6 +75,11 @@ public class WordListFragment extends ItemListFragment implements LoaderManager.
             String arg = Long.valueOf(id).toString();
             resolver.delete(Words.CONTENT_URI, Words._ID + " = ?", new String[]{arg});
         }
+    }
+
+    public void reloadData(){
+        mSortColumn = mSortColumnId == Prefs.SORT_COLUMN_DATE ? Words.COLUMN_NAME_DATE : mPhraseColumnName;
+        getLoaderManager().restartLoader(WORDS_LOADER, null, this);
     }
 
     @Override

@@ -22,6 +22,7 @@ import android.widget.Spinner;
 
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbContract.Kids;
+import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
@@ -43,11 +44,14 @@ public abstract class BaseActivity extends Activity implements OnItemSelectedLis
     private static final String DEBUG_TAG = "BaseActivity";
     protected SimpleCursorAdapter mCursorAdapter = null;
     protected int mCurrentKidId;
+    protected String mCurrentKidName;
     protected int mType;
     private int mPosition;
     private CircularImageView mImgProfile;
     private Spinner mSpinner;
 
+    // When a different kid is selected from dropdown, derived classes
+    // handle it appropriately through this function
     public abstract void changeKid();
 
     @Override
@@ -93,8 +97,6 @@ public abstract class BaseActivity extends Activity implements OnItemSelectedLis
             return;
         }
 
-        //Log.i(DEBUG_TAG, "Number of kids: " + cursor.getCount());
-
         String[] adapterCols = new String[]{"name"};
         int[] adapterRowViews = new int[]{android.R.id.text1};
 
@@ -133,6 +135,32 @@ public abstract class BaseActivity extends Activity implements OnItemSelectedLis
                     80, 80);
         }
         mImgProfile.setImageBitmap(profilePicture);
+    }
+
+    protected Kid getKidDefaults() {
+        Kid kid = null;
+        String[] projection = new String[]{DbContract.Kids.COLUMN_NAME_NAME,
+                DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE,
+                DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION};
+
+        Cursor cursor = getContentResolver().query(
+                DbContract.Kids.buildKidsUri(mCurrentKidId),
+                projection,
+                null,
+                null,
+                null);
+
+        if (cursor.moveToNext()) {
+            String kidName = cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME));
+            //Log.i(DEBUG_TAG, mKidName);
+            String language = cursor.getString(cursor
+                    .getColumnIndex(DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE));
+            String location = cursor.getString(cursor
+                    .getColumnIndex(DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION));
+
+            kid = new Kid(mCurrentKidId, kidName, location, language);
+        }
+        return kid;
     }
 
     public void clickProfile(View v) {
@@ -195,7 +223,6 @@ public abstract class BaseActivity extends Activity implements OnItemSelectedLis
         outState.putInt(Prefs.POSITION, mPosition);
         outState.putInt(Prefs.CURRENT_KID_ID, mCurrentKidId);
         mType = Prefs.getType(this, Prefs.TYPE_WORD);
-        //Log.i(DEBUG_TAG, "Type: " + mType);
         outState.putInt(Prefs.TYPE, mType);
     }
 

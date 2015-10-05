@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbContract.Questions;
-import com.nadajp.littletalkers.database.DbSingleton;
 import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
@@ -57,17 +56,15 @@ public class QADetailFragment extends ItemDetailFragment {
         mTextHeadingQuestion = (TextView) v.findViewById(R.id.headingQuestion);
         mTextHeadingAnswer = (TextView) v.findViewById(R.id.headingAnswer);
 
-        if (mItemId < 1) {
-            updateExtraKidDetails();
-        }
-
         mInfo = (ImageView) v.findViewById(R.id.info);
         mInfo.setOnClickListener(this);
+
+        super.insertData(v);
 
         return v;
     }
 
-    private void updateExtraKidDetails() {
+    public void updateExtraKidDetails() {
         mTextHeadingQuestion.setText(mKidName + " "
                 + getString(R.string.asked_question) + "?");
         mTextHeadingAnswer.setText(mKidName + " "
@@ -78,6 +75,73 @@ public class QADetailFragment extends ItemDetailFragment {
     public void setKidDefaults(Kid kid) {
         super.setKidDefaults(kid);
         updateExtraKidDetails();
+    }
+
+    public void insertItemDetails(View v) {
+        Log.i(DEBUG_TAG, "Inserting QA Item Details...");
+        Cursor cursor = mResolver.query(Questions.buildQuestionsUri(mItemId), null, null, null, null);
+        cursor.moveToFirst();
+        if (cursor == null) {
+            Log.i(DEBUG_TAG, "cursor is empty!");
+        }
+
+        mEditPhrase.setText(cursor.getString(cursor
+                .getColumnIndex(DbContract.Questions.COLUMN_NAME_QUESTION)));
+        mEditAnswer.setText(cursor.getString(cursor
+                .getColumnIndex(DbContract.Questions.COLUMN_NAME_ANSWER)));
+
+        int asked = cursor.getInt(cursor
+                .getColumnIndex(DbContract.Questions.COLUMN_NAME_ASKED));
+        if (asked == 0) {
+            mCheckAsked.setChecked(false);
+        } else
+            mCheckAsked.setChecked(true);
+
+        int answered = cursor.getInt(cursor
+                .getColumnIndex(DbContract.Questions.COLUMN_NAME_ANSWERED));
+        if (answered == 0) {
+            mCheckAnswered.setChecked(false);
+        } else
+            mCheckAnswered.setChecked(true);
+
+        // get date in miliseconds from db, convert to text, set current date
+        long rawdate = cursor.getLong(cursor
+                .getColumnIndex(DbContract.Words.COLUMN_NAME_DATE));
+        mEditDate.setText(Utils.getDateForDisplay(rawdate, this.getActivity()));
+        mDate.setTimeInMillis(rawdate);
+
+        // mEditDate.setText(cursor.getString(cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_DATE)).toString());
+        mEditLocation.setText(cursor.getString(
+                cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_LOCATION))
+                .toString());
+        mEditToWhom.setText(cursor.getString(
+                cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_TOWHOM))
+                .toString());
+        mEditNotes.setText(cursor.getString(
+                cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_NOTES))
+                .toString());
+
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+                .getAdapter();
+        mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
+                .getColumnIndex(DbContract.Questions.COLUMN_NAME_LANGUAGE))));
+
+        mCurrentAudioFile = cursor.getString(cursor
+                .getColumnIndex(DbContract.Questions.COLUMN_NAME_AUDIO_FILE));
+
+        if (asked == 1) {
+            mTextHeadingQuestion.setText(mKidName + " "
+                    + getString(R.string.asked) + ":");
+        } else {
+            mTextHeadingQuestion.setText(getString(R.string.question) + ":");
+        }
+        if (answered == 1) {
+            mTextHeadingAnswer.setText(mKidName + " "
+                    + getString(R.string.answered) + ":");
+        } else {
+            mTextHeadingAnswer.setText(getString(R.string.answer) + ":");
+        }
+        cursor.close();
     }
 
     @Override
@@ -207,7 +271,6 @@ public class QADetailFragment extends ItemDetailFragment {
                            long date, String towhom, String location, String notes) {
 
         ContentValues values = new ContentValues();
-        values.put(Questions.COLUMN_NAME_KID, mCurrentKidId);
         values.put(Questions.COLUMN_NAME_QUESTION, question);
         values.put(Questions.COLUMN_NAME_ANSWER, answer);
         values.put(Questions.COLUMN_NAME_ASKED, asked);
@@ -250,79 +313,37 @@ public class QADetailFragment extends ItemDetailFragment {
         mCheckAnswered.setChecked(false);
     }
 
-    public void insertItemDetails(View v) {
-        Log.i(DEBUG_TAG, "Inserting QA Item Details...");
-        Cursor cursor = DbSingleton.get().getQuestionDetails(mItemId);
-
-        cursor.moveToFirst();
-        mEditPhrase.setText(cursor.getString(cursor
-                .getColumnIndex(DbContract.Questions.COLUMN_NAME_QUESTION)));
-        mEditAnswer.setText(cursor.getString(cursor
-                .getColumnIndex(DbContract.Questions.COLUMN_NAME_ANSWER)));
-
-        int asked = cursor.getInt(cursor
-                .getColumnIndex(DbContract.Questions.COLUMN_NAME_ASKED));
-        if (asked == 0) {
-            mCheckAsked.setChecked(false);
-        } else
-            mCheckAsked.setChecked(true);
-
-        int answered = cursor.getInt(cursor
-                .getColumnIndex(DbContract.Questions.COLUMN_NAME_ANSWERED));
-        if (answered == 0) {
-            mCheckAnswered.setChecked(false);
-        } else
-            mCheckAnswered.setChecked(true);
-
-        // get date in miliseconds from db, convert to text, set current date
-        long rawdate = cursor.getLong(cursor
-                .getColumnIndex(DbContract.Words.COLUMN_NAME_DATE));
-        mEditDate.setText(Utils.getDateForDisplay(rawdate, this.getActivity()));
-        mDate.setTimeInMillis(rawdate);
-
-        // mEditDate.setText(cursor.getString(cursor.getColumnIndex(DbContract.Words.COLUMN_NAME_DATE)).toString());
-        mEditLocation.setText(cursor.getString(
-                cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_LOCATION))
-                .toString());
-        mEditToWhom.setText(cursor.getString(
-                cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_TOWHOM))
-                .toString());
-        mEditNotes.setText(cursor.getString(
-                cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_NOTES))
-                .toString());
-
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-                .getAdapter();
-        mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
-                .getColumnIndex(DbContract.Questions.COLUMN_NAME_LANGUAGE))));
-
-        mCurrentAudioFile = cursor.getString(cursor
-                .getColumnIndex(DbContract.Questions.COLUMN_NAME_AUDIO_FILE));
-
-        if (asked == 1) {
-            mTextHeadingQuestion.setText(mKidName + " "
-                    + getString(R.string.asked) + ":");
-        } else {
-            mTextHeadingQuestion.setText(getString(R.string.question) + ":");
-        }
-        if (answered == 1) {
-            mTextHeadingAnswer.setText(mKidName + " "
-                    + getString(R.string.answered) + ":");
-        } else {
-            mTextHeadingAnswer.setText(getString(R.string.answer) + ":");
-        }
-        cursor.close();
-    }
-
-    @Override
-    public void setShareData(String data) {
-        // TODO Auto-generated method stub
-
-    }
-
     public String getShareBody() {
-        String shareBody = "";
-        return shareBody;
+        StringBuilder shareBody = new StringBuilder();
+
+        shareBody.append("On ").append(mEditDate.getText()).append(", ");
+
+        if (mEditPhrase.length() > 0){
+            if (mCheckAsked.isChecked()) {
+                // Kid asked the question
+                shareBody.append(mKidName).append(" asked: ");
+            }
+            else if (mEditToWhom.length() > 0) {
+                shareBody.append(mEditToWhom.getText().append(" asked: "));
+            }
+            else {
+                shareBody.append(mKidName).append(" was asked: ");
+            }
+            shareBody.append(mEditPhrase.getText()).append("? ");
+        }
+        if (mEditAnswer.length() > 0) {
+            if (mCheckAnswered.isChecked()) {
+                shareBody.append(mKidName).append(" answered: ").append(mEditAnswer.getText());
+            } else if (mEditToWhom.length() > 0) {
+                shareBody.append(mEditToWhom.getText()).append(" answered: ").append(mEditAnswer.getText());
+            }
+            else {
+                shareBody.append("(The answer he was given was: ").append(mEditAnswer.getText()).append(")");
+            }
+        }
+        shareBody.append(".\n");
+
+        return shareBody.toString();
     }
 
     public static class InfoDialogFragment extends DialogFragment {

@@ -43,10 +43,70 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
         mTempFileStem = "temp";
         mResolver = getActivity().getContentResolver();
         View v = inflateFragment(R.layout.fragment_word_detail, inflater, container, savedInstanceState);
-
         mEditTranslation = (EditText) v.findViewById(R.id.editTranslation);
 
+        super.insertData(v);
         return v;
+    }
+
+    @Override
+    public void setKidDefaults(Kid kid){
+        super.setKidDefaults(kid);
+        mTextHeading.setText(mKidName + " "
+                + getString(R.string.said_something) + " ?");
+    }
+
+    public void updateExtraKidDetails() {
+        Log.i(DEBUG_TAG, "Updating extra kid details: " + mKidName);
+        if (this.mItemId > 0) {
+            mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
+        } else {
+            mTextHeading.setText(mKidName + " "
+                    + getString(R.string.said_something) + " ?");
+        }
+    }
+    /* InsertItemDetails
+     * Called when an existing item is being viewed.
+     * Fills in all the fields with item data
+     */
+    public void insertItemDetails(View v) {
+        Log.i(DEBUG_TAG, "Inserting word details for item # " + mItemId);
+        Cursor cursor = mResolver.query(Words.buildWordUri(mItemId), null, null, null, null);
+        cursor.moveToFirst();
+        if (cursor == null) {
+            Log.i(DEBUG_TAG, "cursor is empty!");
+        }
+
+        mEditPhrase.setText(cursor.getString(cursor
+                .getColumnIndex(Words.COLUMN_NAME_WORD)));
+
+        // get date in milliseconds from db, convert to text, set current date
+        long rawdate = cursor.getLong(cursor
+                .getColumnIndex(Words.COLUMN_NAME_DATE));
+        Log.i(DEBUG_TAG, "Date: " + Utils.getDateForDisplay(rawdate, this.getActivity()));
+        mEditDate.setText(Utils.getDateForDisplay(rawdate, this.getActivity()));
+        mDate.setTimeInMillis(rawdate);  // !!!
+        mEditLocation.setText(cursor.getString(
+                cursor.getColumnIndex(Words.COLUMN_NAME_LOCATION)));
+        mEditTranslation.setText(cursor.getString(
+                cursor.getColumnIndex(Words.COLUMN_NAME_TRANSLATION)));
+        mEditToWhom.setText(cursor.getString(
+                cursor.getColumnIndex(Words.COLUMN_NAME_TOWHOM)));
+        mEditNotes.setText(cursor.getString(
+                cursor.getColumnIndex(Words.COLUMN_NAME_NOTES)));
+
+        ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
+                .getAdapter();
+        mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
+                .getColumnIndex(Words.COLUMN_NAME_LANGUAGE))));
+
+        mCurrentAudioFile = cursor.getString(cursor
+                .getColumnIndex(Words.COLUMN_NAME_AUDIO_FILE));
+
+        mTextHeading.setText(mKidName + getString(R.string.said) + ":");
+
+        cursor.close();
+        //displayWordHistory(v);
     }
 
     @Override
@@ -68,48 +128,20 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
         startActivityForResult(intent, RECORD_AUDIO_REQUEST);
     }
 
-    public void setShareData(String data) {
-        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-        sharingIntent.setType("text/plain");
-
-        String shareBody = "On " + mEditDate.getText().toString() + ", "
-                + mKidName + " said: " + mEditPhrase.getText().toString();
-
-        if (mEditTranslation.getText().toString()
-                .compareTo(mEditPhrase.getText().toString()) != 0) {
-            shareBody += ", which means " + mEditTranslation.getText().toString()
-                    + ".\n";
-        } else {
-            shareBody += ".\n";
-        }
-
-        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                "New Words From " + mKidName);
-        sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
-      /*
-       * if (mOutFile != null) { Uri uri = Uri.fromFile(mOutFile);
-       * sharingIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-       * sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-       * 
-       * }
-       */
-        if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(sharingIntent);
-        }
-    }
-
     public String getShareBody() {
-        String shareBody = "On " + mEditDate.getText().toString() + ", "
-                + mKidName + " said: " + mEditPhrase.getText().toString();
+        StringBuilder shareBody = new StringBuilder();
+
+        shareBody.append("On ").append(mEditDate.getText()).append(", ")
+                .append(mKidName).append(" said: ").append(mEditPhrase.getText());
 
         if (mEditTranslation.getText().toString()
                 .compareTo(mEditPhrase.getText().toString()) != 0) {
-            shareBody += ", which means " + mEditTranslation.getText().toString()
-                    + ".\n";
-        } else {
-            shareBody += ".\n";
+            shareBody.append(", which means " + mEditTranslation.getText());
         }
-        return shareBody;
+
+        shareBody.append(".\n");
+
+        return shareBody.toString();
     }
 
     public long savePhrase(boolean automatic) {
@@ -208,8 +240,10 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
     private boolean update(String word, long date,
                                String location, String translation, String towhom,
                                String notes) {
+
+        Log.i(DEBUG_TAG, "Kid id for update: " + mCurrentKidId);
+
         ContentValues values = new ContentValues();
-        values.put(Words.COLUMN_NAME_KID, mCurrentKidId);
         values.put(Words.COLUMN_NAME_WORD, word);
         values.put(Words.COLUMN_NAME_LANGUAGE, mLanguage);
         values.put(Words.COLUMN_NAME_DATE, date);
@@ -219,7 +253,7 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
         values.put(Words.COLUMN_NAME_TOWHOM, towhom);
         values.put(Words.COLUMN_NAME_NOTES, notes);
 
-        // Inserting Row
+        // Updating Row with current item id
         mResolver.update(Words.CONTENT_URI,
                 values,
                 Words._ID + " = ?",
@@ -247,66 +281,6 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
 
     public void clearExtraViews() {
         mEditTranslation.setText("");
-    }
-
-    @Override
-    public void setKidDefaults(Kid kid){
-        super.setKidDefaults(kid);
-        updateExtraKidDetails();
-    }
-
-    public void updateExtraKidDetails() {
-        Log.i(DEBUG_TAG, "Updating extra kid details: " + mKidName);
-        if (this.mItemId > 0) {
-            mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
-        } else {
-            mTextHeading.setText(mKidName + " "
-                    + getString(R.string.said_something) + " ?");
-        }
-    }
-
-    public void insertItemDetails(View v) {
-        //Log.i(DEBUG_TAG, "Inserting word details");
-        /*Cursor cursor = mResolver.query(Words.buildWordUri(mItemId), null, null, null, null);
-        cursor.moveToFirst();
-        mEditPhrase.setText(cursor.getString(cursor
-                .getColumnIndex(Words.COLUMN_NAME_WORD)));
-
-        // get date in milliseconds from db, convert to text, set current date
-        long rawdate = cursor.getLong(cursor
-                .getColumnIndex(Words.COLUMN_NAME_DATE));
-        mEditDate.setText(Utils.getDateForDisplay(rawdate, this.getActivity()));
-        mDate.setTimeInMillis(rawdate);
-        mEditLocation.setText(cursor.getString(
-                cursor.getColumnIndex(Words.COLUMN_NAME_LOCATION)));
-        mEditTranslation.setText(cursor.getString(
-                cursor.getColumnIndex(Words.COLUMN_NAME_TRANSLATION)));
-        mEditToWhom.setText(cursor.getString(
-                cursor.getColumnIndex(Words.COLUMN_NAME_TOWHOM)));
-        mEditNotes.setText(cursor.getString(
-                cursor.getColumnIndex(Words.COLUMN_NAME_NOTES)));
-
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-                .getAdapter();
-        mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
-                .getColumnIndex(Words.COLUMN_NAME_LANGUAGE))));
-
-        mCurrentAudioFile = cursor.getString(cursor
-                .getColumnIndex(Words.COLUMN_NAME_AUDIO_FILE));
-
-        if (this.mItemId > 0) {
-            mTextHeading.setText(mKidName + getString(R.string.said) + ":");
-        } else {
-            mTextHeading.setText(mKidName + getString(R.string.said_something)
-                    + " ?");
-        }
-        cursor.close();*/
-        /*LoaderManager loader = getLoaderManager();
-        synchronized (loader){
-            loader.notify();
-        }*/
-
-        //displayWordHistory(v);
     }
 
     @SuppressLint("NewApi")
@@ -447,12 +421,7 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
             mCurrentAudioFile = cursor.getString(cursor
                     .getColumnIndex(Words.COLUMN_NAME_AUDIO_FILE));
 
-            if (this.mItemId > 0) {
-                mTextHeading.setText(mKidName + getString(R.string.said) + ":");
-            } else {
-                mTextHeading.setText(mKidName + getString(R.string.said_something)
-                        + " ?");
-            }
+            mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
             //displayWordHistory();
         }
         else {
