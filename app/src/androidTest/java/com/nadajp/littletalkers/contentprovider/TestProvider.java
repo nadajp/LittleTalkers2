@@ -1,12 +1,17 @@
 package com.nadajp.littletalkers.contentprovider;
 
 import android.content.ComponentName;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
 import android.database.Cursor;
+import android.net.Uri;
 import android.test.AndroidTestCase;
 
 import com.nadajp.littletalkers.database.DbContract;
+import com.nadajp.littletalkers.database.TestDb;
+import com.nadajp.littletalkers.database.TestUtils;
 
 /**
  * Created by nadajp on 7/6/15.
@@ -87,6 +92,69 @@ public class TestProvider extends AndroidTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         deleteAllRecords();
+    }
+
+    public void testInsertData(){
+        insertKid();
+        insertWord();
+    }
+
+    public void insertKid(){
+        ContentValues kidValues = TestUtils.createKidValues();
+
+        Uri kidUri = mContext.getContentResolver().insert(DbContract.Kids.CONTENT_URI, kidValues);
+        long kidRowId = ContentUris.parseId(kidUri);
+        assertTrue(kidRowId != -1);
+
+        Cursor cursor = mContext.getContentResolver().query(
+                DbContract.Kids.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        TestDb.validateCursor(cursor, kidValues);
+
+        cursor = mContext.getContentResolver().query(
+                DbContract.Kids.buildKidsUri(kidRowId),
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        TestDb.validateCursor(cursor, kidValues);
+
+    }
+
+    public void insertWord(){
+        ContentValues wordValues = TestUtils.createWordValues(1);
+
+        Uri wordUri = mContext.getContentResolver().insert(DbContract.Words.CONTENT_URI, wordValues);
+        long wordRowId = ContentUris.parseId(wordUri);
+        assertTrue(wordRowId != -1);
+
+        Cursor cursor = mContext.getContentResolver().query(
+                DbContract.Words.CONTENT_URI,
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        TestDb.validateCursor(cursor, wordValues);
+
+        cursor = mContext.getContentResolver().query(
+                DbContract.Words.buildWordUri(wordRowId),
+                null, // leaving "columns" null just returns all the columns.
+                null, // cols for "where" clause
+                null, // values for "where" clause
+                null  // sort order
+        );
+
+        TestDb.validateCursor(cursor, wordValues);
+
     }
 
     /*

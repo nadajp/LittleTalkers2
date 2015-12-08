@@ -38,6 +38,6 @@ public class TestUriMatcher extends AndroidTestCase {
         assertEquals("Error: The WORDS URI was matched incorrectly.",
                 testMatcher.match(TEST_WORDS_DIR), LTContentProvider.WORDS);
         assertEquals("Error: The QAS URI was matched incorrectly.",
-                testMatcher.match(TEST_QAS_DIR), LTContentProvider.QAS);
+                testMatcher.match(TEST_QAS_DIR), LTContentProvider.QUESTIONS);
     }
 }

@@ -378,6 +378,4 @@ public class LTContentProvider extends ContentProvider
             }
         }
     }
-
-
 }

@@ -26,7 +26,6 @@ import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public abstract class ItemListFragment extends ListFragment
-
 {
     // to delete if delete icon pressed)
     private static final int DELETE_SELECTED_WORDS_DIALOG_ID = 1;

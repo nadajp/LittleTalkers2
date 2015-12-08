@@ -95,6 +95,7 @@ public abstract class ItemDetailFragment extends Fragment implements
             updateDate();
         }
     };
+    ArrayAdapter<CharSequence> mLanguageAdapter;
     private OnAddNewPhraseListener mListener; // listener to notify activity that
     private File mDirectory = null; // directory to store audio file
     private File mOutFile = null; // audio file with permanent name
@@ -109,7 +110,6 @@ public abstract class ItemDetailFragment extends Fragment implements
     private EditText mEditMore;
     private EditText mEditLess;
     private boolean mAudioRecorded;
-    ArrayAdapter<CharSequence> mLanguageAdapter;
 
     public static ItemDetailFragment newInstance(int sectionNumber) {
         ItemDetailFragment fragment;
@@ -243,16 +243,15 @@ public abstract class ItemDetailFragment extends Fragment implements
         return v;
     }
 
-    protected void insertData(View v){
+    protected void insertData(View v) {
         if (mItemId > 0) {  // viewing existing item,
             // insert all item data
             updateItem(v);
             setAudio(v);
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        else {  // adding new item
+        } else {  // adding new item
             // get Kid name and defaults to display
-            Kid kid = this.getArguments().getParcelable("Kid");
+            Kid kid = this.getArguments().getParcelable(getString(R.string.kid_info));
             mCurrentKidId = kid.getId();
             mLocation = kid.getLocation();
             mLanguage = kid.getLanguage();
@@ -498,7 +497,7 @@ public abstract class ItemDetailFragment extends Fragment implements
 
     private void updateDate() {
         mEditDate.setText(DateUtils.formatDateTime(getActivity(),
-                mDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_DATE
+                mDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE
                         | DateUtils.FORMAT_SHOW_YEAR));
     }
 

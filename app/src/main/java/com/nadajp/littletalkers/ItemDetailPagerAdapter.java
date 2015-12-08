@@ -9,12 +9,14 @@ import com.nadajp.littletalkers.model.Kid;
 
 public class ItemDetailPagerAdapter extends SectionsPagerAdapter
 {
-   Kid mKid;
+    Kid mKid;
+    Context mContext;
 
    public ItemDetailPagerAdapter(FragmentManager fm, Context c, Kid kid)
    {
        super(fm, c);
        mKid = kid;
+       mContext = c;
    }
 
    @Override
@@ -22,7 +24,7 @@ public class ItemDetailPagerAdapter extends SectionsPagerAdapter
    {
        Fragment fragment = ItemDetailFragment.newInstance(position);
        Bundle args = new Bundle();
-       args.putParcelable("Kid", mKid);
+       args.putParcelable(mContext.getString(R.string.kid_info), mKid);
        fragment.setArguments(args);
        return fragment;
    }

@@ -89,10 +89,11 @@ public class MainActivity extends Activity implements AddKidListener
       if (kidId > 0)
       // Go to AddWordActivity
       {
-         Intent intent = new Intent(this, AddItemActivity.class);
-         intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
-         intent.putExtra(Prefs.ADD_TYPE, Prefs.TYPE_WORD);
-         startActivity(intent);
+          Intent intent = new Intent(this, AddItemActivity.class);
+          intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
+          intent.putExtra(Prefs.ADD_TYPE, Prefs.TYPE_WORD);
+
+          startActivity(intent);
       }
    }
 
