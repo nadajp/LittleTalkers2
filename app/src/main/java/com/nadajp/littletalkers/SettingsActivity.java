@@ -7,8 +7,6 @@ import android.view.MenuItem;
 
 import com.google.android.gms.common.AccountPicker;
 
-//import com.google.android.gms.common.AccountPicker;
-
 //import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 public class SettingsActivity extends Activity

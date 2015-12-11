@@ -1,25 +1,18 @@
 package com.nadajp.littletalkers;
 
-import com.google.android.gms.common.AccountPicker;
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.nadajp.littletalkers.backup.SyncNowActivity;
-import com.nadajp.littletalkers.backup.SyncToServer;
-import com.nadajp.littletalkers.backup.UpgradeActivity;
-import com.nadajp.littletalkers.backup.UploadUserData;
-import com.nadajp.littletalkers.utils.Prefs;
-
 import android.accounts.AccountManager;
-import android.app.Activity;
+import android.app.Fragment;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.app.Fragment;
-import android.content.Intent;
-import android.content.SharedPreferences;
+
+import com.google.android.gms.common.AccountPicker;
+import com.nadajp.littletalkers.utils.Prefs;
+
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment
@@ -35,7 +28,7 @@ public class SettingsFragment extends PreferenceFragment
    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
    static final int REQUEST_ACCOUNT_PICKER = 2;
    private static final int ACTIVITY_RESULT_FROM_ACCOUNT_SELECTION = 2222;
-   private GoogleAccountCredential mCredential;
+   //private GoogleAccountCredential mCredential;
    public SharedPreferences mSharedPrefs;
    public String mAccountName;
 
@@ -86,9 +79,8 @@ public class SettingsFragment extends PreferenceFragment
       Boolean upgraded = true; //Prefs.getUpgraded(this.getActivity());
       final Long userId = Prefs.getUserId(this.getActivity());
       
-      if (upgraded)
-      {
-         mCredential = GoogleAccountCredential
+      if (upgraded) {
+         /*mCredential = GoogleAccountCredential
                .usingAudience(this.getActivity(), AppConstants.AUDIENCE);
 
          //Account stuff
@@ -117,7 +109,7 @@ public class SettingsFragment extends PreferenceFragment
                              }
                              return true;
                          }
-                     }); */
+                     });
               Intent intent = new Intent(this.getActivity(), SyncNowActivity.class);
               account.setIntent(intent);
          
@@ -133,7 +125,7 @@ public class SettingsFragment extends PreferenceFragment
          Intent intent = new Intent(this.getActivity(), UpgradeActivity.class);
          account.setIntent(intent);
          
-         /*account.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
+         account.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener()
          {            
             @Override
             public boolean onPreferenceClick(Preference arg0)
@@ -141,13 +133,14 @@ public class SettingsFragment extends PreferenceFragment
                mListener.logIn();
                return false;
             }
-         });*/
+         });
       }
-     /* if (getArguments() != null)
+      if (getArguments() != null)
       {
          mParam1 = getArguments().getString(ARG_PARAM1);
          mParam2 = getArguments().getString(ARG_PARAM2);
       }*/
+      }
    }
    
    
@@ -202,7 +195,7 @@ public class SettingsFragment extends PreferenceFragment
    private void setSelectedAccountName(String accountName)
    {
       Prefs.saveAccountName(this.getActivity(), accountName);
-      mCredential.setSelectedAccountName(accountName);
+      //mCredential.setSelectedAccountName(accountName);
       this.mAccountName = accountName;
    }
 
@@ -233,7 +226,7 @@ public class SettingsFragment extends PreferenceFragment
                // User is authorized.
                Log.i(DEBUG_TAG, "Authorized user: " + accountName
                      + ", starting upload");
-               new UploadUserData(mCredential).execute(this.getActivity());
+               //new UploadUserData(mCredential).execute(this.getActivity());
             }
          }
          break;

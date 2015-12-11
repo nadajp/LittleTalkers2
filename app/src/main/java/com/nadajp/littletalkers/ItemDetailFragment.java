@@ -251,7 +251,7 @@ public abstract class ItemDetailFragment extends Fragment implements
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         } else {  // adding new item
             // get Kid name and defaults to display
-            Kid kid = this.getArguments().getParcelable(getString(R.string.kid_info));
+            Kid kid = this.getArguments().getParcelable(getString(R.string.kid_details));
             mCurrentKidId = kid.getId();
             mLocation = kid.getLocation();
             mLanguage = kid.getLanguage();

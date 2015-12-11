@@ -20,6 +20,8 @@ public class Kid implements Parcelable {
     private String mLanguage;
     private String mPictureUri;
     private long mBirthdate;
+    private int mNumOfWords;
+    private int mNumOfQAs;
 
     public Kid() {
     }
@@ -29,6 +31,8 @@ public class Kid implements Parcelable {
         mName = name;
         mLocation = location;
         mLanguage = language;
+        mNumOfWords = 0;
+        mNumOfQAs = 0;
     }
 
     public Kid(int id, String name, String location, String language, String pictureUri, long birthdate){
@@ -38,6 +42,8 @@ public class Kid implements Parcelable {
         mLanguage = language;
         mPictureUri = pictureUri;
         mBirthdate = birthdate;
+        mNumOfWords = 0;
+        mNumOfQAs = 0;
     }
 
     protected Kid(Parcel in) {
@@ -47,6 +53,8 @@ public class Kid implements Parcelable {
         this.mLanguage = in.readString();
         this.mPictureUri = in.readString();
         this.mBirthdate = in.readLong();
+        this.mNumOfWords = in.readInt();
+        this.mNumOfQAs = in.readInt();
     }
 
     @Override
@@ -62,6 +70,8 @@ public class Kid implements Parcelable {
         dest.writeString(this.mLanguage);
         dest.writeString(this.mPictureUri);
         dest.writeLong(this.mBirthdate);
+        dest.writeInt(this.mNumOfWords);
+        dest.writeInt(this.mNumOfQAs);
     }
 
     public int getId() {
@@ -103,5 +113,13 @@ public class Kid implements Parcelable {
     public long getBirthdate() { return mBirthdate; }
 
     public void setBirthdate(long birthdate) { this.mBirthdate = birthdate; }
+
+    public int getNumOfWords() { return mNumOfWords; }
+
+    public void setNumOfWords(int n) { this.mNumOfWords = n; }
+
+    public int getNumOfQAs() { return mNumOfQAs; }
+
+    public void setNumOfQAs(int n) { this.mNumOfQAs = n; }
 
 }

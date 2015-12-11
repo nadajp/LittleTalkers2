@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.nadajp.littletalkers.AppConstants;
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.utils.Prefs;
+
+//import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 
 /**
  * A fragment with a Google +1 button. Activities that contain this fragment
@@ -33,7 +31,7 @@ public class SyncNowFragment extends Fragment
    private static final String ARG_PARAM2 = "param2";
    protected static final String DEBUG_TAG = "SyncNowFragment";
    
-   private GoogleAccountCredential mCredential;
+   //private GoogleAccountCredential mCredential;
    public String mAccountName;
 
    // TODO: Rename and change types of parameters
@@ -94,15 +92,15 @@ public class SyncNowFragment extends Fragment
 
       mButtonSyncNow = (Button) view.findViewById(R.id.button_sync);
       final Long userId = Prefs.getUserId(this.getActivity());
-      mCredential = GoogleAccountCredential
+      /*mCredential = GoogleAccountCredential
             .usingAudience(this.getActivity(), AppConstants.AUDIENCE);
-      mCredential.setSelectedAccountName(Prefs.getAccountName(this.getActivity()));
+      mCredential.setSelectedAccountName(Prefs.getAccountName(this.getActivity()));*/
       mButtonSyncNow.setOnClickListener(new View.OnClickListener()
       {
          @Override
          public void onClick(View v)
          {
-            mSpinner.setVisibility(View.VISIBLE);
+           /* mSpinner.setVisibility(View.VISIBLE);
             if (userId != -1) {  // existing user, update
                Log.i(DEBUG_TAG, "Existing user, update!");
                new SyncToServer(mCredential, mSpinner, mButtonSyncNow).execute(SyncNowFragment.this.getActivity());           
@@ -110,7 +108,7 @@ public class SyncNowFragment extends Fragment
             else {  // new user, upload all data
                Log.i(DEBUG_TAG, "New user, upload all!");
                new UploadUserData(mCredential).execute(SyncNowFragment.this.getActivity());
-            }            
+            }  */
          }        
       });           
       return view;

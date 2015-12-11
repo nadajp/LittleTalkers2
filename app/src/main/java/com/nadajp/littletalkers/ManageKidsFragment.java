@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,7 +25,6 @@ import android.widget.ListView;
 
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.model.Kid;
-import com.nadajp.littletalkers.utils.Prefs;
 
 import java.util.ArrayList;
 
@@ -157,9 +155,7 @@ public class ManageKidsFragment extends ListFragment implements LoaderManager.Lo
     public void onListItemClick(ListView l, View v, int position, long id) {
         // show kid detail view
         Intent intent = new Intent(this.getActivity(), KidProfileActivity.class);
-        Log.i(DEBUG_TAG, "Kid id: " + id);
-        intent.putExtra("KidDetails", mKids.get(position));
-        intent.putExtra(Prefs.CURRENT_KID_ID, (int) id);
+        intent.putExtra(getString(R.string.kid_details), mKids.get(position));
         startActivity(intent);
     }
 
@@ -195,7 +191,8 @@ public class ManageKidsFragment extends ListFragment implements LoaderManager.Lo
                     data.getString(data.getColumnIndex(DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE)),
                     data.getString(data.getColumnIndex(DbContract.Kids.COLUMN_NAME_PICTURE_URI)),
                     data.getLong(data.getColumnIndex(DbContract.Kids.COLUMN_NAME_BIRTHDATE_MILLIS)));
-            mKids.add(i++, kid) ;
+
+            mKids.add(i++, kid);
             data.moveToNext();
         }
     }
@@ -254,5 +251,4 @@ public class ManageKidsFragment extends ListFragment implements LoaderManager.Lo
             return builder.create();
         }
     }
-
 }

@@ -163,9 +163,33 @@ public abstract class BaseActivity extends Activity implements OnItemSelectedLis
         return kid;
     }
 
+    protected Kid getKidDetails() {
+        Kid kid = null;
+        Cursor cursor = getContentResolver().query(
+                DbContract.Kids.buildKidsUri(mCurrentKidId),
+                null,
+                null,
+                null,
+                null);
+
+        if (cursor.moveToNext()) {
+            String kidName = cursor.getString(cursor.getColumnIndex(DbContract.Kids.COLUMN_NAME_NAME));
+            //Log.i(DEBUG_TAG, mKidName);
+            String language = cursor.getString(cursor
+                    .getColumnIndex(DbContract.Kids.COLUMN_NAME_DEFAULT_LANGUAGE));
+            String location = cursor.getString(cursor
+                    .getColumnIndex(DbContract.Kids.COLUMN_NAME_DEFAULT_LOCATION));
+            String pictureUri = cursor.getString(cursor.getColumnIndex(Kids.COLUMN_NAME_PICTURE_URI));
+            long birthday = cursor.getLong(cursor.getColumnIndex(Kids.COLUMN_NAME_BIRTHDATE_MILLIS));
+
+            kid = new Kid(mCurrentKidId, kidName, location, language, pictureUri, birthday);
+        }
+        return kid;
+    }
+
     public void clickProfile(View v) {
         Intent intent = new Intent(this, KidProfileActivity.class);
-        intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
+        intent.putExtra(getString(R.string.kid_details), getKidDetails());
         startActivity(intent);
     }
 
