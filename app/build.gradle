@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.nadajp.littletalkers"
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 23
 
         testApplicationId "com.nadajp.littletalkers.test"
@@ -25,9 +25,8 @@ dependencies {
 
     compile ('com.android.support:support-v13:23.1.1')
 
-    compile 'com.google.android.gms:play-services-auth:8.3.0'
-    compile 'com.google.android.gms:play-services-gcm:8.3.0'
-
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
     compile ('com.google.api-client:google-api-client:1.21.0'){
         //exclude module: 'httpclient'
         //exclude module: 'xpp3'
@@ -35,6 +34,7 @@ dependencies {
         //exclude module: 'android'
         //exclude group: 'org.apache.httpcomponents'
     }
+    compile 'com.android.support:design:23.1.1'
 
     //compile 'com.google.code.gson:gson:2.5'
     //compile 'com.fasterxml.jackson.core:jackson-core:2.6.3'

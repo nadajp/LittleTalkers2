@@ -1,51 +1,88 @@
 package com.nadajp.littletalkers;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
-import com.nadajp.littletalkers.utils.Utils;
 
-public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListener, ActionBar.TabListener {
+public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListener {
     private static final String DEBUG_TAG = "AddItemActivity";
 
     ItemDetailPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
+    Toolbar mToolbar;
+    TabLayout mTabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_item);
 
-        // Set up the action bar.
-        final ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayHomeAsUpEnabled(false);
-        actionBar.setLogo(android.R.color.transparent);
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new ItemDetailPagerAdapter(getFragmentManager(), this, super.getKidDefaults());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        mTabLayout.setupWithViewPager(mViewPager);
 
-        // When swiping between different sections, select the corresponding
+        mTabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+                switch (tab.getPosition()) {
+                    case 0:
+                        mToolbar.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.blue));
+                        mTabLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.blue));
+                        break;
+                    case 1:
+                        mToolbar.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.green));
+                        mTabLayout.setBackgroundColor(ContextCompat.getColor(getBaseContext(), R.color.green));
+                        break;
+                }
+                mType = tab.getPosition();
+                Prefs.saveType(getApplicationContext(), tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+        Log.i(DEBUG_TAG, "TYPE IS: " + mType);
+
+        if (savedInstanceState != null) {
+            mType = savedInstanceState.getInt(Prefs.TYPE);
+            invalidateOptionsMenu();
+        }
+
+        TabLayout.Tab tab = mTabLayout.getTabAt(mType);
+        tab.select();
+        /* When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
         // a reference to the Tab.
-        mViewPager
-                .setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-                    @Override
-                    public void onPageSelected(int position) {
-                        actionBar.setSelectedNavigationItem(position);
-                    }
-                });
+        mViewPager.set(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+        });
 
         // For each of the sections in the app, add a tab to the action bar.
         for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
@@ -65,13 +102,14 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
             invalidateOptionsMenu();
         }
         actionBar.setSelectedNavigationItem(mType);
+        */
     }
 
     @Override
     public void changeKid(){
         setCurrentKidData(getKidDefaults());
     }
-
+/*
     @Override
     public void onTabSelected(ActionBar.Tab tab,
                               FragmentTransaction fragmentTransaction) {
@@ -104,7 +142,7 @@ public class AddItemActivity extends BaseActivity implements OnAddNewPhraseListe
     public void onTabReselected(ActionBar.Tab tab,
                                 FragmentTransaction fragmentTransaction) {
     }
-
+*/
     protected void setCurrentKidData(Kid kid) {
         // update all tabs, even those that are not currently visible
         for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++) {

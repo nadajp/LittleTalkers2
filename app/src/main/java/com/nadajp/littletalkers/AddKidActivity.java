@@ -1,10 +1,11 @@
 package com.nadajp.littletalkers;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -12,30 +13,33 @@ import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
-public class AddKidActivity extends Activity implements
+public class AddKidActivity extends AppCompatActivity implements
       AddKidFragment.OnKidAddedListener
 {
    private static final String DEBUG_TAG = "AddKidActivity";
+   ViewPager mViewPager;
+   private Toolbar mToolbar;
 
    @Override
    protected void onCreate(Bundle savedInstanceState)
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_add_kid);
-      ActionBar actionBar = this.getActionBar(); 
-      actionBar.setDisplayShowTitleEnabled(true);
+
+      mToolbar = (Toolbar) findViewById(R.id.toolbar);
+      setSupportActionBar(mToolbar);
+      getSupportActionBar().setDisplayShowTitleEnabled(true);
 
       if (getNumberOfKids() > 0)
       {
-         actionBar.setDisplayHomeAsUpEnabled(true);
+         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
       }
       else
       {
-         actionBar.setDisplayHomeAsUpEnabled(false);   
+         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
       }
 
-      actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-      Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
+      Utils.setColor(getSupportActionBar(), Utils.COLOR_ORANGE, this);
    }
 
    private int getNumberOfKids()

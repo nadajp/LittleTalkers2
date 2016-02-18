@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
     android:padding="@dimen/activity_horizontal_margin"
+    android:transitionName="@string/transition_name"
     style="@style/DictionaryStyle">
         
     <!-- word -->

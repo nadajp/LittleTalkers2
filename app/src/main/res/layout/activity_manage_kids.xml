@@ -3,6 +3,8 @@
     android:layout_height="match_parent" 
     android:background="@color/background_color">
 
+    <include layout="@layout/actionbar"/>
+
     <fragment
         android:id="@+id/manage_kids_fragment"
         android:layout_width="match_parent"

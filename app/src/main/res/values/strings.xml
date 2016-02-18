@@ -145,6 +145,7 @@
         <item>Take photo</item>
         <item>Choose photo from Gallery</item>
     </string-array>
+
     <string-array name="array_languages">
         <item>Arabic</item>
         <item>Bulgarian</item>
@@ -209,4 +210,7 @@
     <string name="title_activity_sync_now">Sync to Cloud</string>
 
     <string name="kid_details" translatable="false">kid_details</string>
+
+    <string translatable="false" name="transition_name">listtodetail</string>
+
 </resources>

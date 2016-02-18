@@ -1,7 +1,5 @@
 package com.nadajp.littletalkers;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,8 +8,9 @@ import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +34,7 @@ import java.nio.channels.FileChannel;
  * This class is the base for add/view item and dictionary activities
  * It handles the action bar, including kids dropdown and common menu items
  */
-public abstract class BaseActivity extends Activity implements OnItemSelectedListener {
+public abstract class BaseActivity extends AppCompatActivity implements OnItemSelectedListener {
 
     static final String[] KID_DETAILS_PROJECTION = new String[]{
             Kids._ID,
@@ -58,6 +57,16 @@ public abstract class BaseActivity extends Activity implements OnItemSelectedLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.actionbar_tabs);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setLogo(android.R.color.transparent);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mImgProfile = (CircularImageView) toolbar.findViewById(R.id.action_profile);
+        mSpinner = (Spinner) toolbar.findViewById(R.id.action_main_spinner);
+
         if (savedInstanceState != null) {
             mCurrentKidId = savedInstanceState.getInt(Prefs.CURRENT_KID_ID);
             mPosition = savedInstanceState.getInt(Prefs.POSITION);
@@ -65,23 +74,8 @@ public abstract class BaseActivity extends Activity implements OnItemSelectedLis
             mCurrentKidId = Prefs.getKidId(this, Utils.getLastKidAdded(getContentResolver()));
             mPosition = -1;
         }
-
-        Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
-
-        final ActionBar actionBar = getActionBar();
-        LayoutInflater mInflater = LayoutInflater.from(this);
-        View customView = mInflater.inflate(R.layout.actionbar, null);
-
-        mImgProfile = (CircularImageView) customView
-                .findViewById(R.id.action_profile);
-
-        mSpinner = (Spinner) customView.findViewById(R.id.action_main_spinner);
-
-        actionBar.setCustomView(customView);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-
         setupSpinner();
+        Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
     }
 
     @Override

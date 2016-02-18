@@ -1,9 +1,9 @@
 package com.nadajp.littletalkers;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -11,7 +11,7 @@ import com.nadajp.littletalkers.ItemDetailFragment.OnAddNewPhraseListener;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
-public class ViewItemActivity extends Activity implements OnAddNewPhraseListener {
+public class ViewItemActivity extends AppCompatActivity implements OnAddNewPhraseListener {
     private static final String DEBUG_TAG = "ViewItemActivity";
     private int mType;
     private ItemDetailFragment mFragment;
@@ -22,10 +22,10 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_item);
 
-        final ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         if (savedInstanceState != null) {
             mType = savedInstanceState.getInt(Prefs.TYPE);
@@ -42,10 +42,10 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
             arguments.putString(Prefs.KID_NAME, mKidName);
             if (mType == Prefs.TYPE_WORD) {
                 mFragment = new WordDetailFragment();
-                Utils.setColor(actionBar, Utils.COLOR_BLUE, this);
+                Utils.setColor(toolbar, Utils.COLOR_BLUE, this);
             } else {
                 mFragment = new QADetailFragment();
-                Utils.setColor(actionBar, Utils.COLOR_GREEN, this);
+                Utils.setColor(toolbar, Utils.COLOR_GREEN, this);
             }
             mFragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
@@ -53,9 +53,9 @@ public class ViewItemActivity extends Activity implements OnAddNewPhraseListener
         }
 
         if (mType == Prefs.TYPE_WORD) {
-            Utils.setColor(actionBar, Utils.COLOR_BLUE, this);
+            Utils.setColor(getSupportActionBar(), Utils.COLOR_BLUE, this);
         } else {
-            Utils.setColor(actionBar, Utils.COLOR_GREEN, this);
+            Utils.setColor(getSupportActionBar(), Utils.COLOR_GREEN, this);
         }
     }
 

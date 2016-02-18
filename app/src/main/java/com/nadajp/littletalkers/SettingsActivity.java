@@ -1,15 +1,13 @@
 package com.nadajp.littletalkers;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.android.gms.common.AccountPicker;
 
-//import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-
-public class SettingsActivity extends Activity
+public class SettingsActivity extends AppCompatActivity
 {
    private static final String DEBUG_TAG = "SettingsActivity";
    static final int REQUEST_ACCOUNT_PICKER = 1;
@@ -23,7 +21,7 @@ public class SettingsActivity extends Activity
       {
          getFragmentManager().beginTransaction().add(R.id.container, new SettingsFragment()).commit();
       }
-      this.getActionBar().setDisplayHomeAsUpEnabled(true);
+      this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
    }
 
    @Override

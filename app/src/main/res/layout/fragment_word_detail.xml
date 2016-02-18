@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/detail_layout"
@@ -35,27 +37,31 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/addnewtext"
             android:paddingBottom="5dp"
-            android:paddingTop="5dp" >
+            android:paddingTop="5dp">
 
             <ImageView
                 android:id="@+id/imgMic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:clickable="true"
                 android:contentDescription="@string/start_recording"
-                android:src="@drawable/button_blue_mic" >
+                android:src="@drawable/button_blue_mic">
             </ImageView>
 
             <EditText
                 android:id="@+id/editWord"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_toEndOf="@id/imgMic"
                 android:layout_toRightOf="@id/imgMic"
                 android:background="@null"
-                android:layout_centerVertical="true"
                 android:hint="@string/enter_word"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
@@ -64,7 +70,7 @@
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="5dp"
                 android:scrollbarStyle="insideInset"
-                android:scrollbars="horizontal" >
+                android:scrollbars="horizontal">
             </EditText>
         </RelativeLayout>
 
@@ -79,7 +85,7 @@
             android:background="@drawable/white_card_background"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/text_recording"
@@ -94,13 +100,17 @@
                 android:id="@+id/button_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="-5dp"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="-5dp"
                 android:background="@null"
                 android:drawableEnd="@drawable/ic_action_delete"
-                android:paddingLeft="-5dp" >
+                android:drawableRight="@drawable/ic_action_delete"
+                android:paddingLeft="-5dp">
             </Button>
 
             <Button
@@ -112,7 +122,7 @@
                 android:layout_marginRight="55dp"
                 android:layout_toRightOf="@id/text_recording"
                 android:background="@null"
-                android:drawableRight="@drawable/ic_action_play" >
+                android:drawableRight="@drawable/ic_action_play">
             </Button>
         </RelativeLayout>
 
@@ -144,131 +154,132 @@
             android:hint="@string/where"
             android:inputType="textCapSentences"
             android:padding="15dp" />
-        
-        <LinearLayout android:id="@+id/layout_more"
+
+        <LinearLayout
+            android:id="@+id/layout_more"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/editLocation"
             android:orientation="vertical"
             android:visibility="gone">
-            
-        <RelativeLayout
-            android:id="@+id/language"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editLocation"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:background="@drawable/language_spinner"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp">
 
-            <ImageView
-                android:id="@+id/language_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:contentDescription="@string/language"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:src="@drawable/ic_language" >
-            </ImageView>
-
-            <Spinner
-                android:id="@+id/spinner_language"
+            <RelativeLayout
+                android:id="@+id/language"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_toRightOf="@id/language_icon"
-                android:background="@color/white"
-                android:entries="@+array/array_languages" />
-
-            <ImageView
-                android:id="@+id/arrow_icon"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_below="@id/editLocation"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:contentDescription="@string/language"
-                android:src="@drawable/ic_down_arrow" >
-            </ImageView>
-        </RelativeLayout>
+                android:background="@drawable/language_spinner"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp">
 
-        <EditText
-            android:id="@+id/editTranslation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/language"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:background="@drawable/white_card_background"
-            android:drawableLeft="@drawable/ic_translate"
-            android:drawablePadding="10dp"
-            android:hint="@string/translation"
-            android:inputType="textCapSentences"
-            android:padding="15dp" />
+                <ImageView
+                    android:id="@+id/language_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:contentDescription="@string/language"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:src="@drawable/ic_language">
+                </ImageView>
 
-        <EditText
-            android:id="@+id/editToWhom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editTranslation"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:background="@drawable/white_card_background"
-            android:drawableLeft="@drawable/ic_social_person"
-            android:drawablePadding="10dp"
-            android:hint="@string/to_whom"
-            android:inputType="textCapSentences"
-            android:padding="15dp" />
+                <Spinner
+                    android:id="@+id/spinner_language"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@id/language_icon"
+                    android:layout_toRightOf="@id/language_icon"
+                    android:background="@color/white"
+                    android:entries="@array/array_languages" />
 
-        <EditText
-            android:id="@+id/editNotes"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/editToWhom"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:background="@drawable/white_card_background"
-            android:drawableLeft="@drawable/ic_notes"
-            android:drawablePadding="10dp"
-            android:hint="@string/notes"
-            android:inputType="textCapSentences|textMultiLine"
-            android:padding="15dp" />
+                <ImageView
+                    android:id="@+id/arrow_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:contentDescription="@string/language"
+                    android:src="@drawable/ic_down_arrow">
+                </ImageView>
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/editTranslation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@drawable/white_card_background"
+                android:drawableLeft="@drawable/ic_translate"
+                android:drawablePadding="10dp"
+                android:hint="@string/translation"
+                android:inputType="textCapSentences"
+                android:padding="15dp" />
+
+            <EditText
+                android:id="@+id/editToWhom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@drawable/white_card_background"
+                android:drawableLeft="@drawable/ic_social_person"
+                android:drawablePadding="10dp"
+                android:hint="@string/to_whom"
+                android:inputType="textCapSentences"
+                android:padding="15dp" />
+
+            <EditText
+                android:id="@+id/editNotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:background="@drawable/white_card_background"
+                android:drawableLeft="@drawable/ic_notes"
+                android:drawablePadding="10dp"
+                android:hint="@string/notes"
+                android:inputType="textCapSentences|textMultiLine"
+                android:padding="15dp" />
         </LinearLayout>
-             
+
         <EditText
             android:id="@+id/edit_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/layout_more"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"            
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/gray_card_background"
             android:drawableLeft="@drawable/ic_plus"
             android:drawablePadding="10dp"
-            android:inputType="none"
             android:focusable="false"
             android:hint="@string/more"
-            android:padding="15dp"/>
-        
+            android:inputType="none"
+            android:padding="15dp" />
+
         <EditText
             android:id="@+id/edit_less"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/layout_more"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"            
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/gray_card_background"
             android:drawableLeft="@drawable/ic_minus"
             android:drawablePadding="10dp"
-            android:inputType="none"
             android:focusable="false"
             android:hint="@string/less"
+            android:inputType="none"
             android:padding="15dp"
-            android:visibility="gone"/>
-                
-        <Button
+            android:visibility="gone" />
+
+        <!--<Button
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -276,8 +287,26 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginTop="20dp"
-            android:background="@drawable/button_blue_check"/>
-        
+            android:background="@drawable/button_blue_check"/>-->
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_more"
+            android:src="@drawable/fab_save"
+            android:background="@drawable/oval_shape"
+            app:backgroundTint="?colorAccent"
+            app:fabSize="normal"
+            app:elevation="@dimen/fab_elevation"
+            app:pressedTranslationZ="12dp"
+            app:borderWidth="0dp"
+            app:layout_anchorGravity="bottom|center"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|center"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+
         <TextView
             android:id="@+id/txtWordHistory"
             style="@style/HeadingStyle"
@@ -290,5 +319,4 @@
             android:text="@string/word_history"
             android:visibility="gone" />
     </RelativeLayout>
-
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

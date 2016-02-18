@@ -1,14 +1,10 @@
-<android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/pager"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background_color"
-    tools:context="com.nadajp.littletalkers.AddItem" />
-<!-- 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/fragment_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@color/background_color">
-</FrameLayout> -->
+    android:layout_height="match_parent">
+
+    <include layout="@layout/actionbar"/>
+    <include layout="@layout/viewpager"/>
+
+</android.support.design.widget.CoordinatorLayout>

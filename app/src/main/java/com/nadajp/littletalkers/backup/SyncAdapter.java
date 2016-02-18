@@ -81,7 +81,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
        */
       Log.i(DEBUG_TAG, "Entering SyncAdapter...");
       mContentResolver = context.getContentResolver();
-
    }
 
    /*

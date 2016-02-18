@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
 
     <RelativeLayout
         android:id="@+id/detail_layout"
@@ -172,6 +174,7 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@null"
                 android:drawableEnd="@drawable/ic_action_delete"
+                android:drawableRight="@drawable/ic_action_delete"
                 android:paddingLeft="-5dp" >
             </Button>
 
@@ -295,7 +298,8 @@
                 android:inputType="textCapSentences|textMultiLine"
                 android:padding="15dp" />
         </LinearLayout>
-<EditText
+
+        <EditText
             android:id="@+id/edit_more"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -325,8 +329,24 @@
             android:hint="@string/less"
             android:padding="15dp"
             android:visibility="gone"/>
-        
-        <Button
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/button_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edit_more"
+            android:src="@drawable/fab_save"
+            android:background="@drawable/oval_shape"
+            app:fabSize="normal"
+            app:elevation="@dimen/fab_elevation"
+            app:pressedTranslationZ="12dp"
+            app:borderWidth="0dp"
+            app:layout_anchor="@id/detail_layout"
+            android:layout_gravity="bottom|center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+        <!--<Button
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -334,7 +354,6 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginTop="20dp"
-            android:background="@drawable/button_green_check" />
+            android:background="@drawable/button_green_check"/>-->
     </RelativeLayout>
-
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

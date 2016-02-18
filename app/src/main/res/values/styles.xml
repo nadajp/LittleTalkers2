@@ -2,29 +2,25 @@
 
     <!-- Application theme. -->
     <color name="background_color">@color/background_gray</color>
-    <style name="LittleTalkersTheme" parent="android:Theme.Holo.Light">
+
+    <style name="LittleTalkersTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/dark_blue</item>
+        <item name="colorAccent">@color/red</item>
         <item name="android:actionBarItemBackground">@drawable/ab_item_background</item>
         <item name="android:selectableItemBackground">@drawable/ab_item_background</item>
-        <item name="android:actionBarStyle">@style/MyActionBar</item>
         <item name="android:spinnerStyle">@style/MySpinners</item>
         <item name="android:textColor">@color/gray</item>
         <item name="android:textColorHint">@color/hint_gray</item>
-        <item name="android:actionBarTabStyle">@style/TabLittleTalkersTheme</item>
-        <item name="android:actionBarTabTextStyle">@style/TabTextLittleTalkersTheme</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowStyle</item>
     </style>
-    
 
-   <style name="OverflowStyle" parent="@android:style/Widget.ActionButton.Overflow">
+   <style name="OverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
       <item name="android:src">@drawable/ic_menu_overflow</item>
    </style>
-
-    <style name="MyLabelText" parent="android:style/Widget.Holo.Light.TextView">
-      <item name="android:textStyle">italic</item> 
-    </style>
           
-    <style name="KidSpinnerStyle" parent="android:style/Widget.Holo.Light.Spinner">
+    <style name="KidSpinnerStyle" parent="Widget.AppCompat.Spinner">
         <item name="android:textColor">@color/white</item>
         <item name="android:textColorLink">@color/white</item>
         <item name="android:background">@drawable/ab_item_background</item>
@@ -43,20 +39,33 @@
         <item name="android:textColor">@color/darker_gray</item>
         <item name="android:textStyle">bold</item>
     </style>
-    
+
     <!-- ActionBar styles -->
-    <style name="MyActionBar" parent="android:style/Widget.Holo.ActionBar">
+    <style name="MyActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:background">@color/blue</item>
         <item name="android:backgroundStacked">@color/blue</item>
         <item name="android:titleTextStyle">@style/LittleTalkers.ActionBar.TitleTextStyle</item>
-        <item name="android:textColor">@color/white</item>   
-        <!-- <item name="android:icon">@android:color/transparent</item>   -->  
+        <item name="android:textColor">@color/white</item>
+        <!-- <item name="android:icon">@android:color/transparent</item>   -->
     </style>
 
-   <style name="LittleTalkers.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+    <style name="MyTabLayoutStyle" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@color/white</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
+        <item name="tabSelectedTextColor">@color/white</item>
+    </style>
+
+    <style name="MyTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/background_gray</item>
+        <item name="textAllCaps">true</item>
+    </style>
+
+   <style name="LittleTalkers.ActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
       <item name="android:textColor">@color/white</item>
    </style>
-   
+
    <style name="HeadingStyle">
        <item name="android:textSize">@dimen/heading_size_large</item>
        <item name="android:textColor">@color/blue</item>
@@ -68,27 +77,8 @@
        <item name="android:textColor">@color/dark_green</item>
        <item name="android:layout_marginBottom">5dp</item>
    </style>
- 
-    <style name="TabLittleTalkersTheme">
-      <item name="android:gravity">center_horizontal</item>
-      <item name="android:paddingLeft">16dip</item>
-      <item name="android:paddingRight">16dip</item>
-      <item name="android:layout_width">0dip</item>
-      <item name="android:layout_weight">1</item>
-      <item name="android:minWidth">80dip</item>
-      <item name="android:background">@drawable/tab_indicator_ab_littletalkersstyle</item>
-  </style>
-
-  <style name="TabTextLittleTalkersTheme">
-      <item name="android:textColor">@color/white</item>
-      <item name="android:textSize">14sp</item>
-      <item name="android:textAllCaps">true</item> 
-      <item name="android:ellipsize">marquee</item>
-      <item name="android:maxLines">1</item>
-      <item name="android:maxWidth">180dip</item>
-  </style>
    
-    <style name="MySpinners" parent="android:style/Widget.Holo.Light.Spinner">
+    <style name="MySpinners" parent="Widget.AppCompat.Spinner">
         <item name="android:textSize">16sp</item>
     </style>
 

@@ -1,20 +1,20 @@
 package com.nadajp.littletalkers;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nadajp.littletalkers.ManageKidsFragment.ModifyKidsListener;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.utils.Prefs;
-import com.nadajp.littletalkers.utils.Utils;
 
-public class ManageKidsActivity extends Activity implements ModifyKidsListener
+public class ManageKidsActivity extends AppCompatActivity implements ModifyKidsListener
 {
    private static final String DEBUG_TAG = "ManageKidsActivity";
 
@@ -23,10 +23,11 @@ public class ManageKidsActivity extends Activity implements ModifyKidsListener
    {
       super.onCreate(savedInstanceState);
       setContentView(R.layout.activity_manage_kids);
-      ActionBar actionBar = this.getActionBar();
-      actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-      actionBar.setTitle(R.string.title_activity_manage_kids);
-      Utils.setColor(actionBar, Utils.COLOR_ORANGE, this);
+
+      Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+      setSupportActionBar(toolbar);
+      getSupportActionBar().setTitle(R.string.title_activity_manage_kids);
+      toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.orange));
    }
 
    @Override

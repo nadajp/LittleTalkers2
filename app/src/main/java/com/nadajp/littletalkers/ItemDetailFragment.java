@@ -18,6 +18,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
@@ -81,7 +82,7 @@ public abstract class ItemDetailFragment extends Fragment implements
             mEditNotes;
     protected Spinner mLangSpinner;
     protected TextView mTextHeading;
-    protected Button mButtonSave;
+    protected FloatingActionButton mButtonSave;
     // to be set by derived classes
     int mFragmentLayout; // res id of the layout for this fragment
     int mEditPhraseResId; // res id of the edittext containing main item (word,
@@ -172,7 +173,7 @@ public abstract class ItemDetailFragment extends Fragment implements
         mEditToWhom = (EditText) layout.findViewById(R.id.editToWhom);
         mEditNotes = (EditText) layout.findViewById(R.id.editNotes);
         mTextHeading = (TextView) layout.findViewById(R.id.textHeading);
-        mButtonSave = (Button) layout.findViewById(R.id.button_save);
+        mButtonSave = (FloatingActionButton) layout.findViewById(R.id.button_save);
         mRecordingLayout = (RelativeLayout) layout.findViewById(R.id.layout_recording);
         mImgMic = (ImageView) layout.findViewById(R.id.imgMic);
         mPlay = (Button) layout.findViewById(R.id.button_play);
