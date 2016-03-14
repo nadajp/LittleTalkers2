@@ -17,6 +17,9 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_data_export">Data Export</string>
 
+    <!-- ActionBar -->
+    <string name="dropdown_arrow">Dropdown arrow</string>
+
     <!-- AddWord -->
     <string name="title_activity_add_word">AddWordActivity</string>
     <string name="title_activity_add_word_fragment">AddWordFragment</string>
@@ -197,11 +200,6 @@
     <string name="upgrade">Upgrade</string>
     <string name="log_in">Log In</string>
     <string name="logged_in">logged_in</string>
-    <string name="sync_title">Tap below to start sync.</string>
-    <string name="sync_now">Sync Now</string>
-    <string name="syncing">Syncing...</string>
-    <string name="sync_complete">Sync is Complete</string>
-    <string name="account">account</string>
     <string name="title_activity_upgrade">Upgrade Little Talkers!</string>
     <string name="upgrade_info1">Upgrade Little Talkers to:</string>
     <string name="upgrade_info2">- Synchronize your data between devices</string>
@@ -209,8 +207,19 @@
     <string name="upgrade_info4">- Share your data with family and friends.</string>
     <string name="title_activity_sync_now">Sync to Cloud</string>
 
+    <!-- SyncAdapter -->
+    <string name="sync_account_type">littletalkers.nadajp.com</string>
+    <string name="sync_title">Tap below to start sync.</string>
+    <string name="sync_now">Sync Now</string>
+    <string name="syncing">Syncing...</string>
+    <string name="sync_complete">Sync is Complete</string>
+    <string name="account">account</string>
+
     <string name="kid_details" translatable="false">kid_details</string>
 
-    <string translatable="false" name="transition_name">listtodetail</string>
+    <string name="transition_name" translatable="false">listtodetail</string>
+    <string name="title_activity_add_new_item">AddNewItemActivity</string>
+    <string name="title_phrase_list">Phrases</string>
+    <string name="title_phrase_detail">Phrase Detail</string>
 
 </resources>

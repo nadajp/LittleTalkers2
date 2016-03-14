@@ -1,4 +1,5 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,14 +8,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/keyline_1"
+        android:layout_marginRight="@dimen/keyline_1"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:windowSoftInputMode="stateAlwaysHidden"
-        tools:context=".AddKidFragment" >
+        tools:context=".ui.AddKidFragment" >
  
-        <com.nadajp.littletalkers.CircularImageView
+        <com.nadajp.littletalkers.ui.CircularImageView
             android:id="@+id/image_profile"
             android:layout_width="180dp"
             android:layout_height="180dp"
@@ -26,15 +27,6 @@
             app:border_color="@android:color/white"
             app:border_width="2dp"
             app:shadow="true" />
-        <!-- 
-        <ImageView
-            android:id="@+id/image_profile"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
-            android:clickable="true"
-            android:scaleType="centerInside"/> -->
 
         <EditText
             android:id="@+id/edit_name"
@@ -45,6 +37,7 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_name"
+            android:drawableStart="@drawable/ic_name"
             android:drawablePadding="10dp"
             android:hint="@string/name"
             android:inputType="textCapWords"
@@ -59,6 +52,7 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_birthdate"
+            android:drawableStart="@drawable/ic_birthdate"
             android:drawablePadding="10dp"
             android:focusable="false"
             android:hint="@string/birthdate"
@@ -74,6 +68,7 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_location"
+            android:drawableStart="@drawable/ic_location"
             android:drawablePadding="10dp"
             android:hint="@string/default_location"
             android:inputType="textCapWords"
@@ -96,6 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:contentDescription="@string/language"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -107,29 +103,40 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_toRightOf="@id/language_icon"
+                android:layout_toEndOf="@id/language_icon"
                 android:background="@color/white"
-                android:entries="@+array/array_languages" />
+                android:entries="@array/array_languages" />
 
             <ImageView
                 android:id="@+id/arrow_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:contentDescription="@string/language"
                 android:src="@drawable/ic_down_arrow" >
             </ImageView>
         </RelativeLayout>
-            
-        <Button
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/language"
+            android:src="@drawable/fab_save"
+            android:background="@drawable/oval_shape"
+            app:backgroundTint="@color/orange"
+            app:fabSize="normal"
+            app:elevation="@dimen/fab_elevation"
+            app:pressedTranslationZ="12dp"
+            app:borderWidth="0dp"
+            app:layout_anchorGravity="bottom|center"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/ic_button_validate_orange" />
+            android:layout_gravity="bottom|center"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
     </RelativeLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>

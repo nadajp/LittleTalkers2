@@ -7,7 +7,7 @@
         android:id="@+id/main_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        class="com.nadajp.littletalkers.MainFragment" />
+        class="com.nadajp.littletalkers.ui.MainFragment" />
 
 </FrameLayout>
 

@@ -1,6 +1,7 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
    <item android:id="@+id/action_manage_kids"
          android:orderInCategory="100"
-         android:showAsAction="never"
+         app:showAsAction="never"
          android:title="@string/title_activity_manage_kids"/> 
 </menu>

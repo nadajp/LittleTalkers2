@@ -1,8 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color"
-    tools:context="com.nadajp.littletalkers.KidProfileActivity"
-    tools:ignore="MergeRootFrame" />
+    android:orientation="vertical">
+
+    <include layout="@layout/actionbar" />
+
+    <FrameLayout
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="@dimen/breakpoint_width"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/keyline_1"
+        android:elevation="4dp"
+        android:background="@color/white"
+        tools:context=".ui.KidProfileActivity"
+        tools:ignore="MergeRootFrame" />
+</LinearLayout>

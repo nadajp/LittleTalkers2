@@ -21,26 +21,23 @@ android {
     }
 }
 
+
+
 dependencies {
 
-    compile ('com.android.support:support-v13:23.1.1')
-
-    compile 'com.google.android.gms:play-services-auth:8.4.0'
-    compile 'com.google.android.gms:play-services-gcm:8.4.0'
-    compile ('com.google.api-client:google-api-client:1.21.0'){
+    compile('com.google.api-client:google-api-client:1.21.0') {
         //exclude module: 'httpclient'
         //exclude module: 'xpp3'
         //exclude module: 'junit'
         //exclude module: 'android'
         //exclude group: 'org.apache.httpcomponents'
     }
-    compile 'com.android.support:design:23.1.1'
 
     //compile 'com.google.code.gson:gson:2.5'
     //compile 'com.fasterxml.jackson.core:jackson-core:2.6.3'
 
-     //compile ('com.google.http-client:google-http-client-jackson:1.21.0')
-     //compile ('com.google.http-client:google-http-client-jdo:1.21.0')
+    //compile ('com.google.http-client:google-http-client-jackson:1.21.0')
+    //compile ('com.google.http-client:google-http-client-jdo:1.21.0')
     /*compile ('com.google.http-client:google-http-client:1.21.0'){
         exclude module: 'httpclient'
         exclude module: 'httpcore'
@@ -53,4 +50,9 @@ dependencies {
     //compile 'com.google.oauth-client:google-oauth-client-jetty:1.21.0'
     //compile 'com.google.code.findbugs:jsr305:3.0.1'
     //compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v13:23.1.1'
+    compile 'com.google.android.gms:play-services-auth:8.4.0'
+    compile 'com.google.android.gms:play-services-gcm:8.4.0'
+    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:support-v4:23.1.1'
 }

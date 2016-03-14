@@ -3,10 +3,19 @@ package com.nadajp.littletalkers.utils;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Environment;
+import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract;
@@ -28,59 +37,60 @@ public class Utils {
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
     private static final String DEBUG_TAG = "Utils";
 
-    public static void setColor(android.support.v7.widget.Toolbar actionBar, int color, Context context){
+    public static void setColor(Toolbar toolbar, TabLayout tabLayout, AppCompatActivity activity, int color) {
         switch (color) {
             case COLOR_BLUE:
-                actionBar.setBackgroundColor(ContextCompat.getColor(context, R.color.blue));
+                toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue));
+                if (tabLayout != null) {
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(activity, R.color.blue));
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = activity.getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(ContextCompat.getColor(activity, R.color.dark_blue));
+                }
                 break;
             case COLOR_GREEN:
-                actionBar.setBackground(ContextCompat.getDrawable(context, R.drawable.ab_bottom_solid_littletalkersgreenstyle));
-                break;
-            case COLOR_RED:
-                actionBar.setBackground(ContextCompat.getDrawable(context, R.drawable.ab_bottom_solid_littletalkersredstyle));
+                toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.green));
+                if (tabLayout != null) {
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(activity, R.color.green));
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = activity.getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(ContextCompat.getColor(activity, R.color.dark_green));
+                }
                 break;
             case COLOR_ORANGE:
-                actionBar.setBackground(ContextCompat.getDrawable(context, R.drawable.ab_bottom_solid_littletalkersorangestyle));
+                toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.orange));
+                if (tabLayout != null) {
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(activity, R.color.orange));
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = activity.getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(ContextCompat.getColor(activity, R.color.dark_orange));
+                }
+                break;
+            case COLOR_RED:
+                toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.red));
+                if (tabLayout != null) {
+                    tabLayout.setBackgroundColor(ContextCompat.getColor(activity, R.color.red));
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Window window = activity.getWindow();
+                    window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                    window.setStatusBarColor(ContextCompat.getColor(activity, R.color.dark_red));
+                }
                 break;
         }
-
     }
 
-    public static void setColor(android.support.v7.app.ActionBar actionBar, int color, Context context) {
-        switch (color) {
-            case COLOR_BLUE:
-                //actionBar.setBackgroundColor(ContextCompat.getColor(context, R.color.blue));
-
-                actionBar.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                        R.drawable.ab_bottom_solid_littletalkersstyle));
-                actionBar.setStackedBackgroundDrawable(ContextCompat.getDrawable(context,
-                        R.drawable.ab_stacked_solid_littletalkersstyle));
-
-                break;
-            case COLOR_GREEN:
-
-                actionBar.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                        R.drawable.ab_bottom_solid_littletalkersgreenstyle));
-                actionBar.setStackedBackgroundDrawable(ContextCompat.getDrawable(context,
-                        R.drawable.ab_stacked_solid_littletalkersgreenstyle));
-                //actionBar.setBackground(ContextCompat.getDrawable(context, R.drawable.ab_bottom_solid_littletalkersgreenstyle));
-                break;
-            case COLOR_RED:
-                //actionBar.setBackground(ContextCompat.getDrawable(context, R.drawable.ab_bottom_solid_littletalkersredstyle));
-
-                actionBar.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                        R.drawable.ab_bottom_solid_littletalkersredstyle));
-                actionBar.setStackedBackgroundDrawable(ContextCompat.getDrawable(context,
-                        R.drawable.ab_stacked_solid_littletalkersredstyle));
-                break;
-            case COLOR_ORANGE:
-                actionBar.setBackgroundDrawable(ContextCompat.getDrawable(context,
-                        R.drawable.ab_bottom_solid_littletalkersorangestyle));
-                actionBar.setStackedBackgroundDrawable(ContextCompat.getDrawable(context,
-                        R.drawable.ab_stacked_solid_littletalkersorangestyle));
-                //actionBar.setBackground(ContextCompat.getDrawable(context, R.drawable.ab_bottom_solid_littletalkersorangestyle));
-                break;
-        }
+    public static void insertWhiteUpArrow(ActionBar actionBar, Context context) {
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        final Drawable upArrow = ContextCompat.getDrawable(context, R.drawable.abc_ic_ab_back_mtrl_am_alpha);
+        upArrow.setColorFilter(ContextCompat.getColor(context, R.color.white), PorterDuff.Mode.SRC_ATOP);
+        actionBar.setHomeAsUpIndicator(upArrow);
     }
 
     public static String getDateForDisplay(String rawdate, Context context) {

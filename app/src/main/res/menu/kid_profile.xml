@@ -1,16 +1,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.nadajp.littletalkers.KidProfileActivity" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:context=".ui.KidProfileActivity" >
 
     <item
         android:id="@+id/action_manage_kids"
         android:orderInCategory="100"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="@string/title_activity_manage_kids"/>
     <item
         android:id="@+id/action_export"
         android:orderInCategory="200"
-        android:showAsAction="never"
+        app:showAsAction="never"
         android:title="@string/export_data"/>
 
 </menu>

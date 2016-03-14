@@ -6,8 +6,20 @@
     <dimen name="heading_size_medium">18sp</dimen>
     <dimen name="heading_size_large">22sp</dimen>
 
+    <dimen name="keyline_1">16dp</dimen>
+    <dimen name="keyline_2">72dp</dimen>
+
+    <dimen name="breakpoint_width">@dimen/match_parent</dimen>
+    <item name="match_parent" format="integer" type="dimen">-1</item>
+
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">20dp</dimen>
+    <dimen name="item_width">200dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+
+    <dimen name="kid_spinner_width">150dp</dimen>
+
+    <dimen name="surface_elevation">4dp</dimen>
 
 </resources>

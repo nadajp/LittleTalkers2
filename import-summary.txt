@@ -1,0 +1,314 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .DS_Store
+* .gitignore
+* META-INF/
+* META-INF/MANIFEST.MF
+* TODO.txt
+* endpoint-libs/
+* endpoint-libs/libdeviceinfoendpoint-v1/
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/LICENSE.txt
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/classpath-include
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/css/
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/css/maven-base.css
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/css/maven-theme.css
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/css/print.css
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/css/site.css
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-api-client-android-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-api-client-appengine-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-api-client-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-api-client-gson-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-api-client-jackson2-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-api-client-java6-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-api-client-servlet-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-http-client-android-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-http-client-appengine-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-http-client-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-http-client-gson-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-http-client-jackson2-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-http-client-jdo-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-oauth-client-appengine-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-oauth-client-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-oauth-client-java6-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-oauth-client-jetty-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/google-oauth-client-servlet-dependencies.html
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/close.gif
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/collapsed.gif
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/expanded.gif
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/external.png
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/icon_error_sml.gif
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/icon_info_sml.gif
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/icon_success_sml.gif
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/icon_warning_sml.gif
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/logos/
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/logos/build-by-maven-black.png
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/logos/build-by-maven-white.png
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/logos/maven-feather.png
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/dependencies/images/newwindow.png
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/descriptor.json
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/google-api-client-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/google-api-client-android-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/google-http-client-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/google-http-client-android-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/google-http-client-gson-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/google-http-client-jackson2-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/google-http-client-jdo-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/google-oauth-client-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/gson-2.1-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs-sources/jackson-core-2.1.3-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-api-client-1.18.0-rc.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-api-client-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-api-client-android-1.18.0-rc.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-api-client-android-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-1.18.0-rc.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-android-1.18.0-rc.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-android-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-gson-1.18.0-rc.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-gson-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-jackson2-1.18.0-rc.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-jackson2-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-jdo-1.18.0-rc.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-http-client-jdo-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-oauth-client-1.18.0-rc.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/google-oauth-client-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/gson-2.1.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/gson-2.1.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/jackson-core-2.1.3.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/jackson-core-2.1.3.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/libs/jsr305-1.3.9.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/nadajp.com-deviceinfoendpoint-v1-20150527162512-java-1.18.0-rc-sources.jar
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/nadajp.com-deviceinfoendpoint-v1-20150527162512-java-1.18.0-rc.jar.properties
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/proguard-google-api-client.txt
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/readme.html
+* endpoint-libs/liblittletalkersapi-v1/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/LICENSE.txt
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/classpath-include
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/css/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/css/maven-base.css
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/css/maven-theme.css
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/css/print.css
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/css/site.css
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-api-client-android-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-api-client-appengine-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-api-client-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-api-client-gson-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-api-client-jackson2-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-api-client-java6-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-api-client-servlet-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-http-client-android-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-http-client-appengine-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-http-client-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-http-client-gson-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-http-client-jackson2-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-http-client-jdo-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-oauth-client-appengine-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-oauth-client-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-oauth-client-java6-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-oauth-client-jetty-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/google-oauth-client-servlet-dependencies.html
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/close.gif
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/collapsed.gif
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/expanded.gif
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/external.png
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/icon_error_sml.gif
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/icon_info_sml.gif
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/icon_success_sml.gif
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/icon_warning_sml.gif
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/logos/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/logos/build-by-maven-black.png
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/logos/build-by-maven-white.png
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/logos/maven-feather.png
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/dependencies/images/newwindow.png
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/descriptor.json
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/google-api-client-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/google-api-client-android-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/google-http-client-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/google-http-client-android-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/google-http-client-gson-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/google-http-client-jackson2-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/google-http-client-jdo-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/google-oauth-client-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/gson-2.1-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs-sources/jackson-core-2.1.3-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-api-client-1.18.0-rc.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-api-client-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-api-client-android-1.18.0-rc.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-api-client-android-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-1.18.0-rc.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-android-1.18.0-rc.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-android-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-gson-1.18.0-rc.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-gson-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-jackson2-1.18.0-rc.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-jackson2-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-jdo-1.18.0-rc.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-http-client-jdo-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-oauth-client-1.18.0-rc.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/google-oauth-client-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/gson-2.1.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/gson-2.1.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/jackson-core-2.1.3.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/jackson-core-2.1.3.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/libs/jsr305-1.3.9.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/nadajp.com-littletalkersapi-v1-20150527162517-java-1.18.0-rc-sources.jar
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/nadajp.com-littletalkersapi-v1-20150527162517-java-1.18.0-rc.jar.properties
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/proguard-google-api-client.txt
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/readme.html
+* ic_launcher-web.png
+* images/
+* images/.DS_Store
+* images/256px-Speech_bubble.png
+* images/Logo/
+* images/Logo/.DS_Store
+* images/Logo/add_profile.png
+* images/Logo/green_launcher.ai
+* images/Logo/green_launcher2.png
+* images/Logo/greenlauncher.png
+* images/Logo/help2.png
+* images/Logo/launcher.ai
+* images/Logo/launcher.png
+* images/Logo/launcher512.png
+* images/Logo/launcher512_border.png
+* images/Logo/launcher_114.png
+* images/Logo/launcher_512_border.png
+* images/Logo/launcher_border.png
+* images/Logo/logo.png
+* images/Logo/profile.png
+* images/Logo/profile.psd
+* images/Logo/profile180.png
+* images/Logo/submit_blue_launcher.ai
+* images/Logo/submit_green_launcher.ai
+* images/android-trash.png
+* images/edit.png
+* images/feature.png
+* images/feature.psd
+* images/hdpi/
+* images/hdpi/ic_launcher.png
+* images/hdpi/ic_logo.png
+* images/ic_contact_picture_03.png
+* images/logo.png
+* images/logo_no_bubble.png
+* images/mdpi/
+* images/mdpi/ic_launcher.png
+* images/mdpi/ic_logo.png
+* images/play.png
+* images/promo.png
+* images/promo.psd
+* images/xhdpi/
+* images/xhdpi/.DS_Store
+* images/xhdpi/ic_launcher.png
+* images/xhdpi/logo.png
+* images/xxhdpi/
+* images/xxhdpi/.DS_Store
+* images/xxhdpi/ic_launcher.png
+* images/xxhdpi/ic_logo.png
+* images/xxhdpi/welcome_1050x1050.psd
+* images/xxxhdpi/
+* images/xxxhdpi/welcome.png
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+google-http-client-gson-1.18.0-rc.jar => com.google.http-client:google-http-client-gson:1.19.0
+gson-2.1.jar => com.google.code.gson:gson:2.1
+
+Potentially Missing Dependency:
+-------------------------------
+When we replaced the following .jar files with a Gradle dependency, we
+inferred the dependency version number from the filename. This
+specific version may not actually be available from the repository.
+If you get a build error stating that the dependency is missing, edit
+the version number to for example "+" to pick up the latest version
+instead. (This may require you to update your code if the library APIs
+have changed.)
+
+gson-2.1.jar => version 2.1 in com.google.code.gson:gson:2.1
+
+Replaced Libraries with Dependencies:
+-------------------------------------
+The importer recognized the following library projects as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the source files in your project were of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the library replacement in the import wizard and try
+again:
+
+google-play-services_lib => [com.google.android.gms:play-services:+]
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app/src/main/AndroidManifest.xml
+* endpoint-libs/libdeviceinfoendpoint-v1/deviceinfoendpoint/deviceinfoendpoint-v1-generated-source/ => app/src/main/java/
+* endpoint-libs/liblittletalkersapi-v1/littletalkersapi/littletalkersapi-v1-generated-source/ => app/src/main/java/
+* libs/android-support-v13.jar => app/libs/android-support-v13.jar
+* libs/google-api-client-1.18.0-rc.jar => app/libs/google-api-client-1.18.0-rc.jar
+* libs/google-api-client-android-1.18.0-rc.jar => app/libs/google-api-client-android-1.18.0-rc.jar
+* libs/google-http-client-1.18.0-rc.jar => app/libs/google-http-client-1.18.0-rc.jar
+* libs/google-http-client-android-1.18.0-rc.jar => app/libs/google-http-client-android-1.18.0-rc.jar
+* libs/google-http-client-jackson2-1.18.0-rc.jar => app/libs/google-http-client-jackson2-1.18.0-rc.jar
+* libs/google-http-client-jdo-1.18.0-rc.jar => app/libs/google-http-client-jdo-1.18.0-rc.jar
+* libs/google-oauth-client-1.18.0-rc.jar => app/libs/google-oauth-client-1.18.0-rc.jar
+* libs/jackson-core-2.1.3.jar => app/libs/jackson-core-2.1.3.jar
+* libs/jsr305-1.3.9.jar => app/libs/jsr305-1.3.9.jar
+* proguard-google-api-client.txt => app/proguard-google-api-client.txt
+* proguard-project.txt => app/proguard-project.txt
+* res/ => app/src/main/res/
+* src/ => app/src/main/java/
+* src/com/android/vending/billing/IInAppBillingService.aidl => app/src/main/aidl/com/android/vending/billing/IInAppBillingService.aidl
+* Test/res/ => app/src/androidTest/res/
+* Test/src/ => app/src/androidTest/java/
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

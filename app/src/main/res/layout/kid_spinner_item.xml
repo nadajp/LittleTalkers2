@@ -1,6 +1,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="150dp"
+    android:layout_width="@dimen/kid_spinner_width"
     android:layout_height="match_parent">
 
     <TextView
@@ -22,5 +22,6 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_centerVertical="true"
-        android:src="@drawable/ic_down_arrow_white"/>
+        android:src="@drawable/ic_down_arrow_white"
+        android:contentDescription="@string/dropdown_arrow"/>
 </RelativeLayout>

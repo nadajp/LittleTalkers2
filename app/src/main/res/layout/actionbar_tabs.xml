@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        style="@style/MyActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorPrimary"
+        app:elevation="4dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="?colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:contentInsetStart="@dimen/keyline_2">
+
+            <com.nadajp.littletalkers.ui.CircularImageView
+                android:id="@+id/action_profile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/keyline_1"
+                android:layout_marginStart="@dimen/keyline_1"
+                android:layout_gravity="center_vertical"
+                android:clickable="true"
+                android:contentDescription="@string/profile"
+                android:onClick="clickProfile"
+                app:border="true"
+                app:border_color="@android:color/white"
+                app:border_width="2dp"
+                app:shadow="true" />
+
+            <Spinner
+                android:id="@+id/action_main_spinner"
+                style="@style/KidSpinnerStyle"
+                android:layout_width="150dp"
+                android:layout_height="match_parent" />
+        </android.support.v7.widget.Toolbar>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/MyTabLayoutStyle"
+            app:tabGravity="fill"
+            app:tabMode="fixed"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</LinearLayout>

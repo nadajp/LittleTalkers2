@@ -1,20 +1,23 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Application theme. -->
-    <color name="background_color">@color/background_gray</color>
+    <color name="background_color">@color/gray_300</color>
 
     <style name="LittleTalkersTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/dark_blue</item>
-        <item name="colorAccent">@color/red</item>
+        <item name="colorAccent">@color/green</item>
         <item name="android:actionBarItemBackground">@drawable/ab_item_background</item>
         <item name="android:selectableItemBackground">@drawable/ab_item_background</item>
         <item name="android:spinnerStyle">@style/MySpinners</item>
         <item name="android:textColor">@color/gray</item>
-        <item name="android:textColorHint">@color/hint_gray</item>
+        <item name="android:textColorHint">@color/light_gray</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowStyle</item>
+        <item name="android:windowBackground">@color/background_color</item>
     </style>
+
+    <style name="BasicTheme" parent="Theme.AppCompat"></style>
 
    <style name="OverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
       <item name="android:src">@drawable/ic_menu_overflow</item>
@@ -46,6 +49,7 @@
         <item name="android:backgroundStacked">@color/blue</item>
         <item name="android:titleTextStyle">@style/LittleTalkers.ActionBar.TitleTextStyle</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
         <!-- <item name="android:icon">@android:color/transparent</item>   -->
     </style>
 
@@ -58,12 +62,13 @@
 
     <style name="MyTabTextAppearance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
-        <item name="android:textColor">@color/background_gray</item>
+        <item name="android:textColor">@color/lighter_gray</item>
         <item name="textAllCaps">true</item>
     </style>
 
    <style name="LittleTalkers.ActionBar.TitleTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
       <item name="android:textColor">@color/white</item>
+       <item name="android:textStyle">normal</item>
    </style>
 
    <style name="HeadingStyle">

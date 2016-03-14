@@ -4,29 +4,40 @@
     android:id="@+id/list_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:drawSelectorOnTop="true" >
+    android:drawSelectorOnTop="true"
+    android:background="@color/light_gray"
+    android:layout_marginLeft="@dimen/keyline_1"
+    android:layout_marginStart="@dimen/keyline_1"
+    android:layout_marginRight="@dimen/keyline_1"
+    android:layout_marginEnd="@dimen/keyline_1">
 
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin = "15dp"
+        android:layout_margin = "@dimen/keyline_1"
         android:background="@color/white"
-        android:divider="@color/background_gray"
+        android:divider="@color/gray_300"
+        android:elevation="@dimen/surface_elevation"
         android:dividerHeight="1dp"
-        android:scrollbarAlwaysDrawVerticalTrack="false" />
-    
-    <ImageButton
-            android:id="@+id/button_add_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom" 
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/button_blue_plus"
-            android:layout_alignParentBottom="true"
-            android:elevation="4dp"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:onClick="addNewWord"/>
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:nestedScrollingEnabled="true"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_add_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/fab_plus"
+        android:background="@drawable/oval_shape"
+        app:backgroundTint="@color/blue"
+        app:fabSize="normal"
+        app:elevation="@dimen/fab_elevation"
+        app:pressedTranslationZ="12dp"
+        app:borderWidth="0dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:onClick="addNewWord"/>
 
     <RelativeLayout
         android:id="@android:id/empty"
