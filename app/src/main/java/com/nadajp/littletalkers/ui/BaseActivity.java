@@ -1,6 +1,9 @@
 package com.nadajp.littletalkers.ui;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -35,13 +38,16 @@ import java.nio.channels.FileChannel;
  * This class is the base for add/view item and dictionary activities
  * It handles the action bar, including kids dropdown and common menu items
  */
-public abstract class BaseActivity extends AppCompatActivity implements OnItemSelectedListener {
+public abstract class BaseActivity extends AppCompatActivity implements OnItemSelectedListener,
+        LoaderManager.LoaderCallbacks<Cursor>  {
 
     static final String[] KID_DETAILS_PROJECTION = new String[]{
             Kids._ID,
             Kids.COLUMN_NAME_NAME,
     };
+
     private static final String DEBUG_TAG = "BaseActivity";
+    private static final int KIDS_LOADER = 1;
     protected SimpleCursorAdapter mCursorAdapter = null;
     protected int mCurrentKidId;
     protected String mCurrentKidName;
@@ -82,47 +88,25 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
             mPosition = -1;
         }
         mKid = getKidDetails();
-        setupSpinner();
         Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
+
+        // set up empty adapter
+        String[] adapterCols = new String[]{"name"};
+        int[] adapterRowViews = new int[]{android.R.id.text1};
+
+        mCursorAdapter = new SimpleCursorAdapter(this, R.layout.kid_spinner_item,
+                null, adapterCols, adapterRowViews, 0);
+        mCursorAdapter
+                .setDropDownViewResource(R.layout.kid_spinner_dropdown_item);
+        mSpinner.setAdapter(mCursorAdapter);
+        mSpinner.setOnItemSelectedListener(this);
+        getLoaderManager().initLoader(KIDS_LOADER, null, this);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.base, menu);
         return super.onCreateOptionsMenu(menu);
-    }
-
-    protected void setupSpinner() {
-        Cursor cursor = getContentResolver().query(
-                Kids.CONTENT_URI, KID_DETAILS_PROJECTION, null, null, null);
-        if (cursor.getCount() == 0) {
-            return;
-        }
-
-        String[] adapterCols = new String[]{"name"};
-        int[] adapterRowViews = new int[]{android.R.id.text1};
-
-        mCursorAdapter = new SimpleCursorAdapter(this, R.layout.kid_spinner_item,
-                cursor, adapterCols, adapterRowViews, 0);
-        mCursorAdapter
-                .setDropDownViewResource(R.layout.kid_spinner_dropdown_item);
-        mSpinner.setAdapter(mCursorAdapter);
-        mSpinner.setOnItemSelectedListener(this);
-
-        changeProfilePic();
-
-        if (mPosition >= 0 && mPosition < cursor.getCount()) {
-            //Log.i(DEBUG_TAG, "Setting position: " + mPosition);
-            mSpinner.setSelection(mPosition);
-        } else {
-            for (int i = 0; i < mCursorAdapter.getCount(); i++) {
-                if (mCursorAdapter.getItemId(i) == mCurrentKidId) {
-                    mSpinner.setSelection(i);
-                    return;
-                }
-            }
-            mSpinner.setSelection(0);
-        }
     }
 
     private void changeProfilePic() {
@@ -254,6 +238,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         mPosition = savedInstanceState.getInt(Prefs.POSITION);
         mCurrentKidId = savedInstanceState.getInt(Prefs.CURRENT_KID_ID);
+        mKid = getKidDetails();
         mType = savedInstanceState.getInt(Prefs.TYPE);
         //Log.i(DEBUG_TAG, "Restoring Type: " + mType);
     }
@@ -280,7 +265,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
 
     @Override
     protected void onResume() {
-        mCurrentKidId = Prefs.getKidId(this, -1);
+        //mCurrentKidId = Prefs.getKidId(this, -1);
         invalidateOptionsMenu();
         super.onResume();
     }
@@ -289,6 +274,40 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
     public void onDestroy() {
         super.onDestroy();
         //exportDB();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        // This is called when a new Loader needs to be created.  This
+        // fragment only uses one loader, so we don't care about checking the id.
+        CursorLoader loader = new CursorLoader(this, Kids.CONTENT_URI, KID_DETAILS_PROJECTION,
+                null, null, null);
+
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mCursorAdapter.swapCursor(data);
+        changeProfilePic();
+
+        if (mPosition >= 0 && mPosition < data.getCount()) {
+            //Log.i(DEBUG_TAG, "Setting position: " + mPosition);
+            mSpinner.setSelection(mPosition);
+        } else {
+            for (int i = 0; i < mCursorAdapter.getCount(); i++) {
+                if (mCursorAdapter.getItemId(i) == mCurrentKidId) {
+                    mSpinner.setSelection(i);
+                    return;
+                }
+            }
+            mSpinner.setSelection(0);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mCursorAdapter.swapCursor(null);
     }
 
     public void exportDB() {

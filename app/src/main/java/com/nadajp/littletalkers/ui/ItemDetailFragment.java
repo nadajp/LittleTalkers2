@@ -249,9 +249,17 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
     }
 
     protected void insertData(View v) {
+        if (getArguments().containsKey(getString(R.string.kid_details))) {
+            Kid kid = getArguments().getParcelable(getString(R.string.kid_details));
+            if (kid != null) {
+                mKidName = kid.getName();
+            }
+        }
+        else if (mItemId > 0) {
+            mKidName = getArguments().getString(Prefs.KID_NAME);
+        }
         if (mItemId > 0) {  // viewing existing item,
             // insert all item data
-            mKidName = getArguments().getString(Prefs.KID_NAME);
             updateItem(v);
             setAudio(v);
             ActionBar actionBar = getActivity().getActionBar();

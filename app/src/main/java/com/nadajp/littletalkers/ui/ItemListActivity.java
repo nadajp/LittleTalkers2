@@ -16,7 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.nadajp.littletalkers.R;
-import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public class ItemListActivity extends BaseActivity implements
@@ -29,6 +28,7 @@ public class ItemListActivity extends BaseActivity implements
     Toolbar mToolbar;
     TabLayout mTabLayout;
     private boolean mTwoPane;
+    private long mCurrentItemId;
 
     //private Spinner mLanguageSpinner;
     //private boolean mbFilter;
@@ -50,6 +50,8 @@ public class ItemListActivity extends BaseActivity implements
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        mCurrentItemId = 0;
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
@@ -83,6 +85,7 @@ public class ItemListActivity extends BaseActivity implements
                         break;
                 }
                 if (mTwoPane && mType != tab.getPosition()) {
+                    mCurrentItemId = 0;
                     insertDetailView(tab.getPosition());
                 }
 
@@ -110,6 +113,7 @@ public class ItemListActivity extends BaseActivity implements
 
         if (savedInstanceState != null) {
             mType = savedInstanceState.getInt(Prefs.TYPE);
+            mCurrentItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
             invalidateOptionsMenu();
         }
 
@@ -124,9 +128,11 @@ public class ItemListActivity extends BaseActivity implements
     private void insertDetailView(int type) {
         Fragment fragment = ItemDetailFragment.newInstance(type);
         Bundle args = new Bundle();
-        Kid kid = super.getKidDefaults();
-        args.putParcelable(getString(R.string.kid_details), kid);
-        args.putLong(ItemDetailFragment.ITEM_ID, 0);
+        //Kid kid = super.getKidDefaults();
+        Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
+        Log.i(DEBUG_TAG, "Kid: " + mKid.getName());
+        args.putParcelable(getString(R.string.kid_details), mKid);
+        args.putLong(ItemDetailFragment.ITEM_ID, mCurrentItemId);
         fragment.setArguments(args);
         getFragmentManager().beginTransaction()
                 .replace(R.id.item_detail_container, fragment)
@@ -184,10 +190,12 @@ public class ItemListActivity extends BaseActivity implements
         for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++) {
             ItemListFragment f = (ItemListFragment) mSectionsPagerAdapter.registeredFragments.get(i);
             if (f != null) {
+                mKid = getKidDetails();
                 f.updateData(mKid);
             }
         }
         if (mTwoPane) {
+            mCurrentItemId = 0;
             insertDetailView(mType);
         }
     }
@@ -211,14 +219,8 @@ public class ItemListActivity extends BaseActivity implements
     public void addNewWord(View view) {
         if (mTwoPane) {
             Log.i(DEBUG_TAG, "Two panes, replacing fragment");
-            Fragment fragment = ItemDetailFragment.newInstance(mType);
-            Bundle args = new Bundle();
-            args.putParcelable(getString(R.string.kid_details), mKid);
-            args.putLong(ItemDetailFragment.ITEM_ID, 0);
-            fragment.setArguments(args);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
-                    .commit();
+            mCurrentItemId = 0;
+            insertDetailView(mType);
         } else {
             Intent intent = new Intent(this, AddItemActivity.class);
             mType = Prefs.getType(this, Prefs.TYPE_WORD);
@@ -232,20 +234,15 @@ public class ItemListActivity extends BaseActivity implements
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(Prefs.TYPE, mType);
+        outState.putLong(Prefs.ITEM_ID, mCurrentItemId);
+        mKid = getKidDetails();
     }
 
     @Override
     public void onListItemSelected(long id) {
         if (mTwoPane) {
-            Log.i(DEBUG_TAG, "Two panes, replacing fragment");
-            Fragment fragment = ItemDetailFragment.newInstance(mType);
-            Bundle args = new Bundle();
-            args.putString(Prefs.KID_NAME, mKid.getName());
-            args.putLong(ItemDetailFragment.ITEM_ID, id);
-            fragment.setArguments(args);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.item_detail_container, fragment)
-                    .commit();
+            mCurrentItemId = id;
+            insertDetailView(mType);
         } else {
             Log.i(DEBUG_TAG, "One pane, starting ViewItemActivity class");
             Intent intent = new Intent(this, ViewItemActivity.class);
