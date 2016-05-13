@@ -21,6 +21,8 @@
     <dimen name="kid_spinner_width">150dp</dimen>
     <dimen name="kid_spinner_top_margin">12dp</dimen>
 
+    <dimen name="title_text_size">16sp</dimen>
+
     <dimen name="surface_elevation">4dp</dimen>
 
 </resources>

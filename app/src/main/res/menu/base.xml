@@ -6,8 +6,7 @@
         android:orderInCategory="1"
         android:actionViewClass="android.widget.ImageView"
         app:showAsAction="never"
-        android:title="@string/profile"/>  
-
+        android:title="@string/profile"/>
     <item
         android:id="@+id/action_manage_kids"
         android:orderInCategory="100"

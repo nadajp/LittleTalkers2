@@ -16,8 +16,8 @@
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
-        app:titleTextColor="@color/white"
         app:subtitleTextColor="@color/white"
+        app:titleTextAppearance="@style/LittleTalkers.ActionBar.TitleTextStyle"
         app:layout_scrollFlags="scroll|enterAlways"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"

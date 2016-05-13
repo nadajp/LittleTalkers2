@@ -1,6 +1,5 @@
 package com.nadajp.littletalkers.ui;
 
-import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -262,10 +261,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
             // insert all item data
             updateItem(v);
             setAudio(v);
-            ActionBar actionBar = getActivity().getActionBar();
-            if (actionBar != null) {
-                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
-            }
         } else {  // adding new item
             // get Kid name and defaults to display
             Kid kid = this.getArguments().getParcelable(getString(R.string.kid_details));
@@ -286,7 +281,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
     }
 
     @Override
@@ -702,9 +696,11 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         if (mRecordingLayout.getVisibility() == View.VISIBLE) {
             outState.putString(Prefs.AUDIO_FILE, mCurrentAudioFile);
             //Log.i(DEBUG_TAG, "AUDIO RECORDED.");
-        } else if (mEditLess.getVisibility() == View.VISIBLE) {
+        }
+        if (mEditLess.getVisibility() == View.VISIBLE) {
             outState.putBoolean(Prefs.SHOWING_MORE_FIELDS, true);
         }
+        outState.putLong(Prefs.ITEM_ID, mItemId);
     }
 
     @Override

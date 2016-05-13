@@ -66,7 +66,6 @@ public class AddItemActivity extends BaseActivity implements ItemDetailFragment.
 
         TabLayout.Tab tab = mTabLayout.getTabAt(mType);
         tab.select();
-
     }
 
     @Override

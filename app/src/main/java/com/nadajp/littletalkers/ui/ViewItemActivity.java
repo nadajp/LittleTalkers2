@@ -25,7 +25,7 @@ public class ViewItemActivity extends AppCompatActivity implements OnAddNewPhras
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Utils.insertWhiteUpArrow(getSupportActionBar(), this);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         if (savedInstanceState != null) {
@@ -33,7 +33,6 @@ public class ViewItemActivity extends AppCompatActivity implements OnAddNewPhras
             mKidName = savedInstanceState.getString(Prefs.KID_NAME);
         } else {
             mType = getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
-
             mKidName = getIntent().getStringExtra(Prefs.KID_NAME);
             Log.i(DEBUG_TAG, "Kid name being passed to ItemDetailFragment: " + mKidName);
             // Create the detail fragment and add it to the activity
@@ -48,13 +47,11 @@ public class ViewItemActivity extends AppCompatActivity implements OnAddNewPhras
             } else {
                 mFragment = new QADetailFragment();
             }
-            Utils.setColor(toolbar, null, this, mType);
-
             mFragment.setArguments(arguments);
             getFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, mFragment).commit();
         }
-
+        Utils.setColor(toolbar, null, this, mType);
     }
 
 
