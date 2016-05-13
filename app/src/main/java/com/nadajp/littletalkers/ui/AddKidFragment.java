@@ -22,6 +22,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -253,14 +254,12 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       String name, location;
 
       // Name and Birthday are required, do validation
-      if (mEditName.length() == 0)
-      {
+      if (mEditName.length() == 0) {
          mEditName.setError(getString(R.string.name_required_error));
          return;
       }
 
-      if (mEdiBirthDate.length() == 0)
-      {
+      if (mEdiBirthDate.length() == 0) {
          mEdiBirthDate.requestFocus();
          mEdiBirthDate.setError(getString(R.string.birthdate_required_error));
          return;
@@ -269,27 +268,23 @@ public class AddKidFragment extends Fragment implements OnClickListener,
       name = mEditName.getText().toString();
       location = mEditLocation.getText().toString();
 
-      if (this.mTempBitmapSaved)
-      {
+      if (this.mTempBitmapSaved) {
          renameFile();
       }
 
       // Adding new kid
       if (mKidId < 0)
       {
-         mKidId = insertKid(name, location);
-         //Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
+          mKidId = insertKid(name, location);
+          //Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
       }
 
       // Updating a current kid
-      else
-      {
-         if (updateKid(name, location))
-         {
+      else {
+          if (!updateKid(name, location)) {
             // TODO error message (duplicate kid name)
             return;
-         } else
-         {
+         } else {
             // Kid was updated
             String msg = name + " " + getString(R.string.kid_updated);
             Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
@@ -348,7 +343,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
     private boolean updateKid(String name, String location)
     {
-        // check if another kid with this name already exists
+        // check if another kid with this name but different ID already exists
         ContentResolver resolver = this.getActivity().getContentResolver();
         // check if name already exists
         String idArg = Integer.valueOf(mKidId).toString();
@@ -358,13 +353,12 @@ public class AddKidFragment extends Fragment implements OnClickListener,
                         Kids.COLUMN_NAME_NAME + " = ? AND " + Kids._ID + " != ? ",
                         new String[] { name, idArg },
                         null);
-        if (cursor.getCount() > 0)
-        {
+        if (cursor.getCount() > 0) {
+            Log.i(DEBUG_TAG, "Kid with same name but different ID already exists");
             cursor.close();
             return false;
         }
 
-        // otherwise, update all values
         ContentValues values = new ContentValues();
         values.put(Kids.COLUMN_NAME_NAME, name);
         values.put(Kids.COLUMN_NAME_DEFAULT_LANGUAGE, mLanguage);

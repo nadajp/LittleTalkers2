@@ -19,6 +19,7 @@
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="kid_spinner_width">150dp</dimen>
+    <dimen name="kid_spinner_top_margin">12dp</dimen>
 
     <dimen name="surface_elevation">4dp</dimen>
 

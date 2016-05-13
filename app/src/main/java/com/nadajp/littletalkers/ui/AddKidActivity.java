@@ -97,7 +97,8 @@ public class AddKidActivity extends AppCompatActivity implements
    }
    
    public void onKidUpdated(int kidId) {
-      Intent intent = new Intent(this, ManageKidsActivity.class);
-      startActivity(intent);
+       Intent intent = new Intent(this, ManageKidsActivity.class);
+       startActivity(intent);
+       finish();
    }
 }

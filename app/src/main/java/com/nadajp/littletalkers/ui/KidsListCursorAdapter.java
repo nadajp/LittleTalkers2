@@ -1,6 +1,7 @@
 package com.nadajp.littletalkers.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.contentprovider.PhraseSelection;
 import com.nadajp.littletalkers.database.DbContract;
+import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 public class KidsListCursorAdapter extends CursorAdapter {
@@ -80,11 +82,10 @@ public class KidsListCursorAdapter extends CursorAdapter {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*Intent intent = new Intent(mContext, AddKidActivity.class);
+                    Intent intent = new Intent(mContext, AddKidActivity.class);
                     int id = (Integer) v.getTag();
                     intent.putExtra(Prefs.CURRENT_KID_ID, id);
-                    mContext.startActivity(intent);*/
-                    int id = (Integer) v.getTag();
+                    mContext.startActivity(intent);
                 }
             });
         }
@@ -98,6 +99,5 @@ public class KidsListCursorAdapter extends CursorAdapter {
                 mFragment.deleteItem((Integer) v.getTag());
             }
         });
-
     }
 }

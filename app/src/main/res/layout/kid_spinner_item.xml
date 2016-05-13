@@ -9,7 +9,7 @@
         android:layout_height="?android:attr/listPreferredItemHeight"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/kid_spinner_top_margin"
         android:textSize="18sp"
         android:textColor="@color/white"/>
     

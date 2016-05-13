@@ -7,6 +7,8 @@
     <dimen name="keyline_1">24dp</dimen>
     <dimen name="keyline_2">80dp</dimen>
     <dimen name="kid_spinner_width">250dp</dimen>
+    <dimen name="kid_spinner_top_margin">20dp</dimen>
+
 
     <dimen name="breakpoint_width">500dp</dimen>
 

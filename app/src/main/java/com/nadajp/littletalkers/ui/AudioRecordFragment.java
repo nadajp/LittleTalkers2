@@ -162,7 +162,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
    {
       mImgMic.clearAnimation();
       Intent intent = new Intent();
-      
+
       try
       {
          mRecorder.stop();
@@ -171,6 +171,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
          //Log.w(getClass().getSimpleName(), "Exception in stopping recorder", e);
          this.getActivity().setResult(Activity.RESULT_CANCELED, intent);
          this.getActivity().finish();
+
          // can fail if start() failed for some reason
       }
       mRecorder.reset();
