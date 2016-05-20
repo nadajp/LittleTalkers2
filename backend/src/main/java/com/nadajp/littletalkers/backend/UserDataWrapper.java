@@ -16,7 +16,7 @@
  * Modify at your own risk.
  */
 
-package com.nadajp.littletalkers.server.littletalkersapi.model;
+package com.nadajp.littletalkers.backend;
 
 /**
  * Model definition for UserDataWrapper.
@@ -41,7 +41,7 @@ public final class UserDataWrapper extends com.google.api.client.json.GenericJso
    * The value may be {@code null}.
    */
   @com.google.api.client.util.Key
-  private java.util.List<Word> words;
+  private java.util.List<com.nadajp.littletalkers.backend.Word> words;
 
   /**
    * @return value or {@code null} for none
@@ -61,22 +61,18 @@ public final class UserDataWrapper extends com.google.api.client.json.GenericJso
   /**
    * @return value or {@code null} for none
    */
-  public java.util.List<Word> getWords() {
+  public java.util.List<com.nadajp.littletalkers.backend.Word> getWords() {
     return words;
   }
 
   /**
    * @param words words or {@code null} for none
    */
-  public UserDataWrapper setWords(java.util.List<Word> words) {
+  public UserDataWrapper setWords(java.util.List<com.nadajp.littletalkers.backend.Word> words) {
     this.words = words;
     return this;
   }
 
-  @Override
-  public UserDataWrapper set(String fieldName, Object value) {
-    return (UserDataWrapper) super.set(fieldName, value);
-  }
 
   @Override
   public UserDataWrapper clone() {

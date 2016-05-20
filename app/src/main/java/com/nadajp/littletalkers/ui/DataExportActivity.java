@@ -218,9 +218,7 @@ public class DataExportActivity extends AppCompatActivity {
         Calendar date = Calendar.getInstance();
 
         String baseFilename = "LT_backup_" + date.getTime().toString() + ".csv";
-
         String subdirectory = getString(R.string.app_name);
-
         File newfile = new File(Utils.getPublicDirectory(subdirectory, this), baseFilename);
 
         if (newfile.exists()) {

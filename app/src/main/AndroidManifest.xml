@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.nadajp.littletalkers"
     android:versionCode="6"
-    android:versionName="1.5">
+    android:versionName="1.5" >
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -26,14 +26,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:logo="@drawable/ic_logo"
-        android:theme="@style/LittleTalkersTheme">
+        android:theme="@style/LittleTalkersTheme" >
         <provider
             android:name=".contentprovider.LTContentProvider"
             android:authorities="com.nadajp.littletalkers.provider"
-            android:exported="false"
+            android:exported="true"
             android:syncable="true" />
 
-        <service android:name=".backup.AuthenticatorService">
+        <!-- SyncAdapter's dummy authentication service -->
+        <service android:name=".sync.AuthenticatorService" >
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -43,8 +44,8 @@
                 android:resource="@xml/authenticator" />
         </service>
         <service
-            android:name=".backup.SyncService"
-            android:exported="true">
+            android:name=".sync.SyncService"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.content.SyncAdapter" />
             </intent-filter>
@@ -57,7 +58,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/app_name"
-            android:noHistory="true">
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -73,13 +74,11 @@
         <activity
             android:name=".ui.AddKidActivity"
             android:parentActivityName=".ui.ManageKidsActivity" />
-        <activity android:name=".ui.BaseActivity" />
         <activity android:name=".ui.ItemListActivity" />
         <activity
             android:name=".ui.ManageKidsActivity"
             android:label="@string/title_activity_manage_kids"
             android:parentActivityName=".ui.MainActivity" />
-        <activity android:name=".ui.ManageKidsFragment" />
         <activity
             android:name=".ui.DataExportActivity"
             android:label="@string/title_activity_data_export"
@@ -90,28 +89,15 @@
             android:parentActivityName=".ui.MainActivity" />
         <activity
             android:name=".ui.AudioRecordActivity"
-            android:label="@string/title_activity_audio_record"
-            android:theme="@style/BasicTheme"/>
+            android:label="@string/title_activity_audio_record" />
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".ui.MainActivity" />
         <activity
-            android:name=".backup.UpgradeActivity"
-            android:label="@string/title_activity_upgrade"
-            android:parentActivityName=".ui.SettingsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.SettingsActivity" />
-        </activity>
-        <activity
-            android:name=".backup.SyncNowActivity"
-            android:label="@string/title_activity_sync_now"
-            android:parentActivityName=".ui.SettingsActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.SettingsActivity" />
-        </activity>
+            android:name=".sync.SetupSyncActivity"
+            android:label="@string/title_activity_sync"
+            android:parentActivityName=".ui.MainActivity" />
     </application>
 
 </manifest>

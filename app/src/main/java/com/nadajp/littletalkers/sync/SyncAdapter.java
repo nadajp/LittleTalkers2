@@ -1,4 +1,4 @@
-package com.nadajp.littletalkers.backup;
+package com.nadajp.littletalkers.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
@@ -12,13 +12,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.api.client.extensions.android.http.AndroidHttp;
+import com.google.api.client.extensions.android.json.AndroidJsonFactory;
+import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
+import com.nadajp.littlealkers.backend.littleTalkersApi.LittleTalkersApi;
+import com.nadajp.littlealkers.backend.littleTalkersApi.model.UserDataWrapper;
+import com.nadajp.littlealkers.backend.littleTalkersApi.model.UserProfile;
+import com.nadajp.littletalkers.AppConstants;
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbContract.Kids;
+import com.nadajp.littletalkers.utils.Prefs;
 
-//import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-//import com.nadajp.littletalkers.kidendpoint.Kidendpoint;
-//import com.nadajp.littletalkers.kidendpoint.model.Kid;
+import java.io.IOException;
 
 /**
  * Handle the transfer of data between a server and an app, using the Android
@@ -28,8 +34,18 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     // Interval at which to sync with the weather, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
-    public static final int SYNC_INTERVAL = 60; // * 180;
+    // 60 seconds (1 minute) * 60 (1 hr) * 24 = 1 day
+    public static final int SYNC_INTERVAL = 60 * 2;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
+
+    // The authority for the sync adapter's content provider
+    public static final String AUTHORITY = "com.nadajp.littletalkers.provider";
+
+    // Paths for the content provider tables
+    public static final String KIDS_TABLE_PATH = DbContract.Kids.TABLE_NAME;
+    public static final String WORDS_TABLE_PATH = DbContract.Words.TABLE_NAME;
+    public static final String QUESTIONS_TABLE_PATH = DbContract.Questions.TABLE_NAME;
+
     // Constants representing column positions from KID.
     public static final int KIDS_COLUMN_ID = 0;
     public static final int KIDS_COLUMN_NAME = 1;
@@ -53,9 +69,8 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Kids.COLUMN_NAME_DEFAULT_LOCATION,
             Kids.COLUMN_NAME_DEFAULT_LANGUAGE,
             Kids.COLUMN_NAME_PICTURE_URI};
+
     private static final String DEBUG_TAG = "SyncAdapter";
-    // Global variables
-    //private GoogleAccountCredential mCredential;
     public String mAccountName;
     // Define a variable to contain a content resolver instance
     ContentResolver mContentResolver;
@@ -93,17 +108,16 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      */
     public static void configurePeriodicSync(Context context, int syncInterval, int flexTime) {
         Account account = getSyncAccount(context);
-        String authority = DbContract.AUTHORITY;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             // we can enable inexact timers in our periodic sync
             SyncRequest request = new SyncRequest.Builder().
                     syncPeriodic(syncInterval, flexTime).
-                    setSyncAdapter(account, authority).
+                    setSyncAdapter(account, AUTHORITY).
                     setExtras(new Bundle()).build();
             ContentResolver.requestSync(request);
         } else {
             ContentResolver.addPeriodicSync(account,
-                    authority, new Bundle(), syncInterval);
+                    AUTHORITY, new Bundle(), syncInterval);
         }
     }
 
@@ -113,12 +127,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      * @param context The context used to access the account service
      */
     public static void syncImmediately(Context context) {
-        Log.i("SyncAdapter", "syncImmediately...");
+        Log.i(DEBUG_TAG, "syncImmediately...");
         Bundle bundle = new Bundle();
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_EXPEDITED, true);
         bundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-        ContentResolver.requestSync(getSyncAccount(context),
-                DbContract.AUTHORITY, bundle);
+        Account account = getSyncAccount(context);
+        ContentResolver.setIsSyncable(account, AUTHORITY, 1);
+        ContentResolver.requestSync(account, AUTHORITY, bundle);
     }
 
     /**
@@ -138,6 +153,9 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Account newAccount = new Account(
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
+        Log.i(DEBUG_TAG, "Sync Account name: " + newAccount.name);
+        Log.i(DEBUG_TAG, "Sync Account type: " + newAccount.type);
+
         // If the password doesn't exist, the account doesn't exist
         if (null == accountManager.getPassword(newAccount)) {
 
@@ -154,13 +172,13 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
              * then call ContentResolver.setIsSyncable(account, AUTHORITY, 1)
              * here.
              */
-
+            //ContentResolver.setIsSyncable(newAccount, AUTHORITY, 1);
             onAccountCreated(newAccount, context);
         }
         return newAccount;
     }
 
-    private static void onAccountCreated(Account newAccount, Context context) {
+    public static void onAccountCreated(Account newAccount, Context context) {
         /*
          * Since we've created an account
          */
@@ -169,7 +187,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         /*
          * Without calling setSyncAutomatically, our periodic sync will not be enabled.
          */
-        ContentResolver.setSyncAutomatically(newAccount, DbContract.AUTHORITY, true);
+        ContentResolver.setSyncAutomatically(newAccount, AUTHORITY, true);
 
         /*
          * Finally, let's do a sync to get things started
@@ -189,51 +207,69 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     @Override
     public void onPerformSync(Account account, Bundle extras, String authority,
                               ContentProviderClient provider, SyncResult syncResult) {
-      /*
-       * Put the data transfer code here.
-       */
+        /*
+         * Put the data transfer code here.
+         */
         Log.i(DEBUG_TAG, "Performing Sync!");
+        LittleTalkersApi myApiService = null;
+        Context context = getContext();
 
-     /* mCredential = GoogleAccountCredential
-            .usingAudience(this.getContext(), AppConstants.AUDIENCE);
-      mCredential.setSelectedAccountName(Prefs.getAccountName(this.getContext()));*
+        GoogleAccountCredential credential = GoogleAccountCredential
+                .usingAudience(context, AppConstants.AUDIENCE)
+                .setSelectedAccountName(Prefs.getGoogleAccountName(context));
 
-      Littletalkersapi.Builder builder = new Littletalkersapi.Builder(
-            AndroidHttp.newCompatibleTransport(), new JacksonFactory(),
-            mCredential);
-      builder.setApplicationName(this.getContext().getString(R.string.app_name));
-      Littletalkersapi ltEndpoint = builder.build();
+        Log.i(DEBUG_TAG, "Credential: " + credential.getSelectedAccountName());
+        if (myApiService == null) {  // Only do this once
+            LittleTalkersApi.Builder builder = new LittleTalkersApi.Builder(AndroidHttp.newCompatibleTransport(),
+                    new AndroidJsonFactory(), credential)
+                    // options for running against local devappserver
+                    // - 10.0.2.2 is localhost's IP address in Android emulator
+                    // - turn off compression when running against local devappserver
+                    .setRootUrl(context.getString(R.string.server_url))
+                    .setApplicationName(context.getString(R.string.app_name));
+                        /*.setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
+                            @Override
+                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                                abstractGoogleClientRequest.setDisableGZipContent(true);
+                            }
+                        });*/
+            // end options for devappserver
+            myApiService = builder.build();
+            Log.i(DEBUG_TAG, "MyApiService created...");
+        }
 
-      Long userId = Prefs.getUserId(this.getContext());
-      Log.i(DEBUG_TAG, "user id from Prefs: " + userId);
-      UserProfile profile = null;
-      try
-      {
-         profile = ltEndpoint.getProfileById(userId).execute();
-      } catch (IOException e)
-      {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-         return;
-      }
-      Log.i(DEBUG_TAG, "userId: " + profile.getId() + "  email: " + profile.getEmail());
-      if (profile.getId() != userId)
-      {
-         userId = profile.getId();
-         Prefs.saveUserId(this.getContext(), userId);
-      }
+        Long userId = Prefs.getUserId(context);
+        ContentResolver resolver = context.getContentResolver();
+        UserDataWrapper data = SyncUtils.getUserData(resolver);
+        Log.i(DEBUG_TAG, "user id from Prefs: " + userId);
 
-      // TODO: deletions
-
-      UserDataWrapper data = ServerBackupUtils.getUserData();
-      try {
-         UserDataWrapper result = ltEndpoint.insertUserData(userId, data).execute();
-      } catch (IOException e)
-      {
-         e.printStackTrace();
-         return;
-      }
-      DbSingleton.get().setNotDirty(data);   */
+        // First ever sync
+        if (userId == -1) {
+            try {
+                UserProfile result = myApiService.insertProfile().execute();
+                userId = result.getId();
+                Log.i(DEBUG_TAG, "User id: " + userId);
+                Prefs.saveUserId(context, userId);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e(DEBUG_TAG, e.getMessage());
+                return;
+            }
+        }
+        try {
+            // TODO: deletions
+            UserDataWrapper userData = myApiService.insertUserData(userId, data).execute();
+            if (userData != null) {
+                SyncUtils.setNotDirty(data, resolver);
+                Log.i(DEBUG_TAG, context.getString(R.string.data_uploaded));
+                return;
+            }
+            Log.i(DEBUG_TAG, context.getString(R.string.nothing_to_upload));
+            return;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e(DEBUG_TAG, e.getMessage());
+            return;
+        }
     }
-
 }

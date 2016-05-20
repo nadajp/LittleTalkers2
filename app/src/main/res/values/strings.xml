@@ -208,12 +208,17 @@
     <string name="title_activity_sync_now">Sync to Cloud</string>
 
     <!-- SyncAdapter -->
-    <string name="sync_account_type">littletalkers.nadajp.com</string>
-    <string name="sync_title">Tap below to start sync.</string>
+    <string name="sync_account_type">com.littletalkers</string>
+    <string name="sync_title">Enable Sync</string>
     <string name="sync_now">Sync Now</string>
     <string name="syncing">Syncing...</string>
     <string name="sync_complete">Sync is Complete</string>
     <string name="account">account</string>
+    <string name="content_authority">com.nadajp.littletalkers.provider</string>
+    <string name="title_activity_sync">Enable Sync for Cloud Backup</string>
+    <string name="server_url">https://littletalkerstest.appspot.com/_ah/api/</string>
+    <string name="data_uploaded">Data Uploaded.</string>
+    <string name="nothing_to_upload">Nothing to Upload</string>
 
     <string name="kid_details" translatable="false">kid_details</string>
 

@@ -61,13 +61,13 @@ public class Prefs {
         editor.commit();
     }
 
-    public static String getAccountName(Context context) {
+    public static String getGoogleAccountName(Context context) {
         SharedPreferences sharedPrefs = context.getSharedPreferences(
                 SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
         return sharedPrefs.getString(ACCOUNT_NAME, null);
     }
 
-    public static void saveAccountName(Context context, String accountName) {
+    public static void saveGoogleAccountName(Context context, String accountName) {
         SharedPreferences sharedPrefs = context.getSharedPreferences(
                 SHARED_PREFS_FILENAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPrefs.edit();

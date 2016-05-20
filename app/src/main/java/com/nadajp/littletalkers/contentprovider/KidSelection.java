@@ -13,6 +13,7 @@ import com.nadajp.littletalkers.model.Kid;
 public class KidSelection {
 
     private static final String LOG_TAG = "KidSelection";
+
     private static final String[] BASIC_INFO_PROJECTION =
             {Kids.COLUMN_NAME_NAME,
                     Kids.COLUMN_NAME_DEFAULT_LOCATION,
@@ -26,7 +27,7 @@ public class KidSelection {
                 null,
                 null);
 
-        if (c.getCount() == 0){
+        if (c.getCount() == 0) {
             Log.i(LOG_TAG, "No kid found with id " + id);
             Log.i(LOG_TAG, Kids.buildKidsUri(id).toString());
             return null;

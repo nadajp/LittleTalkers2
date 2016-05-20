@@ -195,7 +195,7 @@ public class SettingsFragment extends PreferenceFragment
    // setSelectedAccountName definition
    private void setSelectedAccountName(String accountName)
    {
-      Prefs.saveAccountName(this.getActivity(), accountName);
+      Prefs.saveGoogleAccountName(this.getActivity(), accountName);
       //mCredential.setSelectedAccountName(accountName);
       this.mAccountName = accountName;
    }

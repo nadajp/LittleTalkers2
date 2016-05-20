@@ -1,4 +1,4 @@
-package com.nadajp.littletalkers.backup;
+package com.nadajp.littletalkers.sync;
 
 import android.app.Service;
 import android.content.Intent;
@@ -28,8 +28,8 @@ public class SyncService extends Service
          * Set the sync adapter as syncable
          * Disallow parallel syncs
          */
-       Log.i(DEBUG_TAG, "Creating SyncService"); 
-       synchronized (sSyncAdapterLock) 
+       Log.i(DEBUG_TAG, "Creating SyncService");
+       synchronized (sSyncAdapterLock)
         {
             if (sSyncAdapter == null) {
                 sSyncAdapter = new SyncAdapter(getApplicationContext(), true);

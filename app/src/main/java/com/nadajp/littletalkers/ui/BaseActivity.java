@@ -26,6 +26,7 @@ import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbContract.Kids;
 import com.nadajp.littletalkers.model.Kid;
+import com.nadajp.littletalkers.sync.SetupSyncActivity;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
@@ -220,6 +221,10 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
                 Intent settingsIntent = new Intent(this, SettingsActivity.class);
                 startActivity(settingsIntent);
                 return true;
+            case R.id.action_sync:
+                Intent syncIntent = new Intent(this, SetupSyncActivity.class);
+                startActivity(syncIntent);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -315,15 +320,18 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
             File sd = Environment.getExternalStorageDirectory();
             Log.i("DEBUG_TAG", "Trying to export DB");
 
-            if (sd.canWrite()) {
+            if (sd.exists() && sd.canWrite()) {
                 Log.i("DEBUG_TAG", "Can write db");
 
                 String currentDBPath = "/data/data/" + getPackageName()
                         + "/databases/littletalkers_db";
                 Log.i(DEBUG_TAG, "currentDBPath = " + currentDBPath);
-                String backupDBPath = "LittleTalkers/LTbackup.db";
+                String backupDBPath = "LTbackup.db";
+                String subdirectory = getString(R.string.app_name);
+
                 File currentDB = new File(currentDBPath);
-                File backupDB = new File(sd, backupDBPath);
+                //File backupDB = new File(sd, backupDBPath);
+                File backupDB = new File(Utils.getPublicDirectory(subdirectory, this), backupDBPath);
 
                 if (currentDB.exists()) {
                     FileChannel src = new FileInputStream(currentDB).getChannel();
@@ -333,7 +341,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
                     dst.close();
                     MediaScannerConnection.scanFile(this,
                             new String[]{backupDB.getAbsolutePath()}, null, null);
-                    // Intent mediaScannerIntent = new
+                    //Intent mediaScannerIntent = new
                     // Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                     // Uri fileContentUri = Uri.fromFile(backupDB); // With
                     // 'permFile' being the File object
@@ -347,7 +355,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
                 }
             }
         } catch (Exception e) {
-            Log.i(DEBUG_TAG, "Could not export DB");
+            Log.i(DEBUG_TAG, "Could not export DB: " + e.getMessage());
         }
     }
 }

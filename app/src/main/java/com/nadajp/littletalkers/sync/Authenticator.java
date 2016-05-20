@@ -1,4 +1,4 @@
-package com.nadajp.littletalkers.backup;
+package com.nadajp.littletalkers.sync;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
