@@ -20,7 +20,8 @@ import com.nadajp.littletalkers.utils.Prefs;
 
 public class ItemListActivity extends BaseActivity implements
         ItemListFragment.OnListFragmentInteractionListener,
-        ItemDetailFragment.OnAddNewPhraseListener {
+        AddItemFragment.OnAddNewPhraseListener,
+        ViewItemFragment.OnUpdatePhraseListener {
 
     private static String DEBUG_TAG = "ItemListActivity";
     ItemListPagerAdapter mSectionsPagerAdapter;
@@ -95,12 +96,10 @@ public class ItemListActivity extends BaseActivity implements
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
 
@@ -126,13 +125,20 @@ public class ItemListActivity extends BaseActivity implements
     }
 
     private void insertDetailView(int type) {
-        Fragment fragment = ItemDetailFragment.newInstance(type);
+        Fragment fragment = null;
+        if (mCurrentItemId == 0) {
+            fragment = AddItemFragment.newInstance(type);
+        } else {
+            fragment = ViewItemFragment.newInstance(type);
+        }
+
         Bundle args = new Bundle();
         //Kid kid = super.getKidDefaults();
         Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
         Log.i(DEBUG_TAG, "Kid: " + mKid.getName());
         args.putParcelable(getString(R.string.kid_details), mKid);
         args.putLong(ItemDetailFragment.ITEM_ID, mCurrentItemId);
+        args.putString(Prefs.KID_NAME, mKid.getName());
         fragment.setArguments(args);
         getFragmentManager().beginTransaction()
                 .replace(R.id.item_detail_container, fragment)
@@ -254,12 +260,15 @@ public class ItemListActivity extends BaseActivity implements
     }
 
     @Override
-    public void onPhraseAdded(ItemDetailFragment fragment) {
+    public void onPhraseAdded(AddItemFragment fragment) {
         fragment.clearForm();
     }
 
     @Override
     public void onClickedShowDictionary(int kidId) {
+    }
 
+    @Override
+    public void onPhraseUpdated(int kidId) {
     }
 }

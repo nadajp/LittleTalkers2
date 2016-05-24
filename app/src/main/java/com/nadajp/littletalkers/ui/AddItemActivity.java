@@ -12,10 +12,10 @@ import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
-public class AddItemActivity extends BaseActivity implements ItemDetailFragment.OnAddNewPhraseListener {
+public class AddItemActivity extends BaseActivity implements AddItemFragment.OnAddNewPhraseListener {
     private static final String DEBUG_TAG = "AddItemActivity";
 
-    ItemDetailPagerAdapter mSectionsPagerAdapter;
+    AddItemPagerAdapter mSectionsPagerAdapter;
     ViewPager mViewPager;
     Toolbar mToolbar;
     TabLayout mTabLayout;
@@ -31,7 +31,7 @@ public class AddItemActivity extends BaseActivity implements ItemDetailFragment.
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new ItemDetailPagerAdapter(getFragmentManager(), this, super.getKidDefaults());
+        mSectionsPagerAdapter = new AddItemPagerAdapter(getFragmentManager(), this, super.getKidDefaults());
         mViewPager.setAdapter(mSectionsPagerAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
@@ -76,7 +76,7 @@ public class AddItemActivity extends BaseActivity implements ItemDetailFragment.
     protected void setCurrentKidData(Kid kid) {
         // update all tabs, even those that are not currently visible
         for (int i = 0; i < mSectionsPagerAdapter.registeredFragments.size(); i++) {
-            ItemDetailFragment f = (ItemDetailFragment) mSectionsPagerAdapter.registeredFragments.get(i);
+            AddItemFragment f = (AddItemFragment) mSectionsPagerAdapter.registeredFragments.get(i);
             if (f != null) {
                 f.setKidDefaults(kid);
             }
@@ -84,7 +84,7 @@ public class AddItemActivity extends BaseActivity implements ItemDetailFragment.
     }
 
     @Override
-    public void onPhraseAdded(ItemDetailFragment fragment) {
+    public void onPhraseAdded(AddItemFragment fragment) {
 
     }
 

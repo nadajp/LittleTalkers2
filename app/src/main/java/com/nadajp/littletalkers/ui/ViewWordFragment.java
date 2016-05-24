@@ -3,13 +3,11 @@ package com.nadajp.littletalkers.ui;
 import android.annotation.SuppressLint;
 import android.app.LoaderManager;
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,12 +23,11 @@ import android.widget.Toast;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract.Words;
-import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
-public class WordDetailFragment extends ItemDetailFragment implements LoaderManager.LoaderCallbacks<Cursor> {
-    private static final String DEBUG_TAG = "WordDetailFragment";
+public class ViewWordFragment extends ViewItemFragment implements LoaderManager.LoaderCallbacks<Cursor> {
+    private static final String DEBUG_TAG = "ViewWordFragment";
     private EditText mEditTranslation;
     private ContentResolver mResolver;
     private static final int WORD_LOADER = 10;
@@ -50,72 +47,15 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
         return v;
     }
 
-    @Override
-    public void setKidDefaults(Kid kid){
-        super.setKidDefaults(kid);
-        mTextHeading.setText(mKidName + " "
-                + getString(R.string.said_something) + " ?");
-    }
-
     public void updateExtraKidDetails() {
         Log.i(DEBUG_TAG, "Updating extra kid details: " + mKidName);
-        if (this.mItemId > 0) {
-            mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
-        } else {
-            mTextHeading.setText(mKidName + " "
-                    + getString(R.string.said_something) + " ?");
-        }
-    }
-    /* InsertItemDetails
-     * Called when an existing item is being viewed.
-     * Fills in all the fields with item data
-     */
-    public void insertItemDetails(View v) {
-        Log.i(DEBUG_TAG, "Inserting word details for item # " + mItemId);
-        Cursor cursor = mResolver.query(Words.buildWordUri(mItemId), null, null, null, null);
-        cursor.moveToFirst();
-        if (cursor == null) {
-            Log.i(DEBUG_TAG, "cursor is empty!");
-        }
-
-        mEditPhrase.setText(cursor.getString(cursor
-                .getColumnIndex(Words.COLUMN_NAME_WORD)));
-
-        // get date in milliseconds from db, convert to text, set current date
-        long rawdate = cursor.getLong(cursor
-                .getColumnIndex(Words.COLUMN_NAME_DATE));
-        Log.i(DEBUG_TAG, "Date: " + Utils.getDateForDisplay(rawdate, this.getActivity()));
-        mEditDate.setText(Utils.getDateForDisplay(rawdate, this.getActivity()));
-        mDate.setTimeInMillis(rawdate);  // !!!
-        mEditLocation.setText(cursor.getString(
-                cursor.getColumnIndex(Words.COLUMN_NAME_LOCATION)));
-        mEditTranslation.setText(cursor.getString(
-                cursor.getColumnIndex(Words.COLUMN_NAME_TRANSLATION)));
-        mEditToWhom.setText(cursor.getString(
-                cursor.getColumnIndex(Words.COLUMN_NAME_TOWHOM)));
-        mEditNotes.setText(cursor.getString(
-                cursor.getColumnIndex(Words.COLUMN_NAME_NOTES)));
-
-        ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
-                .getAdapter();
-        mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
-                .getColumnIndex(Words.COLUMN_NAME_LANGUAGE))));
-
-        mCurrentAudioFile = cursor.getString(cursor
-                .getColumnIndex(Words.COLUMN_NAME_AUDIO_FILE));
-
-        mTextHeading.setText(mKidName + getString(R.string.said) + ":");
-
-        cursor.close();
-        //displayWordHistory(v);
+        mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState)
     {
-        if (mItemId > 0) {
-            getLoaderManager().initLoader(WORD_LOADER, null, this);
-        }
+        getLoaderManager().initLoader(WORD_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
     }
 
@@ -166,78 +106,24 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
         String towhom = mEditToWhom.getText().toString();
         String notes = mEditNotes.getText().toString();
 
-        // if adding new word, save it here
-        if (mItemId == 0) {
-            mItemId = insert(phrase, msDate, location, translation, towhom, notes);
-
-            if (mItemId == -1) {
-                if (!automatic) {
-                    mEditPhrase.requestFocus();
-                    mEditPhrase
-                            .setError(getString(R.string.word_already_exists_error));
-                }
-                return -1;
+        //Log.i(DEBUG_TAG, "updating word with audio file " + mCurrentAudioFile);
+        //Log.i(DEBUG_TAG, "updating word with language: " + mLanguage);
+        if (!update(phrase, msDate, location, translation, towhom, notes)) {
+            if (!automatic) {
+                mEditPhrase.requestFocus();
+                mEditPhrase
+                        .setError(getString(R.string.word_already_exists_error));
             }
-
-            // word was saved successfully
-            Toast toast = Toast.makeText(this.getActivity(), R.string.word_saved,
-                    Toast.LENGTH_SHORT);
-            toast.show();
-            return mItemId;
-        } else
-        // we are editing an existing entry
-        {
-            //Log.i(DEBUG_TAG, "updating word with audio file " + mCurrentAudioFile);
-            //Log.i(DEBUG_TAG, "updating word with language: " + mLanguage);
-            if (!update(phrase, msDate, location, translation, towhom, notes)) {
-                if (!automatic) {
-                    mEditPhrase.requestFocus();
-                    mEditPhrase
-                            .setError(getString(R.string.word_already_exists_error));
-                }
-                return -1;
-            }
-            // Word was updated successfully
-            Toast toast = Toast.makeText(this.getActivity(),
-                    R.string.word_updated, Toast.LENGTH_SHORT);
-            toast.show();
-            // invalidate menu to add sharing capabilities
-            this.getActivity().invalidateOptionsMenu();
-            return mItemId;
-        }
-    }
-
-    private long insert(String word, long date, String location, String translation,
-                        String towhom, String notes) {
-        // check if word already exists for this kid
-        String argKidId = Integer.valueOf(mCurrentKidId).toString();
-        Log.i(DEBUG_TAG, "Kid id: " + argKidId);
-        Cursor cursor = mResolver.query(Words.CONTENT_URI,
-                new String[]{Words._ID},
-                Words.COLUMN_NAME_KID + " = ? AND " + Words.COLUMN_NAME_WORD + " = ?",
-                new String[]{argKidId, word},
-                null);
-
-        if (cursor.getCount() > 0) {
-            cursor.close();
             return -1;
         }
-        cursor.close();
+        // Word was updated successfully
+        Toast toast = Toast.makeText(this.getActivity(),
+                R.string.word_updated, Toast.LENGTH_SHORT);
+        toast.show();
+        // invalidate menu to add sharing capabilities
+        this.getActivity().invalidateOptionsMenu();
+        return mItemId;
 
-        ContentValues values = new ContentValues();
-        values.put(Words.COLUMN_NAME_KID, mCurrentKidId);
-        values.put(Words.COLUMN_NAME_WORD, word);
-        values.put(Words.COLUMN_NAME_LANGUAGE, mLanguage);
-        values.put(Words.COLUMN_NAME_DATE, date);
-        values.put(Words.COLUMN_NAME_LOCATION, location);
-        values.put(Words.COLUMN_NAME_AUDIO_FILE, mCurrentAudioFile);
-        values.put(Words.COLUMN_NAME_TRANSLATION, translation);
-        values.put(Words.COLUMN_NAME_TOWHOM, towhom);
-        values.put(Words.COLUMN_NAME_NOTES, notes);
-
-        // Inserting Row
-        Uri uri = mResolver.insert(Words.CONTENT_URI, values);
-        return ContentUris.parseId(uri);
     }
 
     private boolean update(String word, long date,
@@ -262,24 +148,6 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
                 Words._ID + " = ?",
                 new String[]{Long.valueOf(mItemId).toString()});
         return true;
-    }
-
-    public void saveToPrefs() {
-        // convert date to miliseconds for SQLite
-        long msDate = mDate.getTimeInMillis();
-
-        String phrase = mEditPhrase.getText().toString();
-
-        String location = mEditLocation.getText().toString();
-        String translation = mEditTranslation.length() == 0 ? phrase
-                : mEditTranslation.getText().toString();
-        String towhom = mEditToWhom.getText().toString();
-        String notes = mEditNotes.getText().toString();
-
-        String audioFile = mCurrentAudioFile;
-
-        Prefs.savePhraseInfo(this.getActivity(), msDate, phrase, location,
-                translation, towhom, notes, audioFile);
     }
 
     public void clearExtraViews() {
@@ -423,6 +291,8 @@ public class WordDetailFragment extends ItemDetailFragment implements LoaderMana
 
             mCurrentAudioFile = cursor.getString(cursor
                     .getColumnIndex(Words.COLUMN_NAME_AUDIO_FILE));
+
+            super.setAudio(getView());
 
             mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
             //displayWordHistory();

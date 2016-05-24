@@ -5,14 +5,9 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaScannerConnection;
@@ -24,9 +19,6 @@ import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -42,20 +34,16 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ShareActionProvider;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.nadajp.littletalkers.R;
-import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public abstract class ItemDetailFragment extends android.app.Fragment implements
         OnItemSelectedListener, OnClickListener, OnCompletionListener {
@@ -65,17 +53,13 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
     private static final String DEBUG_TAG = "ItemDetailFragment";
     private static final int DELETE_AUDIO_DIALOG_ID = 1;
     private static final int REPLACE_AUDIO_DIALOG_ID = 2;
-    private static final int SHARE_DIALOG_ID = 3;
 
     protected int mCurrentKidId;
-    // another recording (temp2.3gp)
-    protected String mCurrentAudioFile; // name of current audio file, empty
-    // string if none has been recorded
-    protected String mTempFileStem; // either temp or tempQA
     protected long mItemId; // current item id, 0 if nothing has been saved yet
+    protected String mCurrentAudioFile; // name of current audio file, empty
+    protected String mTempFileStem; // either temp or tempQA
     protected Calendar mDate; // calendar for current date
     protected String mLanguage; // current language
-    protected ShareActionProvider mShareActionProvider; // used to share data
     // from action bar
     protected String mKidName; // name of current kid, used for audio file name
     // common user interface elements
@@ -98,50 +82,27 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         }
     };
     ArrayAdapter<CharSequence> mLanguageAdapter;
-    private OnAddNewPhraseListener mListener; // listener to notify activity that
-    private File mDirectory = null; // directory to store audio file
-    private File mOutFile = null; // audio file with permanent name
-    private File mTempFile = null; // temporary audio file (temp.3gp or tempQA.3gp)
-    private File mTempFile2 = null; // second temporary audio file, in case of
-    private MediaPlayer mPlayer; // audio player
-    private String mLocation = "Not set";
-    private RelativeLayout mRecordingLayout;
-    private Button mPlay;
-    private Button mDelete;
-    private ImageView mImgMic;
-    private EditText mEditMore;
-    private EditText mEditLess;
-    private boolean mAudioRecorded;
-
-    public static ItemDetailFragment newInstance(int sectionNumber) {
-        ItemDetailFragment fragment;
-        switch (sectionNumber) {
-            case 1:
-                fragment = new QADetailFragment();
-                break;
-            default:
-                fragment = new WordDetailFragment();
-                break;
-        }
-        Bundle args = new Bundle();
-        args.putInt(Prefs.TAB_ID, sectionNumber);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    protected File mDirectory = null; // directory to store audio file
+    protected File mOutFile = null; // audio file with permanent name
+    protected File mTempFile = null; // temporary audio file (temp.3gp or tempQA.3gp)
+    protected File mTempFile2 = null; // second temporary audio file, in case of
+    protected MediaPlayer mPlayer; // audio player
+    protected String mLocation = "Not set";
+    protected RelativeLayout mRecordingLayout;
+    protected Button mPlay;
+    protected Button mDelete;
+    protected ImageView mImgMic;
+    protected EditText mEditMore;
+    protected EditText mEditLess;
+    protected boolean mAudioRecorded;
 
     public abstract long savePhrase(boolean automatic);
 
     public abstract void clearExtraViews();
 
-    public abstract void insertItemDetails(View v);
-
-    public abstract String getShareBody();
-
-    public abstract void saveToPrefs();
+    public abstract void startAudioRecording(boolean secondRecording);
 
     public abstract void updateExtraKidDetails();
-
-    public abstract void startAudioRecording(boolean secondRecording);
 
     protected View inflateFragment(int resId, LayoutInflater inflater, ViewGroup container,
                                    Bundle savedInstanceState) {
@@ -206,17 +167,14 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
                 TextView audioFile = (TextView) v.findViewById(R.id.text_recording);
                 audioFile.setText(mCurrentAudioFile);
             }
-
             if (savedInstanceState.getBoolean(Prefs.SHOWING_MORE_FIELDS)) {
                 showMoreFields(v, true);
             }
             mItemId = savedInstanceState.getLong(Prefs.ITEM_ID);
         } else {
-            Bundle args = getArguments();
             mItemId = getArguments().getLong(ITEM_ID);
         }
         Log.i(DEBUG_TAG, "item ID = " + mItemId);
-
         // the following listener is added in order to clear the error message
         // once the user starts typing
         mEditPhrase.addTextChangedListener(new TextWatcher() {
@@ -245,71 +203,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
 
         setHasOptionsMenu(true);
         return v;
-    }
-
-    protected void insertData(View v) {
-        if (getArguments().containsKey(getString(R.string.kid_details))) {
-            Kid kid = getArguments().getParcelable(getString(R.string.kid_details));
-            if (kid != null) {
-                mKidName = kid.getName();
-            }
-        }
-        else if (mItemId > 0) {
-            mKidName = getArguments().getString(Prefs.KID_NAME);
-        }
-        if (mItemId > 0) {  // viewing existing item,
-            // insert all item data
-            updateItem(v);
-            setAudio(v);
-        } else {  // adding new item
-            // get Kid name and defaults to display
-            Kid kid = this.getArguments().getParcelable(getString(R.string.kid_details));
-            mKidName = kid.getName();
-            mCurrentKidId = kid.getId();
-            mLocation = kid.getLocation();
-            mLanguage = kid.getLanguage();
-            mEditLocation.setText(mLocation);
-            mLangSpinner.setSelection(mLanguageAdapter.getPosition(mLanguage));
-            if (mAudioRecorded) {
-                mTempFile = new File(mDirectory, mTempFileStem + ".3gp");
-                mTempFile2 = new File(mDirectory, mTempFileStem + "2.3gp");
-            }
-            updateExtraKidDetails();
-        }
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.add_item, menu);
-
-        // if editing existing item, hide dictionary button and add share button
-        if (mItemId > 0) {
-            MenuItem dict = menu.findItem(R.id.action_dictionary);
-            if (dict != null) {
-                dict.setVisible(false);
-            }
-            MenuItem share = menu.findItem(R.id.action_share);
-            share.setVisible(true);
-        }
-    }
-
-    @Override
-    // Handle presses on the action bar items
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_share:
-                ShareDialog dlg = new ShareDialog();
-                dlg.setTargetFragment(this, SHARE_DIALOG_ID);
-                dlg.show(getFragmentManager(), ShareDialog.class.toString());
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
@@ -341,6 +234,18 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         }
     }
 
+    protected void showCalendar(View v) {
+        new DatePickerDialog(v.getContext(), d, mDate.get(Calendar.YEAR),
+                mDate.get(Calendar.MONTH), mDate.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+
+    protected void updateDate() {
+        mEditDate.setText(DateUtils.formatDateTime(getActivity(),
+                mDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE
+                        | DateUtils.FORMAT_SHOW_YEAR));
+    }
+
     public void showMoreFields(View v, boolean more) {
         LinearLayout llMore = (LinearLayout) v.findViewById(R.id.layout_more);
         if (more) {
@@ -354,38 +259,9 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         }
     }
 
-    public void setKidDefaults(Kid kid) {
-        mLanguage = kid.getLanguage();
-        mLocation = kid.getLocation();
-        mKidName = kid.getName();
-
-        mLangSpinner.setSelection(mLanguageAdapter.getPosition(mLanguage));
-        mEditLocation.setText(mLocation);
-    }
-
     public File getAudioFile() {
         return mOutFile;
     }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == RECORD_AUDIO_REQUEST) {
-            // Make sure the request was successful
-            if (resultCode == Activity.RESULT_OK) {
-                stopRecording();
-            }
-        }
-    }
-
-    // private void clickedMic(View v)
-    // {
-   /*
-    * if (!mRecording) { v.startAnimation(mAnimation); startRecording();
-    * mRecording = true; } else { v.clearAnimation(); stopRecording();
-    * mRecording = false; }
-    */
-    // }
 
     private void clickedAudioPlay(View v) {
         if (mPlayer.isPlaying()) {
@@ -427,16 +303,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         //Log.i(DEBUG_TAG, "Stopped.");
     }
 
-    private void deleteAudio() {
-        DeleteAudioDialogFragment dlg = new DeleteAudioDialogFragment();
-        dlg.setTargetFragment(this, DELETE_AUDIO_DIALOG_ID);
-        dlg.show(getFragmentManager(), DeleteAudioDialogFragment.class.toString());
-    }
-
-    private void showCalendar(View v) {
-        new DatePickerDialog(v.getContext(), d, mDate.get(Calendar.YEAR),
-                mDate.get(Calendar.MONTH), mDate.get(Calendar.DAY_OF_MONTH)).show();
-    }
 
     private void startRecording() {
         boolean secondRecording = false;
@@ -487,6 +353,17 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         mCurrentAudioFile = mTempFile.getName();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == RECORD_AUDIO_REQUEST) {
+            // Make sure the request was successful
+            if (resultCode == Activity.RESULT_OK) {
+                stopRecording();
+            }
+        }
+    }
+
     public void replaceTempFile(boolean replace) {
         if (replace) {
             mTempFile.delete();
@@ -500,18 +377,18 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         }
     }
 
+    private void deleteAudio() {
+        DeleteAudioDialogFragment dlg = new DeleteAudioDialogFragment();
+        dlg.setTargetFragment(this, DELETE_AUDIO_DIALOG_ID);
+        dlg.show(getFragmentManager(), DeleteAudioDialogFragment.class.toString());
+    }
+
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         mLanguage = parent.getItemAtPosition(pos).toString();
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
         // Another interface callback
-    }
-
-    private void updateDate() {
-        mEditDate.setText(DateUtils.formatDateTime(getActivity(),
-                mDate.getTimeInMillis(), DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_SHOW_DATE
-                        | DateUtils.FORMAT_SHOW_YEAR));
     }
 
     public void confirmDeleteAudio() {
@@ -532,17 +409,10 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         mRecordingLayout.setVisibility(View.GONE);
     }
 
-    private void saveItem(boolean exit) {
+    protected void saveItem(boolean exit) {
         mItemId = savePhrase(!exit);
         if (mOutFile != null && mOutFile.exists()) {
             mCurrentAudioFile = mOutFile.getAbsolutePath();
-        }
-        Log.i(DEBUG_TAG, "saved: " + mItemId);
-        if (mItemId > 0 && exit) {
-            mListener.onClickedShowDictionary(mCurrentKidId);
-        }
-        if (mItemId > 0) {
-            mListener.onPhraseAdded(this);
         }
     }
 
@@ -571,11 +441,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         mAudioRecorded = false;
         mEditPhrase.setError(null);
         clearExtraViews();
-        mItemId = 0;
-    }
-
-    public void updateItem(View v) {
-        insertItemDetails(v);
     }
 
     protected void setAudio(View v) {
@@ -635,7 +500,7 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         mCurrentAudioFile = mOutFile.getAbsolutePath();
     }
 
-    private void saveFile(boolean replace) {
+    protected void saveFile(boolean replace) {
         mOutFile = new File(mDirectory, getFilename());
 
         if (mOutFile.exists()) {
@@ -673,23 +538,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof OnAddNewPhraseListener) {
-            mListener = (OnAddNewPhraseListener) activity;
-        } else {
-            throw new ClassCastException(activity.toString()
-                    + " must implemenet ItemDetailFragment.OnAddNewPhraseListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(Prefs.AUDIO_RECORDED, mAudioRecorded);
@@ -700,7 +548,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         if (mEditLess.getVisibility() == View.VISIBLE) {
             outState.putBoolean(Prefs.SHOWING_MORE_FIELDS, true);
         }
-        outState.putLong(Prefs.ITEM_ID, mItemId);
     }
 
     @Override
@@ -726,116 +573,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         mOutFile = null;
         mDate = null;
         mTempFile = null;
-    }
-
-    public interface OnAddNewPhraseListener {
-        public void onPhraseAdded(ItemDetailFragment fragment);
-        public void onClickedShowDictionary(int kidId);
-    }
-
-    public static class ShareDialog extends DialogFragment {
-        private AppListAdapter mAdapter;
-        private ArrayList<ComponentName> mComponents;
-        private Intent mIntent;
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setupSharing();
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder
-                    .setTitle(R.string.share)
-                    .setNegativeButton(R.string.cancel,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                }
-                            })
-                    .setAdapter(mAdapter, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            // The 'which' argument contains the index position
-                            // of the selected item
-                            mIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-                            mIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                                    | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-                            mIntent.setComponent(mComponents.get(which));
-                            getActivity().startActivity(mIntent);
-                        }
-                    });
-            return builder.create();
-        }
-
-        private void setupSharing() {
-            mIntent = new Intent(android.content.Intent.ACTION_SEND);
-            File audioFile = ((ItemDetailFragment) getTargetFragment())
-                    .getAudioFile();
-
-            if (audioFile != null) {
-                Uri uri = Uri.fromFile(audioFile);
-                mIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                mIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                mIntent.setType("audio/*");
-            } else {
-                mIntent.setType("text/plain");
-            }
-
-            mIntent.addCategory(Intent.CATEGORY_DEFAULT);
-            mIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
-                    (String) getString(R.string.app_name));
-            mIntent.putExtra(android.content.Intent.EXTRA_TEXT,
-                    ((ItemDetailFragment) this.getTargetFragment()).getShareBody());
-
-            PackageManager packageManager = getActivity().getPackageManager();
-
-            List<ResolveInfo> activities = packageManager.queryIntentActivities(
-                    mIntent, 0);
-            ArrayList<String> appNames = new ArrayList<String>();
-            ArrayList<Drawable> icons = new ArrayList<Drawable>();
-            mComponents = new ArrayList<ComponentName>();
-
-            for (ResolveInfo app : activities) {
-                String name = app.loadLabel(packageManager).toString();
-                //Log.i(DEBUG_TAG, "*" + name + "*" + "\n");
-                if (!name.equals("Facebook")) {
-                    mComponents.add(new ComponentName(
-                            app.activityInfo.applicationInfo.packageName,
-                            app.activityInfo.name));
-                    appNames.add(app.loadLabel(packageManager).toString());
-                    icons.add(app.loadIcon(packageManager));
-                }
-            }
-            mAdapter = new AppListAdapter(getActivity(), appNames, icons);
-        }
-
-        public class AppListAdapter extends ArrayAdapter<String> {
-            private final Context context;
-            private final ArrayList<String> names;
-            private final ArrayList<Drawable> icons;
-
-            public AppListAdapter(Context context, ArrayList<String> names,
-                                  ArrayList<Drawable> icons) {
-                super(context, R.layout.app_list_row, names);
-                this.context = context;
-                this.names = names;
-                this.icons = icons;
-            }
-
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                LayoutInflater inflater = (LayoutInflater) context
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-                View rowView = inflater.inflate(R.layout.app_list_row, parent,
-                        false);
-                TextView textView = (TextView) rowView.findViewById(R.id.app_name);
-                ImageView imageView = (ImageView) rowView
-                        .findViewById(R.id.app_icon);
-
-                textView.setText(names.get(position));
-                // change the icon
-                imageView.setImageDrawable(icons.get(position));
-                return rowView;
-            }
-        }
     }
 
     public static class ReplaceAudioDialogFragment extends DialogFragment {
@@ -910,7 +647,7 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
                     .setPositiveButton(R.string.delete,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    ((ItemDetailFragment) getTargetFragment())
+                                    ((AddItemFragment) getTargetFragment())
                                             .confirmDeleteAudio();
                                 }
                             })
