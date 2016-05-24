@@ -1,7 +1,11 @@
 package com.nadajp.littletalkers.ui;
 
 import android.app.Activity;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -11,11 +15,14 @@ import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public abstract class AddItemFragment extends ItemDetailFragment {
-    private static final String DEBUG_TAG = "AddItemFragment";
 
+    private static final String DEBUG_TAG = "AddItemFragment";
     private OnAddNewPhraseListener mListener; // listener to notify activity that a phrase has been added
 
     public abstract void saveToPrefs();
@@ -51,10 +58,13 @@ public abstract class AddItemFragment extends ItemDetailFragment {
         mKidName = kid.getName();
         mCurrentKidId = kid.getId();
 
-        // TODO lOCATION
-       // if (locationavaialbe) mLocation = location;
-        // else
-        mLocation = kid.getLocation();
+        mLocation = getLocation();
+        if (mLocation == null) {
+            mLocation = kid.getLocation();
+            Log.i(DEBUG_TAG, "Current city is default.");
+        } else {
+            Log.i(DEBUG_TAG, "Current city is now set to: " + mLocation);
+        }
         mLanguage = kid.getLanguage();
         mEditLocation.setText(mLocation);
         mLangSpinner.setSelection(mLanguageAdapter.getPosition(mLanguage));
@@ -119,5 +129,26 @@ public abstract class AddItemFragment extends ItemDetailFragment {
     public interface OnAddNewPhraseListener {
         public void onPhraseAdded(AddItemFragment fragment);
         public void onClickedShowDictionary(int kidId);
+    }
+
+    private String getLocation() {
+        Location location = MainActivity.sLastLocation;
+        String currentCity = null;
+
+        if (location != null) {
+            Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
+            List<Address> addresses = null;
+            try {
+                addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.i(DEBUG_TAG, e.getMessage());
+            }
+            if (addresses.size() > 0) {
+                currentCity = addresses.get(0).getLocality();
+                Log.i(DEBUG_TAG, "Current City: " + currentCity);
+            }
+        }
+        return currentCity;
     }
 }
