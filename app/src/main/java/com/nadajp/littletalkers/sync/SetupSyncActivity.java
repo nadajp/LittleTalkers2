@@ -6,14 +6,17 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -25,8 +28,10 @@ import com.nadajp.littlealkers.backend.littleTalkersApi.model.UserProfile;
 import com.nadajp.littletalkers.AppConstants;
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.utils.Prefs;
+import com.nadajp.littletalkers.utils.Utils;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by nadajp on 5/18/16.
@@ -37,11 +42,18 @@ public class SetupSyncActivity extends AppCompatActivity {
     public static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 5;
     private static String DEBUG_TAG = "SetupSync Activity";
     public GoogleAccountCredential mCredential;
+    TextView mTextUpdateMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_sync);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Utils.insertWhiteUpArrow(getSupportActionBar(), this);
+
+        mTextUpdateMessage = (TextView) findViewById(R.id.txtSyncUpdateMessage);
 
         // For API > 23, must ask for explicit permission
         if (ContextCompat.checkSelfPermission(this,
@@ -75,7 +87,7 @@ public class SetupSyncActivity extends AppCompatActivity {
                     setupSync(null);
                 } else {
                     // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    mTextUpdateMessage.setText(getString(R.string.sync_permission_denied));
                     finish();
                 }
             }
@@ -91,8 +103,10 @@ public class SetupSyncActivity extends AppCompatActivity {
         Log.i(DEBUG_TAG, "Account Name from credential: " + mCredential.getSelectedAccountName());
         if (mCredential.getSelectedAccountName() != null) {
             // Already signed in, begin app!
+            mTextUpdateMessage.setText(getString(R.string.sync_setting_up));
             Log.i(DEBUG_TAG, "Already signed in, begin app...");
             SyncAdapter.initializeSyncAdapter(this);
+            //finish();
         } else {
             // Not signed in, show login window or request an account.
             chooseAccount();
@@ -106,8 +120,16 @@ public class SetupSyncActivity extends AppCompatActivity {
     }
 
     void chooseAccount() {
-        startActivityForResult(mCredential.newChooseAccountIntent(),
-                REQUEST_ACCOUNT_PICKER);
+        Intent intent = mCredential.newChooseAccountIntent();
+        PackageManager manager = getPackageManager();
+        List<ResolveInfo> info = manager.queryIntentActivities(intent, 0);
+        if (info.size() > 0) {
+            startActivityForResult(mCredential.newChooseAccountIntent(),
+                    REQUEST_ACCOUNT_PICKER);
+        } else {
+            mTextUpdateMessage.setText("A Google sign-in is needed for Little Talkers Cloud Sync. Please ensure you have Google Play Services installed on your device.");
+        }
+
     }
 
     @Override

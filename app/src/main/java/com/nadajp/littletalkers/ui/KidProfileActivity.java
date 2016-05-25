@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.model.Kid;
+import com.nadajp.littletalkers.sync.SetupSyncActivity;
 import com.nadajp.littletalkers.utils.Utils;
 
 public class KidProfileActivity extends AppCompatActivity {
@@ -51,6 +52,10 @@ public class KidProfileActivity extends AppCompatActivity {
             case R.id.action_manage_kids:
                 Intent manage_intent = new Intent(this, ManageKidsActivity.class);
                 startActivity(manage_intent);
+                return true;
+            case R.id.action_sync:
+                Intent syncIntent = new Intent(this, SetupSyncActivity.class);
+                startActivity(syncIntent);
                 return true;
         }
         return super.onOptionsItemSelected(item);

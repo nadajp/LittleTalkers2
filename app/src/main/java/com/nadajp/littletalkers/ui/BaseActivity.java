@@ -217,10 +217,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
                 startActivity(dict_intent);
                 finish();
                 return true;
-            case R.id.action_settings:
-                Intent settingsIntent = new Intent(this, SettingsActivity.class);
-                startActivity(settingsIntent);
-                return true;
             case R.id.action_sync:
                 Intent syncIntent = new Intent(this, SetupSyncActivity.class);
                 startActivity(syncIntent);

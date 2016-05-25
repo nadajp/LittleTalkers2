@@ -3,5 +3,10 @@
    <item android:id="@+id/action_manage_kids"
          android:orderInCategory="100"
          app:showAsAction="never"
-         android:title="@string/title_activity_manage_kids"/> 
+         android:title="@string/title_activity_manage_kids"/>
+   <item
+       android:id="@+id/action_sync"
+       android:orderInCategory="600"
+       app:showAsAction="never"
+       android:title="@string/sync_title"/>
 </menu>

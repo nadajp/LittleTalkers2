@@ -15,14 +15,13 @@ import android.widget.TextView;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.contentprovider.PhraseSelection;
-import com.nadajp.littletalkers.model.Kid;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
 public class KidProfileFragment extends Fragment {
     private static final String DEBUG_TAG = "KidProfileFragment";
     private int mKidId;
-    private Kid mKid;
+    private com.nadajp.littletalkers.model.Kid mKid;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

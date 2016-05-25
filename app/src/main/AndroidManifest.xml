@@ -93,10 +93,6 @@
             android:name=".ui.AudioRecordActivity"
             android:label="@string/title_activity_audio_record" />
         <activity
-            android:name=".ui.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.MainActivity" />
-        <activity
             android:name=".sync.SetupSyncActivity"
             android:label="@string/title_activity_sync"
             android:parentActivityName=".ui.MainActivity" />

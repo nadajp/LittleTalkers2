@@ -11,8 +11,8 @@ import com.nadajp.littletalkers.database.DbContract;
 public class PhraseSelection {
     private static final String LOG_TAG = "PhraseSelection";
 
-    public int getNumberOfWords(ContentResolver resolver, int id) {
-        String strId = Integer.valueOf(id).toString();
+    public int getNumberOfWords(ContentResolver resolver, long id) {
+        String strId = Long.valueOf(id).toString();
         Cursor c = resolver.query(DbContract.Words.CONTENT_URI,
                 new String[] {DbContract.Words._ID},
                 DbContract.Words.COLUMN_NAME_KID + " = ?",
@@ -23,8 +23,8 @@ public class PhraseSelection {
         return count;
     }
 
-    public int getNumberOfQAs(ContentResolver resolver, int id) {
-        String strId = Integer.valueOf(id).toString();
+    public int getNumberOfQAs(ContentResolver resolver, long id) {
+        String strId = Long.valueOf(id).toString();
         Cursor c = resolver.query(DbContract.Questions.CONTENT_URI,
                 new String[] {DbContract.Questions._ID},
                 DbContract.Questions.COLUMN_NAME_KID + " = ?",

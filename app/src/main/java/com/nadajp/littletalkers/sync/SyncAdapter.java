@@ -11,6 +11,7 @@ import android.content.SyncResult;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
@@ -35,7 +36,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
     // Interval at which to sync with the weather, in seconds.
     // 60 seconds (1 minute) * 180 = 3 hours
     // 60 seconds (1 minute) * 60 (1 hr) * 24 = 1 day
-    public static final int SYNC_INTERVAL = 60 * 2;
+    public static final int SYNC_INTERVAL = 60 * 60 * 24;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     // The authority for the sync adapter's content provider
@@ -175,6 +176,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             //ContentResolver.setIsSyncable(newAccount, AUTHORITY, 1);
             onAccountCreated(newAccount, context);
         }
+        Toast.makeText(context, R.string.sync_already_enabled, Toast.LENGTH_LONG).show();
         return newAccount;
     }
 
@@ -193,6 +195,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          * Finally, let's do a sync to get things started
          */
         syncImmediately(context);
+        Toast.makeText(context, R.string.sync_enabled, Toast.LENGTH_LONG).show();
     }
 
     public static void initializeSyncAdapter(Context context) {

@@ -219,6 +219,12 @@
     <string name="server_url">https://littletalkerstest.appspot.com/_ah/api/</string>
     <string name="data_uploaded">Data Uploaded.</string>
     <string name="nothing_to_upload">Nothing to Upload</string>
+    <string name="sync_explanation">Enabling sync will periodically upload your data to the cloud for backup.</string>
+    <string name="sync_permission_denied">Sync has not been enabled because it requires the use of your google account.</string>
+    <string name="sync_permission_granted">Sync has been enabled. Go to Settings-->Accounts to manually manage cloud sync.</string>
+    <string name="sync_setting_up">Setting up your sync account...</string>
+    <string name="sync_enabled">Cloud Sync has been enabled.</string>
+    <string name="sync_already_enabled">Cloud Sync is already enabled.</string>
 
     <string name="kid_details" translatable="false">kid_details</string>
 

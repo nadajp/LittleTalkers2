@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract;
@@ -49,43 +47,6 @@ public class AddKidActivity extends AppCompatActivity implements
                cursor.close();
            }
        }
-   }
-
-   @Override
-   public boolean onCreateOptionsMenu(Menu menu)
-   {
-      // Inflate the menu; this adds items to the action bar if it is present.
-      getMenuInflater().inflate(R.menu.add_kid, menu);
-      /*MenuItem item = menu.findItem(R.id.action_add_word);
-      mCurrentKidId = getIntent().getLongExtra(Prefs.CURRENT_KID_ID, -1);
-      if (mCurrentKidId < 0)
-      {
-         item.setVisible(false);
-      } else
-      {
-         item.setVisible(true);
-      }*/
-      return true;
-   }
-
-   @Override
-   public boolean onOptionsItemSelected(MenuItem item)
-   {
-      // Handle presses on the action bar items
-      switch (item.getItemId()) {
-      /*case R.id.action_add_word:
-         switchToAddWord();
-         return true;*/
-      case R.id.action_manage_kids:
-         Intent manage_intent = new Intent(this, ManageKidsActivity.class);
-         startActivity(manage_intent);
-         return true;
-      case R.id.action_export:
-         Intent backup_intent = new Intent(this, DataExportActivity.class);
-         startActivity(backup_intent);
-      default:
-         return super.onOptionsItemSelected(item);
-      }
    }
 
    public void onKidAdded(int kidId) {

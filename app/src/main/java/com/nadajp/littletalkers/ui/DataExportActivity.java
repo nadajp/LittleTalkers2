@@ -18,6 +18,7 @@ import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract.Kids;
 import com.nadajp.littletalkers.database.DbContract.Questions;
 import com.nadajp.littletalkers.database.DbContract.Words;
+import com.nadajp.littletalkers.sync.SetupSyncActivity;
 import com.nadajp.littletalkers.utils.Utils;
 
 import java.io.File;
@@ -85,6 +86,10 @@ public class DataExportActivity extends AppCompatActivity {
                 return true;
             case android.R.id.home:
                 super.onBackPressed();
+                return true;
+            case R.id.action_sync:
+                Intent syncIntent = new Intent(this, SetupSyncActivity.class);
+                startActivity(syncIntent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

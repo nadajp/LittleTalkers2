@@ -13,5 +13,10 @@
         android:orderInCategory="200"
         app:showAsAction="never"
         android:title="@string/export_data"/>
+    <item
+        android:id="@+id/action_sync"
+        android:orderInCategory="600"
+        app:showAsAction="never"
+        android:title="@string/sync_title"/>
 
 </menu>
