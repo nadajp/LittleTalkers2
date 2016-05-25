@@ -9,12 +9,16 @@ android {
         minSdkVersion 16
         targetSdkVersion 23
 
+        // Enabling multidex support.
+        multiDexEnabled true
+
         testApplicationId "com.nadajp.littletalkers.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
 
     buildTypes {
         release {
+            shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt', 'proguard-google-api-client.txt'
         }
@@ -23,7 +27,8 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v13:23.4.0'
-    compile 'com.google.android.gms:play-services:8.4.0'
+    compile 'com.google.android.gms:play-services-auth:9.0.0'
+    compile 'com.google.android.gms:play-services-location:9.0.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
     compile project(path: ':backend', configuration: 'android-endpoints')

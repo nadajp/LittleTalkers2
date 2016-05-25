@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.model.Kid;
@@ -57,7 +56,7 @@ public class AddItemActivity extends BaseActivity implements AddItemFragment.OnA
 
 
         mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
-        Log.i(DEBUG_TAG, "TYPE IS: " + mType);
+        //Log.i(DEBUG_TAG, "TYPE IS: " + mType);
 
         if (savedInstanceState != null) {
             mType = savedInstanceState.getInt(Prefs.TYPE);

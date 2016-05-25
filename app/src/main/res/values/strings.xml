@@ -233,4 +233,8 @@
     <string name="title_phrase_list">Phrases</string>
     <string name="title_phrase_detail">Phrase Detail</string>
 
+    <!-- widget -->
+    <string name="add_new_word_button">Add New \nWord</string>
+    <string name="add_new_qa_button">Add New \nQ &amp; A</string>
+
 </resources>
