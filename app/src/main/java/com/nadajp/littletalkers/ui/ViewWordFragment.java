@@ -107,7 +107,6 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
         String notes = mEditNotes.getText().toString();
 
         //Log.i(DEBUG_TAG, "updating word with audio file " + mCurrentAudioFile);
-        //Log.i(DEBUG_TAG, "updating word with language: " + mLanguage);
         if (!update(phrase, msDate, location, translation, towhom, notes)) {
             if (!automatic) {
                 mEditPhrase.requestFocus();
@@ -120,10 +119,7 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
         Toast toast = Toast.makeText(this.getActivity(),
                 R.string.word_updated, Toast.LENGTH_SHORT);
         toast.show();
-        // invalidate menu to add sharing capabilities
-        this.getActivity().invalidateOptionsMenu();
         return mItemId;
-
     }
 
     private boolean update(String word, long date,
@@ -131,9 +127,11 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
                                String notes) {
 
         Log.i(DEBUG_TAG, "Kid id for update: " + mCurrentKidId);
+        Log.i(DEBUG_TAG, "Word id for update: " + mItemId);
 
         ContentValues values = new ContentValues();
         values.put(Words.COLUMN_NAME_WORD, word);
+        Log.i(DEBUG_TAG, "Updating to current lanugage: " + mLanguage);
         values.put(Words.COLUMN_NAME_LANGUAGE, mLanguage);
         values.put(Words.COLUMN_NAME_DATE, date);
         values.put(Words.COLUMN_NAME_LOCATION, location);
@@ -284,6 +282,9 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
             mEditNotes.setText(cursor.getString(
                     cursor.getColumnIndex(Words.COLUMN_NAME_NOTES)));
 
+            mLanguage = cursor.getString(cursor.getColumnIndex(Words.COLUMN_NAME_LANGUAGE));
+            int position = mLanguageAdapter.getPosition(mLanguage);
+            Log.i(DEBUG_TAG, "Language: " + mLanguage + ", Pos: " + position);
             ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
                     .getAdapter();
             mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor

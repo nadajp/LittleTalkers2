@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ViewItemFragment extends ItemDetailFragment {
-    public static final String ITEM_ID = "Item_ID";
     private static final String DEBUG_TAG = "ViewItemFragment";
     private static final int SHARE_DIALOG_ID = 3;
     private OnUpdatePhraseListener mListener; // listener to notify activity that
@@ -86,6 +85,7 @@ public abstract class ViewItemFragment extends ItemDetailFragment {
         }
     }
 
+    @Override
     protected void saveItem(boolean exit) {
         super.saveItem(exit);
         if (mItemId > 0 && exit) {

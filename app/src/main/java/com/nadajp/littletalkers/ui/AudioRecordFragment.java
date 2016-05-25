@@ -8,6 +8,7 @@ import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.media.MediaRecorder.OnInfoListener;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,9 +55,8 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
       mSecondRecording = args.getBoolean(Prefs.SECOND_RECORDING);
       mTempFileStem = args.getString(Prefs.TEMP_FILE_STEM);
       int type = args.getInt(Prefs.TYPE);
-      if (type == Prefs.TYPE_QA)
-      {
-         v.setBackgroundColor(this.getResources().getColor(R.color.green));
+      if (type == Prefs.TYPE_QA) {
+         v.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.green));
          mImgMic.setImageDrawable(this.getResources().getDrawable(
                R.drawable.ic_circle_white_green_mic));
       }

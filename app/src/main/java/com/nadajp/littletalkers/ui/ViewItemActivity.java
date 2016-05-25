@@ -33,12 +33,13 @@ public class ViewItemActivity extends AppCompatActivity implements ViewItemFragm
         } else {
             mType = getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
             mKidName = getIntent().getStringExtra(Prefs.KID_NAME);
-            Log.i(DEBUG_TAG, "Kid name being passed to ItemDetailFragment: " + mKidName);
+            long itemId = getIntent().getLongExtra(ItemDetailFragment.ITEM_ID, 0);
+            Log.i(DEBUG_TAG, "Kid name being passed to ViewItemFragment: " + mKidName);
+            Log.i(DEBUG_TAG, "Item id being passed to ViewItemFragment: " + itemId);
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putLong(ViewItemFragment.ITEM_ID, getIntent()
-                    .getLongExtra(ViewItemFragment.ITEM_ID, 0));
+            arguments.putLong(ItemDetailFragment.ITEM_ID, itemId);
             arguments.putString(Prefs.KID_NAME, mKidName);
 
             if (mType == Prefs.TYPE_WORD) {

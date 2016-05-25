@@ -84,7 +84,7 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
 
     public void startAudioRecording(boolean secondRecording) {
         Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
-        intent.putExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+        intent.putExtra(Prefs.TYPE, Prefs.TYPE_QA);
         intent.putExtra(Prefs.TEMP_FILE_STEM, mTempFileStem);
         intent.putExtra(Prefs.SECOND_RECORDING, secondRecording);
         startActivityForResult(intent, RECORD_AUDIO_REQUEST);
@@ -280,6 +280,10 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
                     cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_NOTES))
                     .toString());
 
+            mLanguage = cursor.getString(cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_LANGUAGE));
+            int position = mLanguageAdapter.getPosition(mLanguage);
+            Log.i(DEBUG_TAG, "Language: " + mLanguage + ", Pos: " + position);
+
             ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
                     .getAdapter();
             mLangSpinner.setSelection(adapter.getPosition(cursor.getString(cursor
@@ -300,7 +304,6 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
             } else {
                 mTextHeadingAnswer.setText(getString(R.string.answer) + ":");
             }
-            cursor.close();
             setAudio(getView());
         }
         else {

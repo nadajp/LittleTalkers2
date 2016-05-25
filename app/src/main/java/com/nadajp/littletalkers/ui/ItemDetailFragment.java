@@ -385,6 +385,7 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         mLanguage = parent.getItemAtPosition(pos).toString();
+        Log.i(DEBUG_TAG, "Selected language: " + mLanguage);
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -541,6 +542,7 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(Prefs.AUDIO_RECORDED, mAudioRecorded);
+        outState.putLong(Prefs.ITEM_ID, mItemId);
         if (mRecordingLayout.getVisibility() == View.VISIBLE) {
             outState.putString(Prefs.AUDIO_FILE, mCurrentAudioFile);
             //Log.i(DEBUG_TAG, "AUDIO RECORDED.");
@@ -647,7 +649,7 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
                     .setPositiveButton(R.string.delete,
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    ((AddItemFragment) getTargetFragment())
+                                    ((ItemDetailFragment) getTargetFragment())
                                             .confirmDeleteAudio();
                                 }
                             })

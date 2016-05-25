@@ -250,7 +250,7 @@ public class ItemListActivity extends BaseActivity implements
             mCurrentItemId = id;
             insertDetailView(mType);
         } else {
-            Log.i(DEBUG_TAG, "One pane, starting ViewItemActivity class");
+            Log.i(DEBUG_TAG, "One pane, starting ViewItemActivity class with item id: " + id);
             Intent intent = new Intent(this, ViewItemActivity.class);
             intent.putExtra(ItemDetailFragment.ITEM_ID, id);
             intent.putExtra(Prefs.TYPE, mType);

@@ -29,11 +29,7 @@ public class Utils {
     public static final int COLOR_GREEN = 1;
     public static final int COLOR_RED = 2;
     public static final int COLOR_ORANGE = 3;
-    // The following are used in caching data changes for server upload
-    public static final String ADD_WORD = "add_word";
-    public static final String UPDATE_WORD = "update_word";
-    public static final String ADD_QA = "add_qa";
-    public static final String UPDATE_QA = "update_qa";
+
     private static final AtomicInteger sNextGeneratedId = new AtomicInteger(1);
     private static final String DEBUG_TAG = "Utils";
 
