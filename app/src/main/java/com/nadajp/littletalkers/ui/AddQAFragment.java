@@ -74,11 +74,6 @@ public class AddQAFragment extends AddItemFragment {
         updateExtraKidDetails();
     }
 
-
-    public void initializeExtras(View v) {
-        //mEditTranslation = (EditText) v.findViewById(R.id.editTranslation);
-    }
-
     public void startAudioRecording(boolean secondRecording) {
         Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
         intent.putExtra(Prefs.TYPE, Prefs.TYPE_WORD);
@@ -113,6 +108,21 @@ public class AddQAFragment extends AddItemFragment {
         int asked = mCheckAsked.isChecked() ? 1 : 0;
         int answered = mCheckAnswered.isChecked() ? 1 : 0;
 
+        if (mItemId > 0) {  // already saved, updating...
+            if (update(question, answer, asked, answered, msDate, towhom, location, notes) == false) {
+                if (!automatic) {
+                    mEditPhrase.requestFocus();
+                    mEditPhrase
+                            .setError(getString(R.string.QA_already_exists_error));
+                }
+                return -1;
+            }
+            // Item was updated successfully, show list
+            Toast.makeText(this.getActivity(), R.string.question_updated, Toast.LENGTH_SHORT).show();
+
+            return mItemId;
+        }
+
         mItemId = insert(question, answer, asked, answered, msDate, towhom, location, notes);
         if (mItemId == -1) {
             if (!automatic) {
@@ -122,13 +132,9 @@ public class AddQAFragment extends AddItemFragment {
             }
             return -1;
         }
-
         // QA was saved successful
-        Toast toast = Toast.makeText(this.getActivity(),
-                R.string.question_saved, Toast.LENGTH_SHORT);
-        toast.show();
+        Toast.makeText(this.getActivity(), R.string.question_saved, Toast.LENGTH_SHORT).show();
         return mItemId;
-
     }
 
     private long insert(String question, String answer, int asked, int answered,
@@ -165,6 +171,29 @@ public class AddQAFragment extends AddItemFragment {
         // Inserting Row
         Uri uri = mResolver.insert(DbContract.Questions.CONTENT_URI, values);
         return ContentUris.parseId(uri);
+    }
+
+    private boolean update(String question, String answer, int asked, int answered,
+                           long date, String towhom, String location, String notes) {
+
+        ContentValues values = new ContentValues();
+        values.put(DbContract.Questions.COLUMN_NAME_QUESTION, question);
+        values.put(DbContract.Questions.COLUMN_NAME_ANSWER, answer);
+        values.put(DbContract.Questions.COLUMN_NAME_ASKED, asked);
+        values.put(DbContract.Questions.COLUMN_NAME_ANSWERED, answered);
+        values.put(DbContract.Questions.COLUMN_NAME_LANGUAGE, mLanguage);
+        values.put(DbContract.Questions.COLUMN_NAME_DATE, date);
+        values.put(DbContract.Questions.COLUMN_NAME_LOCATION, location);
+        values.put(DbContract.Questions.COLUMN_NAME_AUDIO_FILE, mCurrentAudioFile);
+        values.put(DbContract.Questions.COLUMN_NAME_TOWHOM, towhom);
+        values.put(DbContract.Questions.COLUMN_NAME_NOTES, notes);
+
+        // Inserting Row
+        mResolver.update(DbContract.Questions.CONTENT_URI,
+                values,
+                DbContract.Questions._ID + " = ?",
+                new String[]{Long.valueOf(mItemId).toString()});
+        return true;
     }
 
     public void saveToPrefs() {

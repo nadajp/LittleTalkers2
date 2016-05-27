@@ -14,7 +14,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -91,7 +90,6 @@ public class ManageKidsFragment extends ListFragment implements LoaderManager.Lo
                         return false;
                 }
             }
-
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 // Inflate the menu for the CAB
@@ -208,10 +206,9 @@ public class ManageKidsFragment extends ListFragment implements LoaderManager.Lo
     public void onAttach(Context context) {
         if (context instanceof KidsListFragmentInteractionListener) {
             mListener = (KidsListFragmentInteractionListener) context;
-            Log.i(DEBUG_TAG, "Attached listener.");
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement KidsListFragmentInteractionListener");
+                    + " must implemenet ManageKidsFragment.KidsListFragmentInteractionListener");
         }
         super.onAttach(context);
     }
@@ -235,9 +232,8 @@ public class ManageKidsFragment extends ListFragment implements LoaderManager.Lo
     }
 
     public interface KidsListFragmentInteractionListener {
-        public void onKidsDeleted();
-        public void onSelectKid(Kid kid);
-        public void onEditKid();
+        void onKidsDeleted();
+        void onSelectKid(Kid kid);
     }
 
     public static class DeleteSelectedDialogFragment extends DialogFragment {

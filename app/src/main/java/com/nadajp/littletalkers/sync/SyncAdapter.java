@@ -21,7 +21,6 @@ import com.nadajp.littlealkers.backend.littleTalkersApi.model.UserDataWrapper;
 import com.nadajp.littlealkers.backend.littleTalkersApi.model.UserProfile;
 import com.nadajp.littletalkers.AppConstants;
 import com.nadajp.littletalkers.R;
-import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbContract.Kids;
 import com.nadajp.littletalkers.utils.Prefs;
 
@@ -34,27 +33,12 @@ import java.io.IOException;
 public class SyncAdapter extends AbstractThreadedSyncAdapter {
 
     // Interval at which to sync with the weather, in seconds.
-    // 60 seconds (1 minute) * 180 = 3 hours
     // 60 seconds (1 minute) * 60 (1 hr) * 24 = 1 day
     public static final int SYNC_INTERVAL = 60 * 60 * 24;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     // The authority for the sync adapter's content provider
     public static final String AUTHORITY = "com.nadajp.littletalkers.provider";
-
-    // Paths for the content provider tables
-    public static final String KIDS_TABLE_PATH = DbContract.Kids.TABLE_NAME;
-    public static final String WORDS_TABLE_PATH = DbContract.Words.TABLE_NAME;
-    public static final String QUESTIONS_TABLE_PATH = DbContract.Questions.TABLE_NAME;
-
-    // Constants representing column positions from KID.
-    public static final int KIDS_COLUMN_ID = 0;
-    public static final int KIDS_COLUMN_NAME = 1;
-    public static final int KIDS_COLUMN_BIRTHDATE = 2;
-    public static final int KIDS_COLUMN_LOCATION = 3;
-    public static final int KIDS_COLUMN_LANGUAGE = 4;
-    public static final int KIDS_COLUMN_PICTURE_URI = 5;
-    private static final long DAY_IN_MILLIS = 1000 * 60 * 60 * 24;
     /**
      * Network connection timeout, in milliseconds.
      */
@@ -72,7 +56,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             Kids.COLUMN_NAME_PICTURE_URI};
 
     private static final String DEBUG_TAG = "SyncAdapter";
-    public String mAccountName;
     // Define a variable to contain a content resolver instance
     ContentResolver mContentResolver;
 
@@ -81,7 +64,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
      */
     public SyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        Log.i(DEBUG_TAG, "Entering SyncAdapter...");
       /*
        * If your app uses a content resolver, get an instance of it from the
        * incoming Context
@@ -100,7 +82,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
        * If your app uses a content resolver, get an instance of it from the
        * incoming Context
        */
-        Log.i(DEBUG_TAG, "Entering SyncAdapter...");
         mContentResolver = context.getContentResolver();
     }
 
@@ -120,6 +101,7 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             ContentResolver.addPeriodicSync(account,
                     AUTHORITY, new Bundle(), syncInterval);
         }
+        Toast.makeText(context, R.string.sync_enabled, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -154,29 +136,19 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         Account newAccount = new Account(
                 context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
 
-        Log.i(DEBUG_TAG, "Sync Account name: " + newAccount.name);
-        Log.i(DEBUG_TAG, "Sync Account type: " + newAccount.type);
-
         // If the password doesn't exist, the account doesn't exist
         if (null == accountManager.getPassword(newAccount)) {
-
         /*
          * Add the account and account type, no password or user data
          * If successful, return the Account object, otherwise report an error.
          */
             if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
+                Toast.makeText(context, R.string.sync_account_error, Toast.LENGTH_SHORT).show();
                 return null;
             }
-            /*
-             * If you don't set android:syncable="true" in
-             * in your <provider> element in the manifest,
-             * then call ContentResolver.setIsSyncable(account, AUTHORITY, 1)
-             * here.
-             */
-            //ContentResolver.setIsSyncable(newAccount, AUTHORITY, 1);
             onAccountCreated(newAccount, context);
         }
-        Toast.makeText(context, R.string.sync_already_enabled, Toast.LENGTH_LONG).show();
+        Toast.makeText(context, R.string.sync_enabled, Toast.LENGTH_SHORT).show();
         return newAccount;
     }
 
@@ -195,7 +167,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
          * Finally, let's do a sync to get things started
          */
         syncImmediately(context);
-        Toast.makeText(context, R.string.sync_enabled, Toast.LENGTH_LONG).show();
     }
 
     public static void initializeSyncAdapter(Context context) {
@@ -213,7 +184,6 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
         /*
          * Put the data transfer code here.
          */
-        Log.i(DEBUG_TAG, "Performing Sync!");
         LittleTalkersApi myApiService = null;
         Context context = getContext();
 
@@ -221,41 +191,29 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
                 .usingAudience(context, AppConstants.AUDIENCE)
                 .setSelectedAccountName(Prefs.getGoogleAccountName(context));
 
-        Log.i(DEBUG_TAG, "Credential: " + credential.getSelectedAccountName());
+        //Log.i(DEBUG_TAG, "Credential: " + credential.getSelectedAccountName());
         if (myApiService == null) {  // Only do this once
             LittleTalkersApi.Builder builder = new LittleTalkersApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), credential)
-                    // options for running against local devappserver
-                    // - 10.0.2.2 is localhost's IP address in Android emulator
-                    // - turn off compression when running against local devappserver
                     .setRootUrl(context.getString(R.string.server_url))
                     .setApplicationName(context.getString(R.string.app_name));
-                        /*.setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                            @Override
-                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                abstractGoogleClientRequest.setDisableGZipContent(true);
-                            }
-                        });*/
-            // end options for devappserver
             myApiService = builder.build();
-            Log.i(DEBUG_TAG, "MyApiService created...");
         }
 
         Long userId = Prefs.getUserId(context);
         ContentResolver resolver = context.getContentResolver();
         UserDataWrapper data = SyncUtils.getUserData(resolver);
-        Log.i(DEBUG_TAG, "user id from Prefs: " + userId);
 
         // First ever sync
         if (userId == -1) {
             try {
                 UserProfile result = myApiService.insertProfile().execute();
                 userId = result.getId();
-                Log.i(DEBUG_TAG, "User id: " + userId);
+                //Log.i(DEBUG_TAG, "User id: " + userId);
                 Prefs.saveUserId(context, userId);
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e(DEBUG_TAG, e.getMessage());
+                //Log.e(DEBUG_TAG, e.getMessage());
                 return;
             }
         }
@@ -264,14 +222,14 @@ public class SyncAdapter extends AbstractThreadedSyncAdapter {
             UserDataWrapper userData = myApiService.insertUserData(userId, data).execute();
             if (userData != null) {
                 SyncUtils.setNotDirty(data, resolver);
-                Log.i(DEBUG_TAG, context.getString(R.string.data_uploaded));
+                //Log.i(DEBUG_TAG, context.getString(R.string.data_uploaded));
                 return;
             }
-            Log.i(DEBUG_TAG, context.getString(R.string.nothing_to_upload));
+            //Log.i(DEBUG_TAG, context.getString(R.string.nothing_to_upload));
             return;
         } catch (IOException e) {
             e.printStackTrace();
-            Log.e(DEBUG_TAG, e.getMessage());
+            //Log.e(DEBUG_TAG, e.getMessage());
             return;
         }
     }

@@ -52,7 +52,6 @@ public class AddKidActivity extends AppCompatActivity implements
    public void onKidAdded(int kidId) {
       Intent intent = new Intent(this, ItemListActivity.class);
       intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
-      // Log.i(DEBUG_TAG, "In onKidAdded, kid from Prefs is: " + Prefs.getKidId(this, -1));
       startActivity(intent);
       finish(); // unload this activity
    }

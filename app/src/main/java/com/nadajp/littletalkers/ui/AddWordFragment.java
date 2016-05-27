@@ -52,11 +52,6 @@ public class AddWordFragment extends AddItemFragment {
                     + getString(R.string.said_something) + " ?");
     }
 
-
-    public void initializeExtras(View v) {
-        //mEditTranslation = (EditText) v.findViewById(R.id.editTranslation);
-    }
-
     public void startAudioRecording(boolean secondRecording) {
         Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
         intent.putExtra(Prefs.TYPE, Prefs.TYPE_WORD);
@@ -84,6 +79,21 @@ public class AddWordFragment extends AddItemFragment {
         String towhom = mEditToWhom.getText().toString();
         String notes = mEditNotes.getText().toString();
 
+        // updating
+        if (mItemId > 0) {
+            if (!update(phrase, msDate, location, translation, towhom, notes)) {
+                if (!automatic) {
+                    mEditPhrase.requestFocus();
+                    mEditPhrase
+                            .setError(getString(R.string.word_already_exists_error));
+                }
+                return -1;
+            }
+            // Word was updated successfully
+            Toast.makeText(this.getActivity(), R.string.word_updated, Toast.LENGTH_SHORT).show();
+            return mItemId;
+        }
+
         mItemId = insert(phrase, msDate, location, translation, towhom, notes);
 
         if (mItemId == -1) {
@@ -96,9 +106,7 @@ public class AddWordFragment extends AddItemFragment {
         }
 
         // word was saved successfully
-        Toast toast = Toast.makeText(this.getActivity(), R.string.word_saved,
-                Toast.LENGTH_SHORT);
-        toast.show();
+        Toast.makeText(this.getActivity(), R.string.word_saved, Toast.LENGTH_SHORT).show();
         return mItemId;
     }
 
@@ -106,7 +114,7 @@ public class AddWordFragment extends AddItemFragment {
                         String towhom, String notes) {
         // check if word already exists for this kid
         String argKidId = Integer.valueOf(mCurrentKidId).toString();
-        Log.i(DEBUG_TAG, "Kid id at insert: " + argKidId);
+        //Log.i(DEBUG_TAG, "Kid id at insert: " + argKidId);
         Cursor cursor = mResolver.query(Words.CONTENT_URI,
                 new String[]{Words._ID},
                 Words.COLUMN_NAME_KID + " = ? AND " + Words.COLUMN_NAME_WORD + " = ?",
@@ -133,6 +141,32 @@ public class AddWordFragment extends AddItemFragment {
         // Inserting Row
         Uri uri = mResolver.insert(Words.CONTENT_URI, values);
         return ContentUris.parseId(uri);
+    }
+
+
+    private boolean update(String word, long date,
+                           String location, String translation, String towhom,
+                           String notes) {
+
+        //Log.i(DEBUG_TAG, "Kid id for update: " + mCurrentKidId);
+        //Log.i(DEBUG_TAG, "Word id for update: " + mItemId);
+
+        ContentValues values = new ContentValues();
+        values.put(Words.COLUMN_NAME_WORD, word);
+        values.put(Words.COLUMN_NAME_LANGUAGE, mLanguage);
+        values.put(Words.COLUMN_NAME_DATE, date);
+        values.put(Words.COLUMN_NAME_LOCATION, location);
+        values.put(Words.COLUMN_NAME_AUDIO_FILE, mCurrentAudioFile);
+        values.put(Words.COLUMN_NAME_TRANSLATION, translation);
+        values.put(Words.COLUMN_NAME_TOWHOM, towhom);
+        values.put(Words.COLUMN_NAME_NOTES, notes);
+
+        // Updating Row with current item id
+        mResolver.update(Words.CONTENT_URI,
+                values,
+                Words._ID + " = ?",
+                new String[]{Long.valueOf(mItemId).toString()});
+        return true;
     }
 
     public void saveToPrefs() {

@@ -1,6 +1,7 @@
 package com.nadajp.littletalkers.ui;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -89,8 +90,7 @@ public abstract class AddItemFragment extends ItemDetailFragment {
         super.saveItem(exit);
         if (mItemId > 0 && exit) {
             mListener.onClickedShowDictionary(mCurrentKidId);
-        }
-        if (mItemId > 0) {
+        } else if (mItemId > 0) {
             mListener.onPhraseAdded(this);
         }
     }
@@ -108,7 +108,18 @@ public abstract class AddItemFragment extends ItemDetailFragment {
         mItemId = 0;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        if (context instanceof OnAddNewPhraseListener) {
+            mListener = (OnAddNewPhraseListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implemenet ItemDetailFragment.OnAddNewPhraseListener");
+        }
+        super.onAttach(context);
+    }
 
+    // for API < 23
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -127,8 +138,8 @@ public abstract class AddItemFragment extends ItemDetailFragment {
     }
 
     public interface OnAddNewPhraseListener {
-        public void onPhraseAdded(AddItemFragment fragment);
-        public void onClickedShowDictionary(int kidId);
+        void onPhraseAdded(AddItemFragment fragment);
+        void onClickedShowDictionary(int kidId);
     }
 
     private String getLocation() {

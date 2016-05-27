@@ -15,31 +15,26 @@ import java.util.Locale;
  * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
-public abstract class SectionsPagerAdapter extends FragmentPagerAdapter
-{
+public abstract class SectionsPagerAdapter extends FragmentPagerAdapter {
    private Context mCtxt;
    SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
-   /** Constructor of the class **/
-   public SectionsPagerAdapter(FragmentManager fm, Context c)
-   {
+   // Constructor
+   public SectionsPagerAdapter(FragmentManager fm, Context c) {
        super(fm);
        mCtxt = c;
    }
 
    @Override
-   public int getCount()
-   {
+   public int getCount() {
       // Show 2 total pages.
       return 2;
    }
 
    @Override
-   public CharSequence getPageTitle(int position)
-   {
+   public CharSequence getPageTitle(int position) {
       Locale l = Locale.getDefault();
-      switch (position)
-      {
+      switch (position) {
         case 0:
           return mCtxt.getString(R.string.word_or_phrase).toUpperCase(l);
         case 1:
@@ -49,16 +44,14 @@ public abstract class SectionsPagerAdapter extends FragmentPagerAdapter
    }
    
    @Override
-   public Object instantiateItem(ViewGroup container, int position)
-   {
+   public Object instantiateItem(ViewGroup container, int position) {
       Fragment fragment = (Fragment) super.instantiateItem(container, position);
       registeredFragments.put(position, fragment);
       return fragment;
    }
    
    @Override
-   public void destroyItem(ViewGroup container, int position, Object object)
-   {
+   public void destroyItem(ViewGroup container, int position, Object object) {
       registeredFragments.remove(position);
       super.destroyItem(container, position, object);
    }

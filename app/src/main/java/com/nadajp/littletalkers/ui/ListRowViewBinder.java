@@ -16,21 +16,14 @@ import com.nadajp.littletalkers.utils.Utils;
 
 import java.io.IOException;
 
-public class ListRowViewBinder implements ViewBinder
-{
+public class ListRowViewBinder implements ViewBinder {
    private static final String DEBUG_TAG = "ListRowViewBinder";
    private MediaPlayer mPlayer;
    final static Animation mAnimation = new AlphaAnimation(1, 0); // Change alpha
-   static final int COL_ID = 0;
-   static final int COL_WORD = 1;
-   static final int COL_DATE = 2;
-   static final int COL_AUDIO = 3;
-
    private View mPlayButton; // the view that holds currently pressed (animated)
                              // button
 
-   public ListRowViewBinder(MediaPlayer mediaPlayer)
-   {
+   public ListRowViewBinder(MediaPlayer mediaPlayer) {
       mPlayer = mediaPlayer;
       mAnimation.setDuration(500); // duration - half a second
       mAnimation.setInterpolator(new LinearInterpolator()); // do not alter
@@ -49,11 +42,9 @@ public class ListRowViewBinder implements ViewBinder
    }
 
    @Override
-   public boolean setViewValue(View view, Cursor cursor, int columnIndex)
-   {
+   public boolean setViewValue(View view, Cursor cursor, int columnIndex) {
       if (columnIndex == cursor
-            .getColumnIndex(DbContract.Words.COLUMN_NAME_DATE))
-      {
+            .getColumnIndex(DbContract.Words.COLUMN_NAME_DATE)) {
          long rawdate = cursor.getLong(columnIndex);
          String formatted = Utils.getDateForDisplay(rawdate, view.getContext());
          TextView txt = (TextView) view;
@@ -62,18 +53,15 @@ public class ListRowViewBinder implements ViewBinder
       }
 
       else if (columnIndex == cursor
-            .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE))
-      {
+            .getColumnIndex(DbContract.Words.COLUMN_NAME_AUDIO_FILE)) {
          // If the column is COLUMN_NAME_AUDIO_FILE then we use custom view.
          String audioFile = cursor.getString(columnIndex);
 
-         if (audioFile == null || audioFile.isEmpty())
-         {
+         if (audioFile == null || audioFile.isEmpty()) {
             view.setVisibility(View.INVISIBLE);
          }
 
-         else
-         {
+         else {
             view.setFocusable(false);
             view.setFocusableInTouchMode(false);
             // set the visibility of the view to visible
@@ -86,35 +74,27 @@ public class ListRowViewBinder implements ViewBinder
       return false;
    }
 
-   private class MyListener implements OnClickListener, OnCompletionListener
-   {
+   private class MyListener implements OnClickListener, OnCompletionListener {
       private String mAudioFile;
-
       public MyListener(String audioFile)
       {
          this.mAudioFile = audioFile;
       }
 
       @Override
-      public void onClick(View v)
-      {
-         if (mPlayer.isPlaying())
-         {
+      public void onClick(View v) {
+         if (mPlayer.isPlaying()) {
             Stop();
-            // return;
          }
          mPlayButton = v;
          v.setPressed(true);
          v.startAnimation(mAnimation);
-         try
-         {
+         try {
             mPlayer.setDataSource(mAudioFile);
             mPlayer.setOnCompletionListener(this);
-            //Log.i(DEBUG_TAG, "Started Playing " + mAudioFile);
             mPlayer.prepare();
             mPlayer.start();
-         } catch (IOException e)
-         {
+         } catch (IOException e) {
             //Log.e(DEBUG_TAG, "Audio player start failed");
          }
       }
@@ -124,8 +104,7 @@ public class ListRowViewBinder implements ViewBinder
          Stop();
       }
 
-      public void Stop()
-      {
+      public void Stop() {
          mPlayer.stop();
          mPlayer.reset();
          mPlayButton.setPressed(false);

@@ -27,8 +27,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class AudioRecordFragment extends Fragment implements OnClickListener,
-      OnErrorListener, OnInfoListener
-{
+      OnErrorListener, OnInfoListener {
    private static final String DEBUG_TAG = "AudioRecordFragment";
 
    private File mDirectory = null; // directory to store audio file
@@ -44,8 +43,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-         Bundle savedInstanceState)
-   {
+         Bundle savedInstanceState) {
       // Inflate the layout for this fragment
       View v = inflater.inflate(R.layout.fragment_audio_record, container,
             false);
@@ -86,31 +84,22 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
    }
 
    @Override
-   public void onActivityCreated(Bundle savedInstanceState)
-   {
-      super.onActivityCreated(savedInstanceState);
-   }
-
-   @Override
-   public void onInfo(MediaRecorder mr, int what, int extra)
-   {
+   public void onInfo(MediaRecorder mr, int what, int extra) {
       String msg = getString(R.string.mediarecorder_error_msg);
 
-      switch (what)
-      {
-      case MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED:
-         msg = getString(R.string.max_duration);
-         break;
-      case MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED:
-         msg = getString(R.string.max_size);
-         break;
+      switch (what) {
+         case MediaRecorder.MEDIA_RECORDER_INFO_MAX_DURATION_REACHED:
+            msg = getString(R.string.max_duration);
+            break;
+         case MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED:
+            msg = getString(R.string.max_size);
+            break;
       }
       Toast.makeText(this.getActivity(), msg, Toast.LENGTH_LONG).show();
    }
 
    @Override
-   public void onError(MediaRecorder mr, int what, int extra)
-   {
+   public void onError(MediaRecorder mr, int what, int extra) {
       Toast.makeText(this.getActivity(), R.string.mediarecorder_error_msg,
             Toast.LENGTH_LONG).show();
    }
@@ -118,8 +107,7 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
    private void startRecording()
    {
       if (this.getActivity().getPackageManager().hasSystemFeature(
-            PackageManager.FEATURE_MICROPHONE) == false)
-      {
+            PackageManager.FEATURE_MICROPHONE) == false) {
          Toast.makeText(this.getActivity(), R.string.no_mic_available,
                Toast.LENGTH_LONG).show();
          Intent intent = new Intent();
@@ -133,12 +121,10 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
       mRecorder.setOnErrorListener(this);
       mRecorder.setOnInfoListener(this);
 
-      if (mSecondRecording)
-      {
+      if (mSecondRecording) {
          mTempFile = new File(mDirectory, mTempFileStem + "2.3gp");
       }
-      else
-      {
+      else {
          mTempFile = new File(mDirectory, mTempFileStem + ".3gp");
       }
       mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
@@ -146,32 +132,24 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
       mRecorder.setOutputFile(mTempFile.getAbsolutePath());
       mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
-      try
-      {
+      try {
          mRecorder.prepare();
          mRecorder.start();
-      } catch (IOException e)
-      {
-         //Log.e(DEBUG_TAG, "Exception in preparing recorder: " + e.getMessage());
+      } catch (IOException e) {
          Toast.makeText(this.getActivity(), e.getMessage(), Toast.LENGTH_LONG)
                .show();
       }
    }
 
-   private void stopRecording()
-   {
+   private void stopRecording() {
       mImgMic.clearAnimation();
       Intent intent = new Intent();
 
-      try
-      {
+      try {
          mRecorder.stop();
-      } catch (Exception e)
-      {
-         //Log.w(getClass().getSimpleName(), "Exception in stopping recorder", e);
+      } catch (Exception e) {
          this.getActivity().setResult(Activity.RESULT_CANCELED, intent);
          this.getActivity().finish();
-
          // can fail if start() failed for some reason
       }
       mRecorder.reset();
@@ -180,20 +158,16 @@ public class AudioRecordFragment extends Fragment implements OnClickListener,
    }
 
    @Override
-   public void onPause()
-   {
-      if (mRecorder != null)
-      {
+   public void onPause() {
+      if (mRecorder != null) {
          mRecorder.release();
          mRecorder = null;
       }
-
       super.onPause();
    }
 
    @Override
-   public void onDestroyView()
-   {
+   public void onDestroyView() {
       super.onDestroyView();
       mDirectory = null;
       mTempFile = null;

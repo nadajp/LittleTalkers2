@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -251,12 +250,11 @@ public abstract class ItemListFragment extends ListFragment
         }
     }
 
-
     @Override
     public void onAttach(Context context) {
         if (context instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) context;
-            Log.i(DEBUG_TAG, "Attached listener.");
+            //Log.i(DEBUG_TAG, "Attached listener.");
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -269,7 +267,7 @@ public abstract class ItemListFragment extends ListFragment
     public void onAttach(Activity activity) {
         if (activity instanceof OnListFragmentInteractionListener) {
             mListener = (OnListFragmentInteractionListener) activity;
-            Log.i(DEBUG_TAG, "Attached listener.");
+            //Log.i(DEBUG_TAG, "Attached listener.");
         } else {
             throw new RuntimeException(activity.toString()
                     + " must implement OnListFragmentInteractionListener");
@@ -283,18 +281,7 @@ public abstract class ItemListFragment extends ListFragment
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnListFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onListItemSelected(long id);
     }
 }

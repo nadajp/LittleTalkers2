@@ -94,6 +94,18 @@ public abstract class ViewItemFragment extends ItemDetailFragment {
     }
 
     @Override
+    public void onAttach(Context context) {
+        if (context instanceof OnUpdatePhraseListener) {
+            mListener = (OnUpdatePhraseListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implemenet ViewItemFragment.OnUpdatePhraseListener");
+        }
+        super.onAttach(context);
+    }
+
+    // for API < 23
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         if (activity instanceof OnUpdatePhraseListener) {
@@ -111,7 +123,7 @@ public abstract class ViewItemFragment extends ItemDetailFragment {
     }
 
     public interface OnUpdatePhraseListener {
-        public void onPhraseUpdated(int kidId);
+        void onPhraseUpdated(int kidId);
     }
 
     public static class ShareDialog extends DialogFragment {

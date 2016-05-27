@@ -9,7 +9,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -223,7 +222,6 @@ public class ItemListActivity extends BaseActivity implements
 
     public void addNewWord(View view) {
         if (mTwoPane) {
-            Log.i(DEBUG_TAG, "Two panes, replacing fragment");
             mCurrentItemId = 0;
             insertDetailView(mType);
         } else {

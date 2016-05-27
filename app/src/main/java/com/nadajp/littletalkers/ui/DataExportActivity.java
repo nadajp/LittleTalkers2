@@ -18,7 +18,6 @@ import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract.Kids;
 import com.nadajp.littletalkers.database.DbContract.Questions;
 import com.nadajp.littletalkers.database.DbContract.Words;
-import com.nadajp.littletalkers.sync.SetupSyncActivity;
 import com.nadajp.littletalkers.utils.Utils;
 
 import java.io.File;

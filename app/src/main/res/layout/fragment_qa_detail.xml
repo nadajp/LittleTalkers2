@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -13,47 +12,48 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:scrollbars="horizontal"
-        android:windowSoftInputMode="stateAlwaysHidden" >
+        android:windowSoftInputMode="stateAlwaysHidden">
 
-         <ImageView
+        <ImageView
             android:id="@+id/info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:clickable="true"
             android:contentDescription="@string/more_info"
-            android:src="@drawable/ic_action_info"
-             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-             android:layout_alignParentEnd="true" />
-         
-         <ImageView
+            android:src="@drawable/ic_action_info" />
+
+        <ImageView
             android:id="@+id/imgMic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="80dp"
+            android:layout_alignParentStart="true"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="80dp"
             android:clickable="true"
             android:contentDescription="@string/start_recording"
-            android:src="@drawable/button_green_mic"
-             android:layout_marginStart="@dimen/activity_horizontal_margin"
-             android:layout_alignParentStart="true" />
-         
+            android:src="@drawable/button_green_mic" />
+
         <TextView
             android:id="@+id/headingQuestion"
             style="@style/HeadingStyleQA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/imgMic"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_toEndOf="@id/imgMic" />
+            android:layout_marginTop="15dp"
+            android:layout_toEndOf="@id/imgMic"
+            android:layout_toRightOf="@id/imgMic"
+            android:imeOptions="actionDone"/>
 
         <RelativeLayout
             android:id="@+id/question"
@@ -61,111 +61,112 @@
             android:layout_height="50dp"
             android:layout_below="@id/headingQuestion"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/imgMic"
-            android:background="@drawable/addnewtext"
-            android:layout_toEndOf="@id/imgMic"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin">
+            android:layout_toEndOf="@id/imgMic"
+            android:layout_toRightOf="@id/imgMic"
+            android:background="@drawable/addnewtext">
 
             <CheckBox
                 android:id="@+id/checkAsked"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:checked="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin" />
+                android:checked="true" />
 
             <EditText
                 android:id="@+id/editQuestion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@id/checkAsked"
+                android:layout_toStartOf="@id/checkAsked"
                 android:background="@null"
                 android:hint="@string/question"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
+                android:imeOptions="actionDone"
                 android:overScrollMode="ifContentScrolls"
                 android:scrollbarStyle="insideInset"
-                android:scrollbars="horizontal"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toStartOf="@id/checkAsked"
-                android:layout_alignParentStart="true">
-            </EditText>
+                android:scrollbars="horizontal"></EditText>
         </RelativeLayout>
 
-         <TextView
+        <TextView
             android:id="@+id/headingAnswer"
             style="@style/HeadingStyleQA"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/question"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@id/imgMic"
             android:layout_toRightOf="@id/imgMic"
-             android:layout_marginStart="@dimen/activity_horizontal_margin"
-             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-             android:layout_toEndOf="@id/imgMic" />
-                
+            android:imeOptions="actionDone"/>
+
         <RelativeLayout
             android:id="@+id/answer"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_below="@id/headingAnswer"
+            android:layout_marginBottom="20dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginBottom="20dp"
-            android:layout_toRightOf="@id/imgMic"
-            android:background="@drawable/addnewtext"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_toEndOf="@id/imgMic">
+            android:layout_toEndOf="@id/imgMic"
+            android:layout_toRightOf="@id/imgMic"
+            android:background="@drawable/addnewtext">
 
-             <CheckBox
+            <CheckBox
                 android:id="@+id/checkAnswered"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:checked="false"
-                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                 android:layout_alignParentEnd="true" />
+                android:checked="false" />
 
             <EditText
                 android:id="@+id/editAnswer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="10dp"
                 android:layout_toLeftOf="@id/checkAnswered"
+                android:layout_toStartOf="@id/checkAnswered"
                 android:background="@null"
                 android:hint="@string/answer"
                 android:inputType="textCapSentences"
                 android:maxLines="1"
+                android:imeOptions="actionDone"
                 android:overScrollMode="ifContentScrolls"
                 android:scrollbarStyle="insideInset"
-                android:scrollbars="horizontal"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_toStartOf="@id/checkAnswered">
-            </EditText>
+                android:scrollbars="horizontal"></EditText>
         </RelativeLayout>
-<!-- 
-        <TextView
-            android:id="@+id/textCheckInstructions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/answer"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"/> -->
+        <!--
+                <TextView
+                    android:id="@+id/textCheckInstructions"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/answer"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"/> -->
 
         <RelativeLayout
             android:id="@+id/layout_recording"
@@ -173,14 +174,14 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/answer"
             android:layout_centerHorizontal="true"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:background="@drawable/white_card_background"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:visibility="gone"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/text_recording"
@@ -188,43 +189,41 @@
                 android:layout_height="match_parent"
                 android:drawableLeft="@drawable/ic_action_mic"
                 android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_action_mic"
                 android:maxLength="20"
-                android:padding="15dp"
-                android:drawableStart="@drawable/ic_action_mic" />
+                android:padding="15dp" />
 
             <Button
                 android:id="@+id/button_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="-5dp"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="-5dp"
                 android:background="@null"
                 android:drawableEnd="@drawable/ic_action_delete"
                 android:drawableRight="@drawable/ic_action_delete"
                 android:paddingLeft="-5dp"
-                android:paddingStart="-5dp"
-                android:layout_marginStart="-5dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_alignParentEnd="true">
-            </Button>
+                android:paddingStart="-5dp"></Button>
 
             <Button
                 android:id="@+id/button_play"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:layout_marginEnd="55dp"
                 android:layout_marginRight="55dp"
+                android:layout_toEndOf="@id/text_recording"
                 android:layout_toRightOf="@id/text_recording"
                 android:background="@null"
-                android:drawableRight="@drawable/ic_action_play"
-                android:layout_alignParentEnd="true"
                 android:drawableEnd="@drawable/ic_action_play"
-                android:layout_toEndOf="@id/text_recording"
-                android:layout_marginEnd="55dp">
-            </Button>
+                android:drawableRight="@drawable/ic_action_play"></Button>
         </RelativeLayout>
 
         <EditText
@@ -232,35 +231,36 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/layout_recording"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_action_go_to_today"
             android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_action_go_to_today"
             android:focusable="false"
             android:hint="@string/when"
             android:inputType="none"
-            android:padding="15dp"
-            android:drawableStart="@drawable/ic_action_go_to_today"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
+            android:padding="15dp" />
 
         <EditText
             android:id="@+id/editLocation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/editDate"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:background="@drawable/white_card_background"
             android:drawableLeft="@drawable/ic_location"
             android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_location"
             android:hint="@string/where"
             android:inputType="textCapSentences"
-            android:padding="15dp"
-            android:drawableStart="@drawable/ic_location"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin" />
+            android:imeOptions="actionDone"
+            android:padding="15dp" />
 
         <LinearLayout
             android:id="@+id/layout_more"
@@ -268,7 +268,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/editLocation"
             android:orientation="vertical"
-            android:visibility="gone" >
+            android:visibility="gone">
 
             <RelativeLayout
                 android:id="@+id/language"
@@ -276,48 +276,46 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editLocation"
                 android:layout_centerHorizontal="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:background="@drawable/language_spinner"
                 android:paddingBottom="15dp"
-                android:paddingTop="15dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="@dimen/activity_horizontal_margin">
+                android:paddingTop="15dp">
 
                 <ImageView
                     android:id="@+id/language_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:contentDescription="@string/language"
+                    android:paddingEnd="10dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:src="@drawable/ic_language"
                     android:paddingStart="10dp"
-                    android:layout_alignParentStart="true"
-                    android:paddingEnd="10dp">
-                </ImageView>
+                    android:src="@drawable/ic_language"></ImageView>
 
                 <Spinner
                     android:id="@+id/spinner_language"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_toEndOf="@id/language_icon"
                     android:layout_toRightOf="@id/language_icon"
                     android:background="@color/white"
-                    android:entries="@+array/array_languages"
-                    android:layout_toEndOf="@id/language_icon" />
+                    android:entries="@+array/array_languages" />
 
                 <ImageView
                     android:id="@+id/arrow_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:contentDescription="@string/language"
-                    android:src="@drawable/ic_down_arrow"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin">
-                </ImageView>
+                    android:src="@drawable/ic_down_arrow"></ImageView>
             </RelativeLayout>
 
             <EditText
@@ -325,34 +323,35 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/language"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:background="@drawable/white_card_background"
                 android:drawableLeft="@drawable/ic_social_person"
                 android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_social_person"
                 android:hint="@string/to_whom"
                 android:inputType="textCapSentences"
-                android:padding="15dp"
-                android:drawableStart="@drawable/ic_social_person"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin" />
+                android:imeOptions="actionDone"
+                android:padding="15dp" />
 
             <EditText
                 android:id="@+id/editNotes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editToWhom"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:background="@drawable/white_card_background"
                 android:drawableLeft="@drawable/ic_notes"
                 android:drawablePadding="10dp"
+                android:drawableStart="@drawable/ic_notes"
                 android:hint="@string/notes"
                 android:inputType="textCapSentences|textMultiLine"
-                android:padding="15dp"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:drawableStart="@drawable/ic_notes"
-                android:layout_marginStart="@dimen/activity_horizontal_margin" />
+                android:padding="15dp" />
         </LinearLayout>
 
         <EditText
@@ -360,54 +359,54 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/layout_more"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"            
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:background="@drawable/gray_card_background"
             android:drawableLeft="@drawable/ic_plus"
             android:drawablePadding="10dp"
-            android:inputType="none"
+            android:drawableStart="@drawable/ic_plus"
             android:focusable="false"
             android:hint="@string/more"
-            android:padding="15dp"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:drawableStart="@drawable/ic_plus"
-            android:layout_marginStart="@dimen/activity_horizontal_margin" />
-        
+            android:inputType="none"
+            android:padding="15dp" />
+
         <EditText
             android:id="@+id/edit_less"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/layout_more"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"            
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:background="@drawable/gray_card_background"
             android:drawableLeft="@drawable/ic_minus"
             android:drawablePadding="10dp"
-            android:inputType="none"
+            android:drawableStart="@drawable/ic_minus"
             android:focusable="false"
             android:hint="@string/less"
+            android:inputType="none"
             android:padding="15dp"
-            android:visibility="gone"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:drawableStart="@drawable/ic_minus" />
+            android:visibility="gone" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/edit_more"
-            android:src="@drawable/fab_save"
-            android:background="@drawable/oval_shape"
-            app:fabSize="normal"
-            app:elevation="@dimen/fab_elevation"
-            app:pressedTranslationZ="12dp"
-            app:borderWidth="0dp"
-            app:layout_anchor="@id/detail_layout"
-            android:layout_gravity="bottom|center"
             android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:layout_marginTop="@dimen/fab_margin"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+            android:background="@drawable/oval_shape"
+            android:src="@drawable/fab_save"
+            app:borderWidth="0dp"
+            app:elevation="@dimen/fab_elevation"
+            app:fabSize="normal"
+            app:layout_anchor="@id/detail_layout"
+            app:pressedTranslationZ="12dp" />
         <!--<Button
             android:id="@+id/button_save"
             android:layout_width="wrap_content"

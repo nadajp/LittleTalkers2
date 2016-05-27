@@ -12,15 +12,13 @@ import com.nadajp.littletalkers.database.DbContract.Questions;
 /**
  * This creates/opens the database.
  */
-public class DatabaseHelper extends SQLiteOpenHelper
-{
+public class DatabaseHelper extends SQLiteOpenHelper {
    private static final String DEBUG_TAG = "DatabaseHelper";
    private static final int DB_VERSION = 2;
    static final String DB_NAME = "littletalkers_db";
    private Context ctxt = null;
 
-   public DatabaseHelper(Context ctxt)
-   {
+   public DatabaseHelper(Context ctxt) {
       super(ctxt, DB_NAME, null, DB_VERSION);
       this.ctxt = ctxt;
    }
@@ -71,23 +69,18 @@ public class DatabaseHelper extends SQLiteOpenHelper
          + Questions.COLUMN_NAME_IS_DIRTY + " INTEGER DEFAULT 1);";
 
    @Override
-   public void onCreate(SQLiteDatabase db)
-   {
-      // creating required tables
+   public void onCreate(SQLiteDatabase db) {
       db.execSQL(CREATE_TABLE_KIDS);
       db.execSQL(CREATE_TABLE_WORDS);
       db.execSQL(CREATE_TABLE_QUESTIONS);
    }
 
    @Override
-   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-   {
-      // Logs that the database is being upgraded
+   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
       Log.w(DEBUG_TAG, "Upgrading database from version " + oldVersion + " to "
             + newVersion + ", which will destroy all old data");
 
-      switch (oldVersion) 
-      {
+      switch (oldVersion) {
         case 1:
            db.execSQL("ALTER TABLE " + 
                  Kids.TABLE_NAME + " ADD COLUMN " + "is_dirty" + " INTEGER DEFAULT 1");
@@ -102,8 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper
    }
 
    @Override
-   public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion)
-   {
+   public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
       onUpgrade(db, oldVersion, newVersion);
    }
 }

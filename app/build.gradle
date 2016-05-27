@@ -1,9 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'myandroidkey'
+            keyPassword 'njpNMP4Lapad'
+            storeFile file("$rootDir/android.jks")
+            storePassword 'njpNMP4Lapad'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "21.1.2"
-
     defaultConfig {
         applicationId "com.nadajp.littletalkers"
         minSdkVersion 16
@@ -15,15 +22,15 @@ android {
         testApplicationId "com.nadajp.littletalkers.test"
         testInstrumentationRunner "android.test.InstrumentationTestRunner"
     }
-
     buildTypes {
         release {
             shrinkResources true
-            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt', 'proguard-google-api-client.txt'
+            signingConfig signingConfigs.config
         }
     }
 }
+
 
 dependencies {
     compile 'com.android.support:support-v13:23.4.0'
@@ -31,5 +38,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:9.0.0'
     compile 'com.android.support:design:23.4.0'
     compile 'com.android.support:support-v4:23.4.0'
+    compile 'com.google.firebase:firebase-ads:9.0.0'
     compile project(path: ':backend', configuration: 'android-endpoints')
 }

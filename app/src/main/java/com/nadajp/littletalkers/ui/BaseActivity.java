@@ -7,13 +7,10 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,14 +23,8 @@ import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.database.DbContract.Kids;
 import com.nadajp.littletalkers.model.Kid;
-import com.nadajp.littletalkers.sync.SetupSyncActivity;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 
 /*
  * This class is the base for add/view item and dictionary activities
@@ -89,7 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
             mPosition = -1;
         }
         mKid = getKidDetails();
-        Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
+        //Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
 
         // set up empty adapter
         String[] adapterCols = new String[]{"name"};
@@ -113,7 +104,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
     private void changeProfilePic() {
         String pictureUri = getPicturePath(mCurrentKidId);
         Bitmap profilePicture = null;
-        Log.i(DEBUG_TAG, "Profile pic uri: " + pictureUri);
+        //Log.i(DEBUG_TAG, "Profile pic uri: " + pictureUri);
         if (pictureUri == null) {
             profilePicture = BitmapFactory.decodeResource(this.getResources(),
                     R.drawable.profile);
@@ -185,7 +176,7 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
         if (mCurrentKidId == id) {
             return;
         }
-        Log.i(DEBUG_TAG, "Selected kid with ID " + id + ", setting current kid...");
+        //Log.i(DEBUG_TAG, "Selected kid with ID " + id + ", setting current kid...");
         mCurrentKidId = (int) id;
         mPosition = pos;
         mKid = getKidDetails();
@@ -241,7 +232,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
         mCurrentKidId = savedInstanceState.getInt(Prefs.CURRENT_KID_ID);
         mKid = getKidDetails();
         mType = savedInstanceState.getInt(Prefs.TYPE);
-        //Log.i(DEBUG_TAG, "Restoring Type: " + mType);
     }
 
     private String getPicturePath(int id) {
@@ -266,7 +256,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
 
     @Override
     protected void onResume() {
-        //mCurrentKidId = Prefs.getKidId(this, -1);
         invalidateOptionsMenu();
         super.onResume();
     }
@@ -274,7 +263,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //exportDB();
     }
 
     @Override
@@ -293,7 +281,6 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
         changeProfilePic();
 
         if (mPosition >= 0 && mPosition < data.getCount()) {
-            //Log.i(DEBUG_TAG, "Setting position: " + mPosition);
             mSpinner.setSelection(mPosition);
         } else {
             for (int i = 0; i < mCursorAdapter.getCount(); i++) {
@@ -309,49 +296,5 @@ public abstract class BaseActivity extends AppCompatActivity implements OnItemSe
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mCursorAdapter.swapCursor(null);
-    }
-
-    public void exportDB() {
-        try {
-            File sd = Environment.getExternalStorageDirectory();
-            Log.i("DEBUG_TAG", "Trying to export DB");
-
-            if (sd.exists() && sd.canWrite()) {
-                Log.i("DEBUG_TAG", "Can write db");
-
-                String currentDBPath = "/data/data/" + getPackageName()
-                        + "/databases/littletalkers_db";
-                Log.i(DEBUG_TAG, "currentDBPath = " + currentDBPath);
-                String backupDBPath = "LTbackup.db";
-                String subdirectory = getString(R.string.app_name);
-
-                File currentDB = new File(currentDBPath);
-                //File backupDB = new File(sd, backupDBPath);
-                File backupDB = new File(Utils.getPublicDirectory(subdirectory, this), backupDBPath);
-
-                if (currentDB.exists()) {
-                    FileChannel src = new FileInputStream(currentDB).getChannel();
-                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
-                    dst.transferFrom(src, 0, src.size());
-                    src.close();
-                    dst.close();
-                    MediaScannerConnection.scanFile(this,
-                            new String[]{backupDB.getAbsolutePath()}, null, null);
-                    //Intent mediaScannerIntent = new
-                    // Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                    // Uri fileContentUri = Uri.fromFile(backupDB); // With
-                    // 'permFile' being the File object
-                    // mediaScannerIntent.setData(fileContentUri);
-                    // this.sendBroadcast(mediaScannerIntent); //
-
-                    Log.i("DEBUG_TAG",
-                            "DB exported to " + backupDB.getAbsolutePath());
-                } else {
-                    Log.i("DEBUG_TAG", "DB does not exist!");
-                }
-            }
-        } catch (Exception e) {
-            Log.i(DEBUG_TAG, "Could not export DB: " + e.getMessage());
-        }
     }
 }

@@ -1,4 +1,4 @@
-package com.nadajp.littletalkers.sync;
+package com.nadajp.littletalkers.ui;
 
 import android.Manifest;
 import android.accounts.AccountManager;
@@ -10,13 +10,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
 import com.nadajp.littletalkers.AppConstants;
 import com.nadajp.littletalkers.R;
+import com.nadajp.littletalkers.sync.SyncAdapter;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
@@ -89,11 +89,11 @@ public class SetupSyncActivity extends AppCompatActivity {
         mCredential = GoogleAccountCredential
                 .usingAudience(this, AppConstants.AUDIENCE)
                 .setSelectedAccountName(Prefs.getGoogleAccountName(this));
-        Log.i(DEBUG_TAG, "Account Name from credential: " + mCredential.getSelectedAccountName());
+        //Log.i(DEBUG_TAG, "Account Name from credential: " + mCredential.getSelectedAccountName());
         if (mCredential.getSelectedAccountName() != null) {
             // Already signed in, begin app!
             mTextUpdateMessage.setText(getString(R.string.sync_setting_up));
-            Log.i(DEBUG_TAG, "Already signed in, begin app...");
+            //Log.i(DEBUG_TAG, "Already signed in, begin app...");
             SyncAdapter.initializeSyncAdapter(this);
         } else {
             // Not signed in, show login window or request an account.
@@ -130,9 +130,7 @@ public class SetupSyncActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_ACCOUNT_PICKER:
                 if (data != null && data.getExtras() != null) {
-                    String accountName =
-                            data.getExtras().getString(
-                                    AccountManager.KEY_ACCOUNT_NAME);
+                    String accountName = data.getExtras().getString(AccountManager.KEY_ACCOUNT_NAME);
                     if (accountName != null) {
                         setSelectedGoogleAccountName(accountName);
                         SyncAdapter.initializeSyncAdapter(this);

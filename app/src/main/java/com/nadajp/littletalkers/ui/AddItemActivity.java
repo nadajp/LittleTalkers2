@@ -54,9 +54,7 @@ public class AddItemActivity extends BaseActivity implements AddItemFragment.OnA
             }
         });
 
-
         mType = this.getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
-        //Log.i(DEBUG_TAG, "TYPE IS: " + mType);
 
         if (savedInstanceState != null) {
             mType = savedInstanceState.getInt(Prefs.TYPE);
@@ -89,7 +87,6 @@ public class AddItemActivity extends BaseActivity implements AddItemFragment.OnA
 
     public void onClickedShowDictionary(int kidId) {
         Prefs.saveKidId(this, mCurrentKidId);
-        //Log.i(DEBUG_TAG, "Saved ID: " + kidId);
         Intent intent = new Intent(this, ItemListActivity.class);
         intent.putExtra(Prefs.CURRENT_KID_ID, mCurrentKidId);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);

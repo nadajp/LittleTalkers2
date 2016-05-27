@@ -43,13 +43,11 @@ public class CircularImageView extends ImageView
       this(context, null);
    }
 
-   public CircularImageView(Context context, AttributeSet attrs)
-   {
+   public CircularImageView(Context context, AttributeSet attrs) {
       this(context, attrs, R.attr.circularImageViewStyle);
    }
 
-   public CircularImageView(Context context, AttributeSet attrs, int defStyle)
-   {
+   public CircularImageView(Context context, AttributeSet attrs, int defStyle) {
       super(context, attrs, defStyle);
       init(context, attrs, defStyle);
    }
@@ -61,8 +59,7 @@ public class CircularImageView extends ImageView
     * @param attrs
     * @param defStyle
     */
-   private void init(Context context, AttributeSet attrs, int defStyle)
-   {
+   private void init(Context context, AttributeSet attrs, int defStyle) {
       // Initialize paint objects
       paint = new Paint();
       paint.setAntiAlias(true);
@@ -106,8 +103,7 @@ public class CircularImageView extends ImageView
     * 
     * @param borderWidth
     */
-   public void setBorderWidth(int borderWidth)
-   {
+   public void setBorderWidth(int borderWidth) {
       this.borderWidth = borderWidth;
       this.requestLayout();
       this.invalidate();
@@ -118,8 +114,7 @@ public class CircularImageView extends ImageView
     * 
     * @param borderColor
     */
-   public void setBorderColor(int borderColor)
-   {
+   public void setBorderColor(int borderColor) {
       if (paintBorder != null)
          paintBorder.setColor(borderColor);
       this.invalidate();
@@ -131,8 +126,7 @@ public class CircularImageView extends ImageView
     * 
     * @param selectorColor
     */
-   public void setSelectorColor(int selectorColor)
-   {
+   public void setSelectorColor(int selectorColor) {
       this.selectorFilter = new PorterDuffColorFilter(selectorColor, PorterDuff.Mode.SRC_ATOP);
       this.invalidate();
    }
@@ -143,8 +137,7 @@ public class CircularImageView extends ImageView
     * 
     * @param selectorStrokeWidth
     */
-   public void setSelectorStrokeWidth(int selectorStrokeWidth)
-   {
+   public void setSelectorStrokeWidth(int selectorStrokeWidth) {
       this.selectorStrokeWidth = selectorStrokeWidth;
       this.requestLayout();
       this.invalidate();
@@ -156,18 +149,17 @@ public class CircularImageView extends ImageView
     * 
     * @param borderColor
     */
-   public void setSelectorStrokeColor(int selectorStrokeColor)
-   {
-      if (paintSelectorBorder != null)
+   public void setSelectorStrokeColor(int selectorStrokeColor) {
+      if (paintSelectorBorder != null) {
          paintSelectorBorder.setColor(selectorStrokeColor);
+      }
       this.invalidate();
    }
    
    /**
     * Adds a dark shadow to this CircularImageView.
     */
-   public void addShadow()
-   {
+   public void addShadow() {
       setLayerType(LAYER_TYPE_SOFTWARE, paintBorder);
       paintBorder.setShadowLayer(0.0f, 0.0f, 0.0f, Color.BLACK);
    }
@@ -177,23 +169,23 @@ public class CircularImageView extends ImageView
    public void onDraw(Canvas canvas)
    {
       // Don't draw anything without an image
-      if(image == null)
-         return;
+      if (image == null) { return; }
       
       // Nothing to draw (Empty bounds)
-      if(image.getHeight() == 0 || image.getWidth() == 0)
-         return;
+      if (image.getHeight() == 0 || image.getWidth() == 0) { return; }
       
       // Compare canvas sizes
       int oldCanvasSize = canvasSize;
       
       canvasSize = canvas.getWidth();
-      if(canvas.getHeight() < canvasSize)
-         canvasSize = canvas.getHeight();
+      if (canvas.getHeight() < canvasSize) {
+          canvasSize = canvas.getHeight();
+      }
       
       // Reinitialize shader, if necessary
-      if(oldCanvasSize != canvasSize)
-         refreshBitmapShader();
+      if (oldCanvasSize != canvasSize) {
+          refreshBitmapShader();
+      }
       
       // Apply shader to paint
       paint.setShader(shader);
@@ -205,32 +197,31 @@ public class CircularImageView extends ImageView
       int center = canvasSize / 2;
       
       
-      if(hasSelector && isSelected) { // Draw the selector stroke & apply the selector filter, if applicable
+      if (hasSelector && isSelected) { // Draw the selector stroke & apply the selector filter, if applicable
          outerWidth = selectorStrokeWidth;
          center = (canvasSize - (outerWidth * 2)) / 2;
          
          paint.setColorFilter(selectorFilter);
          canvas.drawCircle(center + outerWidth, center + outerWidth, ((canvasSize - (outerWidth * 2)) / 2) + outerWidth - 4.0f, paintSelectorBorder);
       }
-      else if(hasBorder) { // If no selector was drawn, draw a border and clear the filter instead... if enabled
+      else if (hasBorder) { // If no selector was drawn, draw a border and clear the filter instead... if enabled
          outerWidth = borderWidth;
          center = (canvasSize - (outerWidth * 2)) / 2;
          
          paint.setColorFilter(null);
          canvas.drawCircle(center + outerWidth, center + outerWidth, ((canvasSize - (outerWidth * 2)) / 2) + outerWidth - 4.0f, paintBorder);
       }
-      else // Clear the color filter if no selector nor border were drawn
-         paint.setColorFilter(null);
-      
+      else { // Clear the color filter if no selector nor border were drawn
+          paint.setColorFilter(null);
+      }
       // Draw the circular image itself
       canvas.drawCircle(center + outerWidth, center + outerWidth, ((canvasSize - (outerWidth * 2)) / 2) - 4.0f, paint);
    }
    
    @Override
-   public boolean dispatchTouchEvent(MotionEvent event)
-   {
+   public boolean dispatchTouchEvent(MotionEvent event) {
       // Check for clickable state and do nothing if disabled
-      if(!this.isClickable()) {
+      if (!this.isClickable()) {
          this.isSelected = false;
          return super.onTouchEvent(event);
       }
@@ -256,35 +247,36 @@ public class CircularImageView extends ImageView
    public void invalidate(Rect dirty) {
       super.invalidate(dirty);
       image = drawableToBitmap(getDrawable());
-      if(shader != null || canvasSize > 0)
-         refreshBitmapShader();
+      if (shader != null || canvasSize > 0) {
+          refreshBitmapShader();
+      }
    }
    
    public void invalidate(int l, int t, int r, int b) {
       super.invalidate(l, t, r, b);
       image = drawableToBitmap(getDrawable());
-      if(shader != null || canvasSize > 0)
-         refreshBitmapShader();
+      if (shader != null || canvasSize > 0) {
+          refreshBitmapShader();
+      }
    }
    
    @Override
    public void invalidate() {
       super.invalidate();
       image = drawableToBitmap(getDrawable());
-      if(shader != null || canvasSize > 0)
-         refreshBitmapShader();
+      if (shader != null || canvasSize > 0) {
+          refreshBitmapShader();
+      }
    }
    
    @Override
-   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-   {
+   protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
       int width = measureWidth(widthMeasureSpec);
       int height = measureHeight(heightMeasureSpec);
       setMeasuredDimension(width, height);
    }
 
-   private int measureWidth(int measureSpec)
-   {
+   private int measureWidth(int measureSpec) {
       int result = 0;
       int specMode = MeasureSpec.getMode(measureSpec);
       int specSize = MeasureSpec.getSize(measureSpec);
@@ -301,12 +293,10 @@ public class CircularImageView extends ImageView
          // The parent has not imposed any constraint on the child.
          result = canvasSize;
       }
-
       return result;
    }
 
-   private int measureHeight(int measureSpecHeight)
-   {
+   private int measureHeight(int measureSpecHeight) {
       int result = 0;
       int specMode = MeasureSpec.getMode(measureSpecHeight);
       int specSize = MeasureSpec.getSize(measureSpecHeight);
@@ -321,7 +311,6 @@ public class CircularImageView extends ImageView
          // Measure the text (beware: ascent is a negative number)
          result = canvasSize;
       }
-
       return (result + 2);
    }
    
@@ -331,8 +320,7 @@ public class CircularImageView extends ImageView
     * @param drawable
     * @return
     */
-   public Bitmap drawableToBitmap(Drawable drawable)
-   {
+   public Bitmap drawableToBitmap(Drawable drawable) {
       if (drawable == null) { // Don't do anything without a proper drawable
          return null;
       }
@@ -353,8 +341,7 @@ public class CircularImageView extends ImageView
     * Reinitializes the shader texture used to fill in 
     * the Circle upon drawing.
     */
-   public void refreshBitmapShader()
-   {
+   public void refreshBitmapShader() {
       shader = new BitmapShader(Bitmap.createScaledBitmap(image, canvasSize, canvasSize, false), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
    }
    

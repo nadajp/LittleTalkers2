@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.nadajp.littletalkers.R;
@@ -34,8 +33,6 @@ public class ViewItemActivity extends AppCompatActivity implements ViewItemFragm
             mType = getIntent().getIntExtra(Prefs.TYPE, Prefs.TYPE_WORD);
             mKidName = getIntent().getStringExtra(Prefs.KID_NAME);
             long itemId = getIntent().getLongExtra(ItemDetailFragment.ITEM_ID, 0);
-            Log.i(DEBUG_TAG, "Kid name being passed to ViewItemFragment: " + mKidName);
-            Log.i(DEBUG_TAG, "Item id being passed to ViewItemFragment: " + itemId);
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
@@ -53,7 +50,6 @@ public class ViewItemActivity extends AppCompatActivity implements ViewItemFragm
         }
         Utils.setColor(toolbar, null, this, mType);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

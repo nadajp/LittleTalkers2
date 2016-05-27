@@ -1,16 +1,13 @@
 package com.nadajp.littletalkers.ui;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -84,7 +81,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_add_kid, container, false);
 
         mEditName = (EditText) v.findViewById(R.id.edit_name);
@@ -115,7 +111,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
         } else {
             mKidId = -1;
         }
-        //Log.i(DEBUG_TAG, "kid id = " + mKidId);
 
         if (savedInstanceState != null) {
             if (savedInstanceState.getString(Prefs.PROFILE_PIC_PATH) != null) {
@@ -142,7 +137,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
                             .decodeResource(v.getResources(), R.drawable.add_profile),
                     IMAGE_SIZE, IMAGE_SIZE);
             mImgProfilePic.setImageBitmap(profilePicture);
-            //this.getActivity().getActionBar().setTitle(R.string.add_kid);
         }
         return v;
     }
@@ -250,7 +244,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
         // Adding new kid
         if (mKidId < 0) {
             mKidId = insertKid(name, location);
-            //Log.i(DEBUG_TAG, "Saving kid: " + mKidId);
         }
 
         // Updating a current kid
@@ -261,7 +254,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             } else {
                 // Kid was updated
                 String msg = name + " " + getString(R.string.kid_updated);
-                Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT);
                 toast.show();
                 mListener.onKidUpdated(mKidId);
                 return;
@@ -275,13 +268,9 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
         // Kid was saved
         String msg = name + " " + getString(R.string.kid_saved);
-        Toast toast = Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG);
-        toast.show();
+        Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         getActivity().invalidateOptionsMenu();
-
         Prefs.saveKidId(getActivity(), mKidId);
-        //Log.i(DEBUG_TAG, "Saving kid id to preferences: " + mKidId);
-
         mListener.onKidAdded(mKidId);
     }
 
@@ -345,10 +334,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
 
     public void showProfileDialog() {
         chooseProfilePic();
-        // Create an instance of the dialog fragment and show it
-        // ChangeProfilePicDialog dlg = new ChangeProfilePicDialog();
-        // dlg.setTargetFragment(this, PICTURE_DIALOG_ID);
-        // dlg.show(getFragmentManager(), "ChangeProfilePicDialog");
     }
 
     private void chooseProfilePic() {
@@ -365,7 +350,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (data == null) {
-            //Log.i(DEBUG_TAG, "RESULT: " + resultCode);
             return;
         }
 
@@ -413,25 +397,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-    /*public void cropPicture(Uri picUri) {
-        // call the standard crop action intent
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-        // indicate image type and Uri of image
-        cropIntent.setDataAndType(picUri, "image/*");
-        // set crop properties
-        cropIntent.putExtra("crop", "true");
-        // indicate aspect of desired crop
-        cropIntent.putExtra("aspectX", 1);
-        cropIntent.putExtra("aspectY", 1);
-        // indicate output X and Y
-        cropIntent.putExtra("outputX", 120);
-        cropIntent.putExtra("outputY", 120);
-        // retrieve data on return
-        cropIntent.putExtra("return-data", true);
-        // start the activity - we handle returning in onActivityResult
-        startActivityForResult(cropIntent, CROP_PICTURE);
-    }*/
 
     public void cropPicture(Uri picUri) {
         // call the standard crop action intent
@@ -486,7 +451,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
         try {
             photo = decodeUri(mUriPicture, IMAGE_SIZE);
         } catch (FileNotFoundException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
             return;
         }
@@ -510,7 +474,6 @@ public class AddKidFragment extends Fragment implements OnClickListener,
         }
 
         mPicturePath = file.getAbsolutePath();
-        //Log.i(DEBUG_TAG, mPicturePath);
 
         FileOutputStream out = null;
         try {
@@ -549,12 +512,22 @@ public class AddKidFragment extends Fragment implements OnClickListener,
             newfile.delete();
         }
 
-        //Log.i(DEBUG_TAG, "Oldfile: " + oldfile.getAbsolutePath());
-        //Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
         oldfile.renameTo(newfile);
         oldfile.delete();
     }
 
+    @Override
+    public void onAttach(Context context) {
+        if (context instanceof OnKidAddedListener) {
+            mListener = (OnKidAddedListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implemenet AddKidFragment.OnKidAddedListener");
+        }
+        super.onAttach(context);
+    }
+
+    // for API < 23
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -586,56 +559,7 @@ public class AddKidFragment extends Fragment implements OnClickListener,
     }
 
     public interface OnKidAddedListener {
-        public void onKidAdded(int kidId);
-        public void onKidUpdated(int kidId);
-    }
-
-    public static class ChangeProfilePicDialog extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setItems(R.array.choose_profile_pic_array,
-                    new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            Uri pictureUri;
-                            switch (which) {
-                                case TAKE_PICTURE:
-                                    Intent intent = new Intent(
-                                            MediaStore.ACTION_IMAGE_CAPTURE);
-                                    try {
-                                        String state = Environment.getExternalStorageState();
-                                        if (Environment.MEDIA_MOUNTED.equals(state)) {
-                                            pictureUri = Uri.fromFile(new File(Environment
-                                                    .getExternalStorageDirectory(),
-                                                    "lt_temp.jpg"));
-                                        } else {
-                                            pictureUri = Uri.fromFile(new File(getActivity()
-                                                    .getFilesDir(), "lt_temp.jpg"));
-                                        }
-                                        //Log.i(DEBUG_TAG, pictureUri.toString());
-                                        intent.putExtra(
-                                                android.provider.MediaStore.EXTRA_OUTPUT,
-                                                pictureUri);
-                                        intent.putExtra("return-data", true);
-                                        getTargetFragment().startActivityForResult(intent,
-                                                TAKE_PICTURE);
-                                    } catch (ActivityNotFoundException e) {
-                                        //Log.d(DEBUG_TAG, "cannot take picture", e);
-                                    }
-                                    break;
-
-                                case PICK_FROM_FILE:
-                                    intent = new Intent(
-                                            Intent.ACTION_PICK,
-                                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                                    intent.setType("image/*");
-                                    getTargetFragment().startActivityForResult(intent,
-                                            PICK_FROM_FILE);
-                            }
-                        }
-                    });
-            // Create the AlertDialog object and return it
-            return builder.create();
-        }
+        void onKidAdded(int kidId);
+        void onKidUpdated(int kidId);
     }
 }

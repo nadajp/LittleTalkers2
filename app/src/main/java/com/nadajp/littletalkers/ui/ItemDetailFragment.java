@@ -17,7 +17,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -108,9 +107,8 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
                                    Bundle savedInstanceState) {
         View v = inflater.inflate(resId, container, false);
         RelativeLayout layout = (RelativeLayout) v.findViewById(R.id.detail_layout);
-
         /*
-         *  Inflate shared layouts here
+         *  Inflate shared layouts
          */
         // Create language spinner
         mLangSpinner = (Spinner) layout.findViewById(R.id.spinner_language);
@@ -157,7 +155,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
             // tablet, show all details
             showMoreFields(v, true);
         }
-
         // if audio has already been recorded, show play/delete buttons
         if (savedInstanceState != null) {
             if (savedInstanceState.getBoolean(Prefs.AUDIO_RECORDED)) {
@@ -174,7 +171,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         } else {
             mItemId = getArguments().getLong(ITEM_ID);
         }
-        Log.i(DEBUG_TAG, "item ID = " + mItemId);
         // the following listener is added in order to clear the error message
         // once the user starts typing
         mEditPhrase.addTextChangedListener(new TextWatcher() {
@@ -278,7 +274,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
     private void startPlaying() {
         mPlay.setPressed(true);
         mPlay.startAnimation(mAnimation);
-
         try {
             if (mTempFile != null) {
                 mPlayer.setDataSource(mTempFile.getAbsolutePath());
@@ -300,7 +295,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         mPlayer.reset();
         mPlay.clearAnimation();
         mPlay.setPressed(false);
-        //Log.i(DEBUG_TAG, "Stopped.");
     }
 
 
@@ -323,8 +317,7 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
 
         // if a phrase has already been entered, save under real filename
         if (!(mEditPhrase.getText().toString().isEmpty())) {
-            if (mOutFile != null || mTempFile2 != null) // if audio already exists, pop up dialog
-            {
+            if (mOutFile != null || mTempFile2 != null) { // if audio already exists, pop up dialog
                 ReplaceAudioDialogFragment dlg = new ReplaceAudioDialogFragment();
                 Bundle args = new Bundle();
                 args.putBoolean("phrase_entered", true);
@@ -332,7 +325,7 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
                 dlg.setTargetFragment(this, REPLACE_AUDIO_DIALOG_ID);
                 dlg.show(getFragmentManager(),
                         ReplaceAudioDialogFragment.class.toString());
-            } else { // otherwise, just save audio
+            } else { // otherwise, just save audio but do not exit
                 saveItem(false);
             }
             return;
@@ -385,7 +378,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
         mLanguage = parent.getItemAtPosition(pos).toString();
-        Log.i(DEBUG_TAG, "Selected language: " + mLanguage);
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -445,7 +437,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
     }
 
     protected void setAudio(View v) {
-        //Log.i(DEBUG_TAG, "Audio File: " + mCurrentAudioFile);
         if (mCurrentAudioFile != null && !mCurrentAudioFile.isEmpty()) {
             mOutFile = new File(mCurrentAudioFile);
             mRecordingLayout.setVisibility(View.VISIBLE);
@@ -483,18 +474,7 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
 
         //Log.i(DEBUG_TAG, "Oldfile: " + mOutFile.getAbsolutePath());
         //Log.i(DEBUG_TAG, "Newfile: " + newfile.getAbsolutePath());
-
         mOutFile.renameTo(newfile);
-
-      /*
-      if (mOutFile.renameTo(newfile))
-      {
-         Log.i(DEBUG_TAG, "Rename succesful");
-      } else
-      {
-         Log.i(DEBUG_TAG, "Rename failed");
-      }*/
-
         mOutFile.delete();
         mOutFile = newfile;
         mTempFile = null;
@@ -515,14 +495,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
         } else {
             mTempFile.renameTo(mOutFile);
         }
-      /*
-      if (mTempFile.renameTo(mOutFile))
-      {
-         Log.i(DEBUG_TAG, "Rename succesful");
-      } else
-      {
-         Log.i(DEBUG_TAG, "Rename failed");
-      }*/
 
         mTempFile.delete();
         mTempFile = null;
@@ -578,8 +550,8 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
     }
 
     public static class ReplaceAudioDialogFragment extends DialogFragment {
-        private boolean mPhraseEntered; // has the phrase already been entered for
-        // this audio?
+        // has the phrase already been entered for this audio?
+        private boolean mPhraseEntered;
 
         public ReplaceAudioDialogFragment() {
             super();
@@ -627,7 +599,6 @@ public abstract class ItemDetailFragment extends android.app.Fragment implements
                                     }
                                 }
                             });
-
             // Create the AlertDialog object and return it
             return builder.create();
         }

@@ -88,7 +88,6 @@ public class QAListFragment extends ItemListFragment implements LoaderManager.Lo
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle bundle) {
-
         if (id == QA_LOADER) {
             String sortOrder = mbSortAscending ? " ASC" : " DESC";
 

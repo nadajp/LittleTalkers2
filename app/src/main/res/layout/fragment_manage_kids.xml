@@ -7,15 +7,14 @@
     android:layout_marginLeft="@dimen/keyline_1"
     android:layout_marginStart="@dimen/keyline_1"
     android:layout_marginRight="@dimen/keyline_1"
-    android:layout_marginEnd="@dimen/keyline_1"
-    android:paddingTop="@dimen/activity_vertical_margin" >
+    android:layout_marginEnd="@dimen/keyline_1">
     
     <ListView
         android:id="@id/android:list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:choiceMode="multipleChoice"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:background="@color/white"
         android:divider="@color/gray_300"
         android:dividerHeight="1dp"

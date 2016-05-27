@@ -53,14 +53,9 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(WORD_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
-    }
-
-    public void initializeExtras(View v) {
-        //mEditTranslation = (EditText) v.findViewById(R.id.editTranslation);
     }
 
     public void startAudioRecording(boolean secondRecording) {
@@ -73,7 +68,6 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
 
     public String getShareBody() {
         StringBuilder shareBody = new StringBuilder();
-
         shareBody.append("On ").append(mEditDate.getText()).append(", ")
                 .append(mKidName).append(" said: ").append(mEditPhrase.getText());
 
@@ -106,7 +100,6 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
         String towhom = mEditToWhom.getText().toString();
         String notes = mEditNotes.getText().toString();
 
-        //Log.i(DEBUG_TAG, "updating word with audio file " + mCurrentAudioFile);
         if (!update(phrase, msDate, location, translation, towhom, notes)) {
             if (!automatic) {
                 mEditPhrase.requestFocus();
@@ -116,9 +109,7 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
             return -1;
         }
         // Word was updated successfully
-        Toast toast = Toast.makeText(this.getActivity(),
-                R.string.word_updated, Toast.LENGTH_SHORT);
-        toast.show();
+        Toast.makeText(this.getActivity(), R.string.word_updated, Toast.LENGTH_SHORT).show();
         return mItemId;
     }
 
@@ -225,7 +216,6 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
         cursor.close();
     }
 
-
     private Cursor getWordHistory()
     {
         Cursor cursor = null;
@@ -264,7 +254,6 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor != null && cursor.getCount() > 0) {
-            Log.i(DEBUG_TAG, "Inserting word details");
             cursor.moveToFirst();
             mEditPhrase.setText(cursor.getString(cursor
                     .getColumnIndex(Words.COLUMN_NAME_WORD)));
@@ -296,10 +285,7 @@ public class ViewWordFragment extends ViewItemFragment implements LoaderManager.
             super.setAudio(getView());
 
             mTextHeading.setText(mKidName + " " + getString(R.string.said) + ":");
-            //displayWordHistory();
-        }
-        else {
-            Log.i(DEBUG_TAG, "No word details to insert");
+            //displayWordHistory(getView());
         }
     }
 

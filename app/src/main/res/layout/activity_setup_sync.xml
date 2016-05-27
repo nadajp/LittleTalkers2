@@ -31,6 +31,16 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:text="@string/sync_explanation"/>
+
+        <TextView
+            android:id="@+id/txtSyncExplanation2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/txtSyncExplanation"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="@string/sync_explanation2"/>
+
         <Button
             android:id="@+id/buttonEnableSync"
             android:layout_width="wrap_content"

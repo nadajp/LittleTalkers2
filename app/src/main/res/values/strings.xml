@@ -220,12 +220,14 @@
     <string name="data_uploaded">Data Uploaded.</string>
     <string name="nothing_to_upload">Nothing to Upload</string>
     <string name="sync_explanation">Enabling sync will periodically upload your data to the cloud for backup.</string>
+    <string name="sync_explanation2">To disable or pause sync, go to Settings --> Accounts, then select Little Talkers.</string>
     <string name="sync_permission_denied">Sync has not been enabled because it requires the use of your google account.</string>
     <string name="sync_permission_granted">Sync has been enabled. Go to Settings-->Accounts to manually manage cloud sync.</string>
     <string name="sync_setting_up">Setting up your sync account...</string>
     <string name="sync_enabled">Cloud Sync has been enabled.</string>
     <string name="sync_already_enabled">Cloud Sync is already enabled.</string>
     <string name="google_sign_in_not_available">A Google sign-in is needed for Little Talkers Cloud Sync. Please ensure you have Google Play Services installed on your device.</string>
+    <string name="sync_account_error">Unable to create Sync account.</string>
 
     <string name="kid_details" translatable="false">kid_details</string>
 
@@ -237,5 +239,8 @@
     <!-- widget -->
     <string name="add_new_word_button">Add New \nWord</string>
     <string name="add_new_qa_button">Add New \nQ &amp; A</string>
+
+    <!-- AdMob -->
+    <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
 </resources>

@@ -31,7 +31,7 @@
                 app:border="true"
                 app:border_color="@android:color/white"
                 app:border_width="2dp"
-                app:shadow="true" />
+                app:shadow="true"/>
 
             <Spinner
                 android:id="@+id/action_main_spinner"
@@ -44,6 +44,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:tabMaxWidth="0dp"
             style="@style/MyTabLayoutStyle"
             app:tabGravity="fill"
             app:tabMode="fixed"/>

@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.view.View;
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.database.DbContract;
 import com.nadajp.littletalkers.model.Kid;
-import com.nadajp.littletalkers.sync.SetupSyncActivity;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
@@ -32,7 +30,7 @@ public class ManageKidsActivity extends AppCompatActivity
 
         if (findViewById(R.id.item_detail_container) != null) {
             mTwoPane = true;
-            Log.i(LOG_TAG, "Two Panes!");
+            //Log.i(LOG_TAG, "Two Panes!");
             insertDetailView(null);
         }
 
@@ -51,14 +49,6 @@ public class ManageKidsActivity extends AppCompatActivity
             args.putInt(Prefs.CURRENT_KID_ID, kid.getId());
             fragment.setArguments(args);
         }
-
-
-        /*else {
-            fragment = new KidProfileFragment();
-            Bundle args = new Bundle();
-            args.putParcelable(getString(R.string.kid_details), kid);
-            fragment.setArguments(args);
-        }*/
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.item_detail_container, fragment)
@@ -125,7 +115,6 @@ public class ManageKidsActivity extends AppCompatActivity
 
     @Override
     public void onSelectKid(Kid kid) {
-        Log.i(LOG_TAG, "Kid Selected! " + kid.getName());
         if (mTwoPane) {
             insertDetailView(kid);
         } else {
@@ -133,11 +122,6 @@ public class ManageKidsActivity extends AppCompatActivity
             intent.putExtra(getString(R.string.kid_details), kid);
             startActivity(intent);
         }
-    }
-
-    @Override
-    public void onEditKid() {
-
     }
 
     @Override

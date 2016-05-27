@@ -18,15 +18,14 @@ import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.utils.Prefs;
 
 public class MainActivity extends Activity implements MainFragment.AddKidListener,
-                GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+    public static final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 1;
+    public static Location sLastLocation;
     // Constants
     private static String DEBUG_TAG = "Main Activity";
-    public static final int MY_PERMISSIONS_REQUEST_GET_LOCATION = 1;
-
     // Location services
     protected GoogleApiClient mGoogleApiClient;
-    public static Location sLastLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,36 +59,15 @@ public class MainActivity extends Activity implements MainFragment.AddKidListene
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        Log.i(DEBUG_TAG, "Connected.");
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            // Should we show an explanation?
-            Log.i(DEBUG_TAG, "No location permission.");
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                // Show an expanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed, we can request the permission.
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
-                        MY_PERMISSIONS_REQUEST_GET_LOCATION);
-            }
-            return;
-        }
-        sLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (sLastLocation != null) {
-            Log.i(DEBUG_TAG, sLastLocation.getLatitude() + ", " + sLastLocation.getLongitude());
+        //Log.i(DEBUG_TAG, "Connected.");
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            //Log.i(DEBUG_TAG, "No location permission.");
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST_GET_LOCATION);
+        } else {
+            sLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         }
     }
 
@@ -103,13 +81,10 @@ public class MainActivity extends Activity implements MainFragment.AddKidListene
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     sLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                 } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                    // permission denied so just set location to null and default will be used
                     sLastLocation = null;
                 }
             }
-            // other 'case' lines to check for other
-            // permissions this app might request
         }
     }
 
@@ -120,7 +95,7 @@ public class MainActivity extends Activity implements MainFragment.AddKidListene
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.e(DEBUG_TAG, "Connection failed.");
+        //Log.e(DEBUG_TAG, "Connection failed.");
     }
 
     public void onStart() {
@@ -132,5 +107,4 @@ public class MainActivity extends Activity implements MainFragment.AddKidListene
         mGoogleApiClient.disconnect();
         super.onStop();
     }
-
 }

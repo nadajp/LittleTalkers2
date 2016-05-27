@@ -8,7 +8,6 @@ import android.view.MenuItem;
 
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.model.Kid;
-import com.nadajp.littletalkers.sync.SetupSyncActivity;
 import com.nadajp.littletalkers.utils.Utils;
 
 public class KidProfileActivity extends AppCompatActivity {

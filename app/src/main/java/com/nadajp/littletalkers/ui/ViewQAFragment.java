@@ -72,14 +72,9 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Bundle savedInstanceState) {
         getLoaderManager().initLoader(QA_LOADER, null, this);
         super.onActivityCreated(savedInstanceState);
-    }
-
-    public void initializeExtras(View v) {
-        //mEditTranslation = (EditText) v.findViewById(R.id.editTranslation);
     }
 
     public void startAudioRecording(boolean secondRecording) {
@@ -92,7 +87,6 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
 
     public String getShareBody() {
         StringBuilder shareBody = new StringBuilder();
-
         shareBody.append("On ").append(mEditDate.getText()).append(", ");
 
         if (mEditPhrase.length() > 0){
@@ -135,7 +129,6 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
             mEditAnswer.setError(getString(R.string.answer_required_error));
             return -1;
         }
-
         saveAudioFile();
 
         // convert date to milliseconds for SQLite
@@ -157,12 +150,8 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
             }
             return -1;
         }
-        // Word was updated successfully, show dictionary
-        Toast toast = Toast.makeText(this.getActivity(),
-                R.string.question_updated, Toast.LENGTH_SHORT);
-        toast.show();
-        // invalidate menu to add sharing capabilities
-        this.getActivity().invalidateOptionsMenu();
+        // Item was updated successfully, show list
+        Toast.makeText(this.getActivity(), R.string.question_updated, Toast.LENGTH_SHORT).show();
 
         return mItemId;
     }
