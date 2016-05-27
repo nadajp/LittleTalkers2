@@ -13,7 +13,9 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:windowSoftInputMode="stateAlwaysHidden"
-        tools:context=".ui.AddKidFragment" >
+        tools:context=".ui.AddKidFragment"
+        android:layout_marginEnd="@dimen/keyline_1"
+        android:layout_marginStart="@dimen/keyline_1">
  
         <com.nadajp.littletalkers.ui.CircularImageView
             android:id="@+id/image_profile"
@@ -41,7 +43,9 @@
             android:drawablePadding="10dp"
             android:hint="@string/name"
             android:inputType="textCapWords"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
         <EditText
             android:id="@+id/edit_birthdate"
@@ -57,7 +61,9 @@
             android:focusable="false"
             android:hint="@string/birthdate"
             android:inputType="none"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
         <EditText
             android:id="@+id/edit_default_location"
@@ -72,7 +78,9 @@
             android:drawablePadding="10dp"
             android:hint="@string/default_location"
             android:inputType="textCapWords"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
         <RelativeLayout
             android:id="@+id/language"
@@ -84,7 +92,9 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:background="@drawable/language_spinner"
             android:paddingBottom="15dp"
-            android:paddingTop="15dp" >
+            android:paddingTop="15dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin">
 
             <ImageView
                 android:id="@+id/language_icon"
@@ -95,7 +105,9 @@
                 android:contentDescription="@string/language"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
-                android:src="@drawable/ic_language" >
+                android:src="@drawable/ic_language"
+                android:paddingEnd="10dp"
+                android:paddingStart="10dp">
             </ImageView>
 
             <Spinner

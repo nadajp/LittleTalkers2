@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -251,11 +252,14 @@ public class ItemListActivity extends BaseActivity implements
             insertDetailView(mType);
         } else {
             Log.i(DEBUG_TAG, "One pane, starting ViewItemActivity class with item id: " + id);
+            Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle();
             Intent intent = new Intent(this, ViewItemActivity.class);
             intent.putExtra(ItemDetailFragment.ITEM_ID, id);
             intent.putExtra(Prefs.TYPE, mType);
             intent.putExtra(Prefs.KID_NAME, mKid.getName());
-            startActivity(intent);
+            startActivity(intent, bundle);
+            // finish the activity so we don't get a big backstack of activities
+            finish();
         }
     }
 

@@ -24,7 +24,9 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:clickable="true"
             android:contentDescription="@string/more_info"
-            android:src="@drawable/ic_action_info" />
+            android:src="@drawable/ic_action_info"
+             android:layout_marginEnd="@dimen/activity_horizontal_margin"
+             android:layout_alignParentEnd="true" />
          
          <ImageView
             android:id="@+id/imgMic"
@@ -35,7 +37,9 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:clickable="true"
             android:contentDescription="@string/start_recording"
-            android:src="@drawable/button_green_mic" />
+            android:src="@drawable/button_green_mic"
+             android:layout_marginStart="@dimen/activity_horizontal_margin"
+             android:layout_alignParentStart="true" />
          
         <TextView
             android:id="@+id/headingQuestion"
@@ -46,7 +50,10 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/imgMic"
-            android:layout_marginTop="15dp" />
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@id/imgMic" />
 
         <RelativeLayout
             android:id="@+id/question"
@@ -57,7 +64,10 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_toRightOf="@id/imgMic"
-            android:background="@drawable/addnewtext" >
+            android:background="@drawable/addnewtext"
+            android:layout_toEndOf="@id/imgMic"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
             <CheckBox
                 android:id="@+id/checkAsked"
@@ -66,7 +76,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:checked="true"/>
+                android:checked="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
             <EditText
                 android:id="@+id/editQuestion"
@@ -82,7 +94,10 @@
                 android:maxLines="1"
                 android:overScrollMode="ifContentScrolls"
                 android:scrollbarStyle="insideInset"
-                android:scrollbars="horizontal" >
+                android:scrollbars="horizontal"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_toStartOf="@id/checkAsked"
+                android:layout_alignParentStart="true">
             </EditText>
         </RelativeLayout>
 
@@ -94,7 +109,10 @@
             android:layout_below="@id/question"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_toRightOf="@id/imgMic"/>
+            android:layout_toRightOf="@id/imgMic"
+             android:layout_marginStart="@dimen/activity_horizontal_margin"
+             android:layout_marginEnd="@dimen/activity_horizontal_margin"
+             android:layout_toEndOf="@id/imgMic" />
                 
         <RelativeLayout
             android:id="@+id/answer"
@@ -105,7 +123,10 @@
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginBottom="20dp"
             android:layout_toRightOf="@id/imgMic"
-            android:background="@drawable/addnewtext" >
+            android:background="@drawable/addnewtext"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_toEndOf="@id/imgMic">
 
              <CheckBox
                 android:id="@+id/checkAnswered"
@@ -114,7 +135,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:checked="false" /> 
+                android:checked="false"
+                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                 android:layout_alignParentEnd="true" />
 
             <EditText
                 android:id="@+id/editAnswer"
@@ -129,7 +152,9 @@
                 android:maxLines="1"
                 android:overScrollMode="ifContentScrolls"
                 android:scrollbarStyle="insideInset"
-                android:scrollbars="horizontal" >
+                android:scrollbars="horizontal"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_toStartOf="@id/checkAnswered">
             </EditText>
         </RelativeLayout>
 <!-- 
@@ -153,7 +178,9 @@
             android:background="@drawable/white_card_background"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
-            android:visibility="gone" >
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin">
 
             <TextView
                 android:id="@+id/text_recording"
@@ -162,7 +189,8 @@
                 android:drawableLeft="@drawable/ic_action_mic"
                 android:drawablePadding="10dp"
                 android:maxLength="20"
-                android:padding="15dp" />
+                android:padding="15dp"
+                android:drawableStart="@drawable/ic_action_mic" />
 
             <Button
                 android:id="@+id/button_delete"
@@ -175,7 +203,11 @@
                 android:background="@null"
                 android:drawableEnd="@drawable/ic_action_delete"
                 android:drawableRight="@drawable/ic_action_delete"
-                android:paddingLeft="-5dp" >
+                android:paddingLeft="-5dp"
+                android:paddingStart="-5dp"
+                android:layout_marginStart="-5dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_alignParentEnd="true">
             </Button>
 
             <Button
@@ -187,7 +219,11 @@
                 android:layout_marginRight="55dp"
                 android:layout_toRightOf="@id/text_recording"
                 android:background="@null"
-                android:drawableRight="@drawable/ic_action_play" >
+                android:drawableRight="@drawable/ic_action_play"
+                android:layout_alignParentEnd="true"
+                android:drawableEnd="@drawable/ic_action_play"
+                android:layout_toEndOf="@id/text_recording"
+                android:layout_marginEnd="55dp">
             </Button>
         </RelativeLayout>
 
@@ -204,7 +240,10 @@
             android:focusable="false"
             android:hint="@string/when"
             android:inputType="none"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:drawableStart="@drawable/ic_action_go_to_today"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
         <EditText
             android:id="@+id/editLocation"
@@ -218,7 +257,10 @@
             android:drawablePadding="10dp"
             android:hint="@string/where"
             android:inputType="textCapSentences"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:drawableStart="@drawable/ic_location"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
         <LinearLayout
             android:id="@+id/layout_more"
@@ -238,7 +280,9 @@
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@drawable/language_spinner"
                 android:paddingBottom="15dp"
-                android:paddingTop="15dp" >
+                android:paddingTop="15dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin">
 
                 <ImageView
                     android:id="@+id/language_icon"
@@ -248,7 +292,10 @@
                     android:contentDescription="@string/language"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
-                    android:src="@drawable/ic_language" >
+                    android:src="@drawable/ic_language"
+                    android:paddingStart="10dp"
+                    android:layout_alignParentStart="true"
+                    android:paddingEnd="10dp">
                 </ImageView>
 
                 <Spinner
@@ -257,7 +304,8 @@
                     android:layout_height="match_parent"
                     android:layout_toRightOf="@id/language_icon"
                     android:background="@color/white"
-                    android:entries="@+array/array_languages" />
+                    android:entries="@+array/array_languages"
+                    android:layout_toEndOf="@id/language_icon" />
 
                 <ImageView
                     android:id="@+id/arrow_icon"
@@ -266,7 +314,9 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:contentDescription="@string/language"
-                    android:src="@drawable/ic_down_arrow" >
+                    android:src="@drawable/ic_down_arrow"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin">
                 </ImageView>
             </RelativeLayout>
 
@@ -282,7 +332,10 @@
                 android:drawablePadding="10dp"
                 android:hint="@string/to_whom"
                 android:inputType="textCapSentences"
-                android:padding="15dp" />
+                android:padding="15dp"
+                android:drawableStart="@drawable/ic_social_person"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
             <EditText
                 android:id="@+id/editNotes"
@@ -296,7 +349,10 @@
                 android:drawablePadding="10dp"
                 android:hint="@string/notes"
                 android:inputType="textCapSentences|textMultiLine"
-                android:padding="15dp" />
+                android:padding="15dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:drawableStart="@drawable/ic_notes"
+                android:layout_marginStart="@dimen/activity_horizontal_margin" />
         </LinearLayout>
 
         <EditText
@@ -312,7 +368,10 @@
             android:inputType="none"
             android:focusable="false"
             android:hint="@string/more"
-            android:padding="15dp"/>
+            android:padding="15dp"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_plus"
+            android:layout_marginStart="@dimen/activity_horizontal_margin" />
         
         <EditText
             android:id="@+id/edit_less"
@@ -328,7 +387,10 @@
             android:focusable="false"
             android:hint="@string/less"
             android:padding="15dp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:drawableStart="@drawable/ic_minus" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/button_save"

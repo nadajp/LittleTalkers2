@@ -25,7 +25,9 @@
             android:layout_below="@id/logo"
             android:text="@string/intro_message"
             android:textSize="18sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+           android:layout_marginEnd="@dimen/activity_horizontal_margin"
+           android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
        <ImageView
            android:id="@+id/red_button"

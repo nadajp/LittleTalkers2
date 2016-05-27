@@ -47,7 +47,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/age"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_toRightOf="@id/profile" />
+        android:layout_toRightOf="@id/profile"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_toEndOf="@id/profile" />
 
     <TextView
         android:id="@+id/words_phrases"
@@ -56,7 +58,9 @@
         android:layout_below="@id/age"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_toRightOf="@id/num_of_phrases"
-        android:text="@string/words_and_phrases" />
+        android:text="@string/words_and_phrases"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_toEndOf="@id/num_of_phrases" />
 
     <TextView
         android:id="@+id/num_of_qas"
@@ -64,7 +68,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/num_of_phrases"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_toRightOf="@id/profile" />
+        android:layout_toRightOf="@id/profile"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_toEndOf="@id/profile" />
 
     <TextView
         android:id="@+id/q_and_as"
@@ -73,7 +79,9 @@
         android:layout_below="@id/words_phrases"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_toRightOf="@id/num_of_qas"
-        android:text="@string/questions_and_answers" />
+        android:text="@string/questions_and_answers"
+        android:layout_toEndOf="@id/num_of_qas"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin" />
 
     <ImageView
         android:id="@+id/icon_edit"
@@ -82,7 +90,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:clickable="true"
-        android:src="@drawable/button_edit" />
+        android:src="@drawable/button_edit"
+        android:layout_alignParentEnd="true" />
 
     <ImageView
         android:id="@+id/icon_trash"
@@ -91,7 +100,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:clickable="true"
-        android:src="@drawable/button_trash">
+        android:src="@drawable/button_trash"
+        android:layout_alignParentEnd="true">
     </ImageView>
 
 </RelativeLayout>

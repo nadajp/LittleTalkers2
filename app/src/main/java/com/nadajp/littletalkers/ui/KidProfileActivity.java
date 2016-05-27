@@ -18,7 +18,6 @@ public class KidProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_kid_profile);
 
         if (savedInstanceState == null) {
-
             Kid kid = getIntent().getParcelableExtra(getString(R.string.kid_details));
             Bundle args = new Bundle();
             args.putParcelable(getString(R.string.kid_details), kid);
