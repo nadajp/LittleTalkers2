@@ -46,7 +46,7 @@ public class ItemListActivity extends BaseActivity implements
             // If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
-            Log.i(DEBUG_TAG, "Two Panes!");
+            //Log.i(DEBUG_TAG, "Two Panes!");
         }
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -55,8 +55,7 @@ public class ItemListActivity extends BaseActivity implements
 
         mCurrentItemId = 0;
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
+        // Create the adapter that will return a fragment for each of the two primary sections of the activity
         mSectionsPagerAdapter = new ItemListPagerAdapter(getFragmentManager(), this, super.getKidDefaults());
         // Set up the ViewPager with the sections adapter.
         mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -134,9 +133,8 @@ public class ItemListActivity extends BaseActivity implements
         }
 
         Bundle args = new Bundle();
-        //Kid kid = super.getKidDefaults();
-        Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
-        Log.i(DEBUG_TAG, "Kid: " + mKid.getName());
+        //Log.i(DEBUG_TAG, "Kid ID: " + mCurrentKidId);
+        //Log.i(DEBUG_TAG, "Kid: " + mKid.getName());
         args.putParcelable(getString(R.string.kid_details), mKid);
         args.putLong(ItemDetailFragment.ITEM_ID, mCurrentItemId);
         args.putString(Prefs.KID_NAME, mKid.getName());
@@ -251,7 +249,7 @@ public class ItemListActivity extends BaseActivity implements
             mCurrentItemId = id;
             insertDetailView(mType);
         } else {
-            Log.i(DEBUG_TAG, "One pane, starting ViewItemActivity class with item id: " + id);
+            //Log.i(DEBUG_TAG, "One pane, starting ViewItemActivity class with item id: " + id);
             Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this).toBundle();
             Intent intent = new Intent(this, ViewItemActivity.class);
             intent.putExtra(ItemDetailFragment.ITEM_ID, id);

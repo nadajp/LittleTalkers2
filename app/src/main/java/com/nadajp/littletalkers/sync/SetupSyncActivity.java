@@ -2,35 +2,24 @@ package com.nadajp.littletalkers.sync;
 
 import android.Manifest;
 import android.accounts.AccountManager;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.extensions.android.gms.auth.GoogleAccountCredential;
-import com.nadajp.littlealkers.backend.littleTalkersApi.LittleTalkersApi;
-import com.nadajp.littlealkers.backend.littleTalkersApi.model.UserDataWrapper;
-import com.nadajp.littlealkers.backend.littleTalkersApi.model.UserProfile;
 import com.nadajp.littletalkers.AppConstants;
 import com.nadajp.littletalkers.R;
 import com.nadajp.littletalkers.utils.Prefs;
 import com.nadajp.littletalkers.utils.Utils;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -86,7 +75,7 @@ public class SetupSyncActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     setupSync(null);
                 } else {
-                    // permission denied, boo! Disable the
+                    // permission denied! Nothing left to do so finish the activity
                     mTextUpdateMessage.setText(getString(R.string.sync_permission_denied));
                     finish();
                 }
@@ -106,20 +95,21 @@ public class SetupSyncActivity extends AppCompatActivity {
             mTextUpdateMessage.setText(getString(R.string.sync_setting_up));
             Log.i(DEBUG_TAG, "Already signed in, begin app...");
             SyncAdapter.initializeSyncAdapter(this);
-            //finish();
         } else {
             // Not signed in, show login window or request an account.
             chooseAccount();
         }
     }
 
-    // setSelectedAccountName definition
+    // Set the chosen account name to preferences and add it to credential
     private void setSelectedGoogleAccountName(String accountName) {
         Prefs.saveGoogleAccountName(this, accountName);
         mCredential.setSelectedAccountName(accountName);
     }
 
+    // Start a dialog that requests for the user to select a Google account
     void chooseAccount() {
+        // Check if account picker is avaialable on this device
         Intent intent = mCredential.newChooseAccountIntent();
         PackageManager manager = getPackageManager();
         List<ResolveInfo> info = manager.queryIntentActivities(intent, 0);
@@ -127,11 +117,12 @@ public class SetupSyncActivity extends AppCompatActivity {
             startActivityForResult(mCredential.newChooseAccountIntent(),
                     REQUEST_ACCOUNT_PICKER);
         } else {
-            mTextUpdateMessage.setText("A Google sign-in is needed for Little Talkers Cloud Sync. Please ensure you have Google Play Services installed on your device.");
+            mTextUpdateMessage.setText(getString(R.string.google_sign_in_not_available));
         }
 
     }
 
+    /* Function to handle the user choosing an account */
     @Override
     protected void onActivityResult(int requestCode, int resultCode,
                                     Intent data) {
@@ -150,80 +141,4 @@ public class SetupSyncActivity extends AppCompatActivity {
                 break;
         }
     }
-
-    class EndpointsAsyncTask extends AsyncTask<Pair<Context, GoogleAccountCredential>, Void, String> {
-        private LittleTalkersApi myApiService = null;
-        private Context context;
-        private GoogleAccountCredential credential;
-
-        @Override
-        protected String doInBackground(Pair<Context, GoogleAccountCredential>... params) {
-            context = params[0].first;
-            credential = params[0].second;
-            Log.i(DEBUG_TAG, "Credential: " + mCredential.getSelectedAccountName());
-            if (myApiService == null) {  // Only do this once
-                LittleTalkersApi.Builder builder = new LittleTalkersApi.Builder(AndroidHttp.newCompatibleTransport(),
-                        new AndroidJsonFactory(), mCredential)
-                        // options for running against local devappserver
-                        // - 10.0.2.2 is localhost's IP address in Android emulator
-                        // - turn off compression when running against local devappserver
-                        .setRootUrl(context.getString(R.string.server_url))
-                        .setApplicationName(context.getString(R.string.app_name));
-                        /*.setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                            @Override
-                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                abstractGoogleClientRequest.setDisableGZipContent(true);
-                            }
-                        });*/
-                // end options for devappserver
-                myApiService = builder.build();
-                Log.i(DEBUG_TAG, "MyApiService created...");
-            }
-
-            Long userId = Prefs.getUserId(context);
-            ContentResolver resolver = context.getContentResolver();
-            UserDataWrapper data = SyncUtils.getUserData(resolver);
-            Log.i(DEBUG_TAG, "user id from Prefs: " + userId);
-
-            // First ever sync
-            if (userId == -1) {
-                try {
-                    UserProfile result = myApiService.insertProfile().execute();
-                    userId = result.getId();
-                    Log.i(DEBUG_TAG, "User id: " + userId);
-                    Prefs.saveUserId(context, userId);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e(DEBUG_TAG, e.getMessage());
-                    return e.getMessage();
-                }
-            }
-            try {
-                UserProfile profile = myApiService.getProfileById(userId).execute();
-                Log.i(DEBUG_TAG, "userId: " + profile.getId() + "  email: " + profile.getEmail());
-                if (profile.getId() != userId) {
-                    userId = profile.getId();
-                    Prefs.saveUserId(context, userId);
-                }
-                // TODO: deletions
-                UserDataWrapper userData = myApiService.insertUserData(userId, data).execute();
-                if (userData != null) {
-                    SyncUtils.setNotDirty(userData, resolver);
-                    return "data uploaded";
-                }
-                return "nothing to upload";
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e(DEBUG_TAG, e.getMessage());
-                return e.getMessage();
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
-            Log.i(DEBUG_TAG, "Result: " + result);
-        }
-    }
-
 }
