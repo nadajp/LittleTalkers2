@@ -13,6 +13,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
+        android:contentDescription="@string/profile_picture"
         app:border="true"
         app:border_color="@android:color/white"
         app:border_width="2dp"
@@ -91,6 +92,7 @@
         android:layout_alignParentRight="true"
         android:clickable="true"
         android:src="@drawable/button_trash"
+        android:contentDescription="@string/delete"
         android:layout_alignParentEnd="true">
     </ImageView>
 

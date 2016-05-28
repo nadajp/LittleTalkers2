@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -231,7 +230,7 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         if (cursor != null && cursor.getCount() > 0) {
-            Log.i(DEBUG_TAG, "Inserting qa details");
+            //Log.i(DEBUG_TAG, "Inserting qa details");
             cursor.moveToFirst();
             mEditPhrase.setText(cursor.getString(cursor
                     .getColumnIndex(DbContract.Questions.COLUMN_NAME_QUESTION)));
@@ -271,7 +270,7 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
 
             mLanguage = cursor.getString(cursor.getColumnIndex(DbContract.Questions.COLUMN_NAME_LANGUAGE));
             int position = mLanguageAdapter.getPosition(mLanguage);
-            Log.i(DEBUG_TAG, "Language: " + mLanguage + ", Pos: " + position);
+            //Log.i(DEBUG_TAG, "Language: " + mLanguage + ", Pos: " + position);
 
             ArrayAdapter<String> adapter = (ArrayAdapter<String>) mLangSpinner
                     .getAdapter();
@@ -296,7 +295,7 @@ public class ViewQAFragment extends ViewItemFragment implements LoaderManager.Lo
             setAudio(getView());
         }
         else {
-            Log.i(DEBUG_TAG, "No qa details to insert");
+            //Log.i(DEBUG_TAG, "No qa details to insert");
         }
     }
 

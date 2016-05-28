@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/fab_plus"
         android:background="@drawable/oval_shape"
+        android:contentDescription="@string/add_new_qa"
         app:backgroundTint="@color/green"
         app:fabSize="normal"
         app:elevation="@dimen/fab_elevation"

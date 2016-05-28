@@ -243,4 +243,8 @@
     <!-- AdMob -->
     <string name="banner_ad_unit_id" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
 
+    <string name="app_icon">App icon</string>
+    <string name="logo_image">Logo image</string>
+    <string name="location">location</string>
+
 </resources>

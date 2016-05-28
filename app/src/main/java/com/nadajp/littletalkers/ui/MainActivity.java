@@ -26,11 +26,17 @@ public class MainActivity extends Activity implements MainFragment.AddKidListene
     private static String DEBUG_TAG = "Main Activity";
     // Location services
     protected GoogleApiClient mGoogleApiClient;
+    private int mType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mType = -1;
+        if (getIntent().hasExtra(Prefs.TYPE)) {
+            mType = getIntent().getIntExtra(Prefs.TYPE, -1);
+        }
 
         // Connect to google api client, used to get location
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -43,11 +49,23 @@ public class MainActivity extends Activity implements MainFragment.AddKidListene
         int kidId = Prefs.getKidId(this, -1);
 
         if (kidId > 0) {
-            // Go to ItemListActivity
-            Intent intent = new Intent(this, ItemListActivity.class);
-            intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
-            intent.putExtra(Prefs.ADD_TYPE, Prefs.TYPE_WORD);
-            startActivity(intent);
+            // unless coming from widget, type from intent will be -1 so default to Word
+            mType = mType == -1 ? Prefs.TYPE_WORD : mType;
+
+            // on tablet, go to ItemListActivity
+            if (getResources().getBoolean(R.bool.two_pane)) {
+                Intent intent = new Intent(this, ItemListActivity.class);
+                intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
+                intent.putExtra(Prefs.TYPE, mType);
+                startActivity(intent);
+                finish();
+            } else { //on phone, go to AddItemActivity
+                Intent intent = new Intent(this, AddItemActivity.class);
+                intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
+                intent.putExtra(Prefs.TYPE, mType);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 
@@ -55,11 +73,11 @@ public class MainActivity extends Activity implements MainFragment.AddKidListene
         Intent intent = new Intent(this, AddKidActivity.class);
         intent.putExtra(Prefs.CURRENT_KID_ID, -1);
         startActivity(intent);
+        finish();
     }
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-        //Log.i(DEBUG_TAG, "Connected.");
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             //Log.i(DEBUG_TAG, "No location permission.");

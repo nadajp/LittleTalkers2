@@ -76,7 +76,7 @@ public class AddQAFragment extends AddItemFragment {
 
     public void startAudioRecording(boolean secondRecording) {
         Intent intent = new Intent(this.getActivity(), AudioRecordActivity.class);
-        intent.putExtra(Prefs.TYPE, Prefs.TYPE_WORD);
+        intent.putExtra(Prefs.TYPE, Prefs.TYPE_QA);
         intent.putExtra(Prefs.TEMP_FILE_STEM, mTempFileStem);
         intent.putExtra(Prefs.SECOND_RECORDING, secondRecording);
         startActivityForResult(intent, RECORD_AUDIO_REQUEST);

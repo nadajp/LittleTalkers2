@@ -63,6 +63,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/fab_export"
             android:background="@drawable/oval_shape"
+            android:contentDescription="@string/export_data"
             app:backgroundTint="@color/blue"
             app:fabSize="normal"
             app:elevation="@dimen/fab_elevation"

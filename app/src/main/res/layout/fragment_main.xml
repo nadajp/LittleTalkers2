@@ -1,46 +1,48 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"   
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/blue">
-           
-       <ImageView
-           android:id="@+id/logo"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_alignLeft="@+id/intro_message"
-           android:layout_alignStart="@+id/intro_message"
-           android:layout_alignParentTop="true"
-           android:clickable="true"
-           android:src="@drawable/welcome" />
 
-       <TextView
-            android:id="@+id/intro_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/logo"
-            android:text="@string/intro_message"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-           android:layout_marginEnd="@dimen/activity_horizontal_margin"
-           android:layout_marginStart="@dimen/activity_horizontal_margin" />
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/intro_message"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/intro_message"
+        android:clickable="true"
+        android:contentDescription="@string/logo_image"
+        android:src="@drawable/welcome" />
 
-       <ImageView
-           android:id="@+id/red_button"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_below="@id/intro_message"
-           android:layout_alignParentRight="true"
-           android:layout_alignParentEnd="true"
-           android:layout_marginRight="@dimen/activity_horizontal_margin"
-           android:layout_marginEnd="@dimen/activity_horizontal_margin"
-           android:layout_marginBottom="20dp"
-           android:clickable="true"
-           android:src="@drawable/red_button" />
+    <TextView
+        android:id="@+id/intro_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:text="@string/intro_message"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/red_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/intro_message"
+        android:layout_marginBottom="20dp"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:clickable="true"
+        android:contentDescription="@string/logo_image"
+        android:src="@drawable/red_button" />
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
@@ -48,8 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         ads:adSize="BANNER"
-        ads:adUnitId="@string/banner_ad_unit_id"/>
+        ads:adUnitId="@string/banner_ad_unit_id" />
 
-       
-    </RelativeLayout>
+</RelativeLayout>
 

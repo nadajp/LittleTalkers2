@@ -25,6 +25,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:clickable="true"
+        android:contentDescription="@string/logo_image"
         android:src="@drawable/welcome" />
 
     <TextView
@@ -54,6 +55,7 @@
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:contentDescription="@string/logo_image"
         android:clickable="true"
         android:src="@drawable/red_button" />
 

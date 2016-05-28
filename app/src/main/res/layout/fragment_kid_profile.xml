@@ -21,6 +21,7 @@
             android:layout_height="180dp"
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
+            android:contentDescription="@string/profile_picture"
             app:border="true"
             app:border_color="@android:color/white"
             app:border_width="2dp"

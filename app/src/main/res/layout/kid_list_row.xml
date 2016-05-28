@@ -14,6 +14,7 @@
         android:layout_height="100dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:contentDescription="@string/profile_picture"
         app:border="true"
         app:border_color="@android:color/white"
         app:border_width="2dp"
@@ -90,6 +91,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:clickable="true"
+        android:contentDescription="@string/edit_profile"
         android:src="@drawable/button_edit"
         android:layout_alignParentEnd="true" />
 
@@ -100,6 +102,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:clickable="true"
+        android:contentDescription="@string/delete"
         android:src="@drawable/button_trash"
         android:layout_alignParentEnd="true">
     </ImageView>

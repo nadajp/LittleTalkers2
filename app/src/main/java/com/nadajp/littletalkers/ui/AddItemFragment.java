@@ -153,11 +153,12 @@ public abstract class AddItemFragment extends ItemDetailFragment {
                 addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.i(DEBUG_TAG, e.getMessage());
+                return null;
+                //Log.i(DEBUG_TAG, e.getMessage());
             }
             if (addresses.size() > 0) {
                 currentCity = addresses.get(0).getLocality();
-                Log.i(DEBUG_TAG, "Current City: " + currentCity);
+                //Log.i(DEBUG_TAG, "Current City: " + currentCity);
             }
         }
         return currentCity;

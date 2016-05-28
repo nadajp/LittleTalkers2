@@ -140,6 +140,7 @@
                 android:layout_toRightOf="@id/text_recording"
                 android:layout_toEndOf="@id/text_recording"
                 android:background="@null"
+                android:contentDescription="@string/play_audio"
                 android:drawableRight="@drawable/ic_action_play"
                 android:drawableEnd="@drawable/ic_action_play">
             </Button>
@@ -196,8 +197,6 @@
                 android:id="@+id/language"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/editLocation"
-                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:background="@drawable/language_spinner"
@@ -226,6 +225,7 @@
                     android:layout_height="match_parent"
                     android:layout_toEndOf="@id/language_icon"
                     android:layout_toRightOf="@id/language_icon"
+                    android:contentDescription="@string/language"
                     android:background="@color/white"
                     android:entries="@array/array_languages" />
 
@@ -337,6 +337,7 @@
             android:layout_below="@id/edit_more"
             android:src="@drawable/fab_save"
             android:background="@drawable/oval_shape"
+            android:contentDescription="@string/save"
             app:backgroundTint="@color/blue"
             app:fabSize="normal"
             app:elevation="@dimen/fab_elevation"

@@ -20,6 +20,7 @@
         android:layout_alignParentLeft="true"
         android:clickable="true"
         android:src="@drawable/welcome"
+        android:contentDescription="@string/logo_image"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -47,6 +48,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginEnd="10dp"
         android:clickable="true"
+        android:contentDescription="@string/logo_image"
         android:src="@drawable/red_button" />
 
     <com.google.android.gms.ads.AdView
