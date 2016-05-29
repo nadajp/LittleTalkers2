@@ -50,7 +50,6 @@ public class AddKidActivity extends AppCompatActivity implements
    }
 
    public void onKidAdded(int kidId) {
-
        Intent intent = new Intent(this, ItemListActivity.class);
        intent.putExtra(Prefs.CURRENT_KID_ID, kidId);
        startActivity(intent);

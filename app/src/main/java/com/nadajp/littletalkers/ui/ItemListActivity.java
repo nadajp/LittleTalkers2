@@ -261,14 +261,17 @@ public class ItemListActivity extends BaseActivity implements
 
     @Override
     public void onPhraseAdded(AddItemFragment fragment) {
-        fragment.clearForm();
+        //fragment.clearForm();
     }
 
     @Override
     public void onClickedShowDictionary(int kidId) {
+        mCurrentItemId = 0;
+        insertDetailView(mType);
     }
 
     @Override
     public void onPhraseUpdated(int kidId) {
+
     }
 }
